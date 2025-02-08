@@ -1,0 +1,72 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+#scrollbar-hide {
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}
+
+#scrollt::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  background-color: #F5F5F5;
+}
+
+#scrollt::-webkit-scrollbar {
+  width: 6px;
+  background-color: #F5F5F5;
+}
+
+#scrollt::-webkit-scrollbar-thumb {
+  background-color: #000000;
+}
+
+
+#scrollt1::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  background-color: #F5F5F5;
+  border-radius: 10px;
+}
+
+#scrollt1::-webkit-scrollbar {
+  width: 5px;
+  background-color: #F5F5F5;
+}
+
+#scrollt1::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-image: -webkit-gradient(linear,
+      left bottom,
+      left top,
+      color-stop(0.44, rgb(122, 153, 217)),
+      color-stop(0.72, rgb(73, 125, 189)),
+      color-stop(0.86, rgb(28, 58, 148)));
+}
+
+.shadow1 {
+  /* box-shadow: rgba(0, 0, 0, 0.45) 0px 25px 20px -20px; */
+
+  /* box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px; */
+
+  /* box-shadow: rgb(44, 62, 80) -15px 0px 15px -15px, rgb(44, 62, 80) 15px 0px 15px -15px; */
+
+  /* box-shadow: rgba(25, 60, 77, 0.25) 0px 25px 20px -20px; */
+
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 20px 18px -20px;
+}
