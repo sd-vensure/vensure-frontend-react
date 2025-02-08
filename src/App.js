@@ -13,6 +13,8 @@ import AddPaf from './components/AddPaf';
 import ViewPaf from './components/ViewPaf';
 import AddStakeholder from './components/AddStakeholder';
 import ViewStakeholder from './components/ViewStakeholder';
+import Drugs from './components/drug/Drugs';
+import PAF from './components/paf/PAF';
 
 
 function App() {
@@ -27,14 +29,16 @@ function App() {
             <Route element={<PersistLogin />}>
               <Route element={<RequireAuth />}>
                 <Route path='/' element={<Home />} />
-                <Route path='/dashboard/add-drug' element={<AddDrug />} />
+                <Route path='/drug' element={<Drugs />} />
+                <Route path='/paf' element={<PAF />} />
+                {/* <Route path='/dashboard/add-drug' element={<AddDrug />} />
                 <Route path='/dashboard/view-drug' element={<ViewDrug />} />
                 <Route path='/dashboard/add-innovator' element={<AddInnovator />} />
                 <Route path='/dashboard/view-innovator' element={<ViewInnovator />} />
                 <Route path='/dashboard/add-paf' element={<AddPaf />} />
                 <Route path='/dashboard/view-paf' element={<ViewPaf />} />
                 <Route path='/dashboard/add-stakeholder' element={<AddStakeholder />} />
-                <Route path='/dashboard/view-stakeholder' element={<ViewStakeholder />} />
+                <Route path='/dashboard/view-stakeholder' element={<ViewStakeholder />} /> */}
                
                 {/* <Route path='logout' element={<Logout />} /> */}
 

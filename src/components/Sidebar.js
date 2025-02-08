@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import logo from '../logo_square.jpg'
+import logo from '../provision.gif'
 // import api from './axiosapi';
 import useAuth from '../hooks/useAuth';
 import { useNavigate, Link } from "react-router-dom"
@@ -95,9 +95,9 @@ const Sidebar = () => {
 
                 <div className='sticky left-0 top-0 bg-gradient-to-r from-slate-700 to-slate-800 z-50'>
 
-                    <span className="my-2 grid h-14 w-14 place-content-center rounded-lg text-xs ">
+                    <span className="my-2 grid h-14 w-full place-content-center rounded-lg text-xs ">
                         <Link to="/">
-                            <img srcSet={logo} className='h-14 w-14' />
+                            <img srcSet={logo} className='h-14' />
                         </Link>
                     </span>
 
@@ -115,7 +115,7 @@ const Sidebar = () => {
                         </a>
                     </li> */}
 
-                    <li>
+                    {/* <li>
                         <details className="group [&_summary::-webkit-details-marker]:hidden">
                             <summary
                                 className="flex cursor-pointer items-center justify-between rounded-lg px-4 py-2 text-white hover:bg-gray-100 hover:text-gray-700"
@@ -174,11 +174,11 @@ const Sidebar = () => {
                                 </li>
                             </ul>
                         </details>
-                    </li>
+                    </li> */}
 
 
 
-                    <li>
+                    {/* <li>
                         <details className="group [&_summary::-webkit-details-marker]:hidden">
                             <summary
                                 className="flex cursor-pointer items-center justify-between rounded-lg px-4 py-2 text-white hover:bg-gray-100 hover:text-gray-700"
@@ -240,16 +240,27 @@ const Sidebar = () => {
 
                             </ul>
                         </details>
-                    </li>
+                    </li> */}
 
-                    {/* <li>
-                        <a
-                            href="#"
+                    <li>
+                        <Link
+                            to="/drug"
                             className="block rounded-lg px-4 py-2 text-sm font-medium text-white hover:bg-gray-100 hover:text-gray-700"
                         >
-                            Billing
-                        </a>
+                            Drug and Innovator
+                        </Link>
                     </li>
+                    
+                    <li>
+                        <Link
+                            to="/paf"
+                            className="block rounded-lg px-4 py-2 text-sm font-medium text-white hover:bg-gray-100 hover:text-gray-700"
+                        >
+                            PAF and Stakeholder
+                        </Link>
+                    </li>
+
+                     {/*
 
                     <li>
                         <a

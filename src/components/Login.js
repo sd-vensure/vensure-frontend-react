@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
-import logo from '../logo_square.jpg'
-import logo1 from '../logo_flat.png'
+import logo from '../provision.gif'
+import logo1 from '../provision.gif'
+// import logo from '../logo_square.jpg'
+// import logo1 from '../logo_flat.png'
 import api from './axiosapi';
 import { useNavigate } from 'react-router-dom'
 import useAuth from '../hooks/useAuth';
@@ -108,9 +110,8 @@ const Login = () => {
 
 
                     <form onSubmit={handlesubmit} className='relative right-0 w-full sm:w-[45%] md:w-[40%] lg:w-[35%] h-[425px] border border-slate-200 sm:border-blue-100 shadow-lg backdrop-blur-md bg-white/50 sm:bg-white sm:mr-8 lg:mr-14 rounded-lg p-4 logintext'>
-                        <span className='sm:hidden absolute h-32 w-32 top-0 left-1/2 -translate-x-1/2 bg-transparent p-5'>
-                            <img className='h-24 w-32 drop-shadow-[-2px_2px_5px_rgba(0,0,0,0.2)]' srcSet={logo} alt="" />
-
+                        <span className='sm:hidden absolute h-32 w-72 top-0 left-1/2 -translate-x-1/2 bg-transparent p-5'>
+                            <img className='h-24 w-full drop-shadow-[-2px_2px_5px_rgba(0,0,0,0.2)]' srcSet={logo} alt="" />
                         </span>
 
 

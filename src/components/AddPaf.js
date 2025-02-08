@@ -158,7 +158,7 @@ const AddPaf = () => {
 
     return (
         <div className='p-2'>
-            <p className='text-cyan-900 text-xl text-center m-2'>Add Drug Form:</p>
+            <p className='text-cyan-900 text-xl text-center m-2'>Add PAF Form:</p>
 
             <form onSubmit={handleSubmit} className="p-4 border rounded-md max-w-md mx-auto">
 
