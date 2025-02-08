@@ -11,6 +11,7 @@ import SearchableStakeholderDropdown from './SearchableStakeholderDropdown';
 const AddPaf = () => {
 
     const [drugs, setdrugs] = useState([]);
+    const [mastertypes, setmastertypes] = useState([]);
     const [stakeholders, setstakeholders] = useState([]);
     const [selectedstakeholders, setselectedstakeholders] = useState([]);
     const dispatch = useDispatch();
@@ -26,7 +27,8 @@ const AddPaf = () => {
         sku: "",
         import_license_api: "",
         import_license_rld: "",
-        drug_id: null
+        drug_id: null,
+        master_type: null
     });
 
     const [compositionsarray, setcompositionsarray] = useState([])
@@ -77,7 +79,8 @@ const AddPaf = () => {
                     sku: "",
                     import_license_api: "",
                     import_license_rld: "",
-                    drug_id: ""
+                    drug_id: null,
+                    master_type: null
                 })
 
                 dispatch(setCountry([]))
@@ -146,12 +149,37 @@ const AddPaf = () => {
         }
 
     }
+   
+   
+    const getAllMasterTypes = async () => {
+        try {
+
+            let response = await axios.get("http://localhost:8000/api/paf/get-master-types", {
+                headers: {
+                    "Accept": "application/json"
+                }
+            });
+
+            if (response.data.data) {
+                setmastertypes(response.data.data)
+            }
+            else {
+                setmastertypes([])
+            }
+
+
+        } catch (error) {
+            setmastertypes([])
+        }
+
+    }
 
 
     useEffect(() => {
 
         getAllDrugs();
         getAllStakeholders();
+        getAllMasterTypes();
 
     }, [])
 
@@ -198,6 +226,25 @@ const AddPaf = () => {
                         drugs && drugs.length > 0 &&
                         drugs.map((ele) =>
                             <option value={ele.drug_id}>{ele.drug_name}</option>
+                        )
+                    }
+                </select>
+
+
+                <label className='text-sm text-cyan-800 my-1'>Master Type:</label>
+
+                <select
+                    name="master_type"
+                    value={formData.master_type}
+                    onChange={handleChange}
+                    className="border p-2 w-full my-2"
+                    required
+                >
+                    <option>Select</option>
+                    {
+                        mastertypes && mastertypes.length > 0 &&
+                        mastertypes.map((ele) =>
+                            <option value={ele.master_type_id}>{ele.master_type_name}</option>
                         )
                     }
                 </select>
