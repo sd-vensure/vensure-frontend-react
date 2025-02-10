@@ -15,6 +15,7 @@ import AddStakeholder from './components/AddStakeholder';
 import ViewStakeholder from './components/ViewStakeholder';
 import Drugs from './components/drug/Drugs';
 import PAF from './components/paf/PAF';
+import Form from './components/forms/Form';
 
 
 function App() {
@@ -31,6 +32,7 @@ function App() {
                 <Route path='/' element={<Home />} />
                 <Route path='/drug' element={<Drugs />} />
                 <Route path='/paf' element={<PAF />} />
+                <Route path='/pafform/:paf_id' element={<Form />} />
                 {/* <Route path='/dashboard/add-drug' element={<AddDrug />} />
                 <Route path='/dashboard/view-drug' element={<ViewDrug />} />
                 <Route path='/dashboard/add-innovator' element={<AddInnovator />} />

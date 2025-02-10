@@ -2,11 +2,18 @@
 import axios from 'axios'
 import moment from 'moment'
 import React, { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
 import { toast } from 'react-toastify'
+import { setPaf } from '../store/user/userHelper'
+import { useNavigate } from 'react-router-dom'
 
 const ViewPaf = () => {
 
-    const [paf, setpaf] = useState([])
+    const [paf, setpaf] = useState([]);
+
+    const dispatch=useDispatch();
+
+    const navigate=useNavigate();
 
     const getAllPaf = async () => {
         try {
@@ -35,6 +42,11 @@ const ViewPaf = () => {
     useEffect(() => {
         getAllPaf();
     }, []);
+
+    const handlePageChange=(val)=>{
+        dispatch(setPaf(val))
+        navigate(`/pafform/${val.paf_id}`)
+    }
 
 
     return (
@@ -67,7 +79,7 @@ const ViewPaf = () => {
                         {paf.map((ele, index) => (
                             <tr key={index} className="odd:bg-gray-50">
                                 <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{index + 1}</td>
-                                <td className="whitespace-nowrap px-4 py-2 text-gray-700">{ele?.paf_unique}</td>
+                                <td onClick={()=>handlePageChange(ele)} className="whitespace-nowrap px-4 py-2 text-gray-700 underline hover:cursor-pointer">{ele?.paf_unique}</td>
                                 <td className="whitespace-nowrap px-4 py-2 text-gray-700">{ele.drug_api}</td>
                                 <td className="whitespace-nowrap px-4 py-2 text-gray-700">{ele.drug_name}</td>
                                 <td className="whitespace-nowrap px-4 py-2 text-gray-700">{ele.innovator_name}</td>

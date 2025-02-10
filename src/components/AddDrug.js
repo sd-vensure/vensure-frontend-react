@@ -6,6 +6,8 @@ const AddDrug = () => {
 
     const [composition, setComposition] = useState("");
     const [compositions, setCompositions] = useState([]);
+    const [mastertypes, setmastertypes] = useState([]);
+        
 
     const [innovators, setinnovators] = useState([]);
 
@@ -30,16 +32,29 @@ const AddDrug = () => {
     const [formData, setFormData] = useState({
         input1: "",
         input2: "",
-        dropdown: ""
+        dropdown: "",
+        master_type_id:""
     });
 
     const handleChange = (e, index = null) => {
         const { name, value } = e.target;
+        // console.log(name,value)
         if (name === "multiRows") {
             const updatedRows = [...formData.multiRows];
             updatedRows[index] = value;
             setFormData({ ...formData, multiRows: updatedRows });
-        } else {
+        }
+        else if(name=="master_type_id")
+        {
+            if(value=="Select" || value=="")
+            {
+                setFormData({ ...formData, [name]: "" });
+            }
+            else{
+                setFormData({ ...formData, [name]: value });
+            }
+        }
+        else {
             setFormData({ ...formData, [name]: value });
         }
     };
@@ -47,15 +62,23 @@ const AddDrug = () => {
 
     const handleSubmit = async(e) => {
         e.preventDefault();
-        console.log("Form Submitted", formData);
+        // console.log("Form Submitted", formData);
 
         let sendingdata={
             "drug_name":formData.input1,
             "drug_api": formData.input2,
             "innovator_id":formData.dropdown,
-            "drug_composition":compositions
+            "drug_composition":compositions,
+            "master_type_id":formData.master_type_id
         }
 
+        if(sendingdata.master_type_id=="" || sendingdata.master_type_id=="Select")
+        {
+            toast.info("Please select Master Type")
+            return;
+        }
+
+     
         try {
 
             let response = await axios.post("http://localhost:8000/api/drug/add",sendingdata, {
@@ -110,10 +133,34 @@ const AddDrug = () => {
 
     }
 
+    const getAllMasterTypes = async () => {
+        try {
+
+            let response = await axios.get("http://localhost:8000/api/paf/get-master-types", {
+                headers: {
+                    "Accept": "application/json"
+                }
+            });
+
+            if (response.data.data) {
+                setmastertypes(response.data.data)
+            }
+            else {
+                setmastertypes([])
+            }
+
+
+        } catch (error) {
+            setmastertypes([])
+        }
+
+    }
+
 
     useEffect(() => {
 
         getAllInnovator();
+        getAllMasterTypes()
 
     }, [])
 
@@ -164,6 +211,25 @@ const AddDrug = () => {
                             )
                         }
                     </select>
+
+                   
+                        <label className='text-sm text-cyan-800 my-1'>Master Type:</label>
+                        <select
+                            name="master_type_id"
+                            value={formData.master_type_id}
+                            onChange={handleChange}
+                            className="border p-2 w-full my-2"
+                            required
+                        >
+                            <option>Select</option>
+                            {
+                                mastertypes && mastertypes.length > 0 &&
+                                mastertypes.map((ele) =>
+                                    <option value={ele.master_type_id}>{ele.master_type_name}</option>
+                                )
+                            }
+                        </select>
+                  
 
 
                     <div className='my-1 leading-relaxed w-full'>

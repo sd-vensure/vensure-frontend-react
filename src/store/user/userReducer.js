@@ -1,17 +1,17 @@
 // src/store/admin/adminReducer.js
 
-import { USER_LOGIN, USER_LOGOUT, SET_COUNTRY } from './userTypes';
+import { USER_LOGIN, USER_LOGOUT, SET_COUNTRY,SET_PAF,DEL_PAF } from './userTypes';
 
 const initialState = {
     current_user: "manish",
     token: null,
-    countrydata: []
+    countrydata: [],
+    paf_selected:null
 };
 
 const userReducer = (state = initialState, action) => {
     switch (action.type) {
         case USER_LOGIN:
-            // console.log(action.payload, "this is payload")
             return {
                 ...state,
                 current_user: action.payload.userData,
@@ -27,6 +27,16 @@ const userReducer = (state = initialState, action) => {
             return {
                 ...state,
                 countrydata: action.payload
+            };
+        case SET_PAF:
+            return {
+                ...state,
+                paf_selected: action.payload
+            };
+        case DEL_PAF:
+            return {
+                ...state,
+                paf_selected: null
             };
         default:
             return state;
