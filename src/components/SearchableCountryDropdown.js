@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setCountry } from "../store/user/userHelper";
 
@@ -11,6 +11,8 @@ const SearchableCountryDropdown = () => {
     const [inputValue, setInputValue] = useState("");
     // const [selected, setSelected] = useState("");
     const [open, setOpen] = useState(false);
+   
+    const dropdownRef = useRef(null);
 
     const data = [
         "Malaysia",
@@ -26,9 +28,20 @@ const SearchableCountryDropdown = () => {
         dispatch(setCountry(updatedArray))
     };
 
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                setOpen(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, []);
+
     return (
         <div className="h-auto relative my-2">
-            <div
+            <div 
                 onClick={() => { setOpen(!open); setInputValue(""); }}
                 className={`border bg-white w-full p-2 flex items-center justify-between rounded overflow-hidden
                     }`}
@@ -55,7 +68,7 @@ const SearchableCountryDropdown = () => {
             </div>
 
 
-            <ul
+            <ul ref={dropdownRef}
                 className={`z-50 absolute bg-white mt-1 w-full whitespace-break-spaces overflow-y-auto ${open ? "max-h-60" : "max-h-0"
                     } `}
             >
@@ -85,7 +98,7 @@ const SearchableCountryDropdown = () => {
                                 key={ind}
                                 className={`border p-2 text-sm hover:bg-sky-600 hover:text-white
                                                 ${selectedcountry.includes(itemir) &&
-                                    "bg-sky-600 text-white"
+                                    ""
                                     }`}
                                 onClick={() => { addtoarray(itemir) }}
                                 value={itemir}

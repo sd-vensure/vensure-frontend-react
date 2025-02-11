@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 const SearchableStakeholderDropdown = ({ stakeholders, selectedstakeholders, setselectedstakeholders }) => {
 
@@ -8,6 +8,9 @@ const SearchableStakeholderDropdown = ({ stakeholders, selectedstakeholders, set
     // const [selected, setSelected] = useState("");
     const [open, setOpen] = useState(false);
 
+    const dropdownRef = useRef(null);
+    
+
     const addtoarray = (ele) => {
         const updatedArray = selectedstakeholders.find((stakeholder) => stakeholder.stakeholder_id === ele.stakeholder_id ? true : false)
             ? selectedstakeholders.filter(item => item !== ele) // Remove item if it exists
@@ -15,6 +18,17 @@ const SearchableStakeholderDropdown = ({ stakeholders, selectedstakeholders, set
 
         setselectedstakeholders(updatedArray)
     };
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                setOpen(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, []);
 
     return (
         <div className="h-auto relative my-2">
@@ -43,7 +57,7 @@ const SearchableStakeholderDropdown = ({ stakeholders, selectedstakeholders, set
             </div>
 
 
-            <ul
+            <ul ref={dropdownRef}
                 className={`border z-50 bg-white mt-1 w-full whitespace-break-spaces overflow-y-auto ${open ? "relative max-h-60" : " absolute max-h-0"
                     } `}
             >
@@ -74,7 +88,7 @@ const SearchableStakeholderDropdown = ({ stakeholders, selectedstakeholders, set
                                                 ${selectedstakeholders.find(
                                     (stakeholder) => stakeholder.stakeholder_id === itemir.stakeholder_id
                                 ) &&
-                                    "bg-sky-600 text-white"
+                                    ""
                                     }`}
                                 onClick={() => { addtoarray(itemir) }}
                                 value={itemir}

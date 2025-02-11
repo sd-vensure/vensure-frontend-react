@@ -3,3 +3,5 @@ export const USER_LOGOUT = 'USER_LOGOUT';
 export const SET_COUNTRY = 'SET_COUNTRY';
 export const SET_PAF = 'SET_PAF';
 export const DEL_PAF = 'DEL_PAF';
+export const REVISE_PAF_ADD = 'REVISE_PAF_ADD';
+export const REVISE_PAF_DEL = 'REVISE_PAF_DEL';

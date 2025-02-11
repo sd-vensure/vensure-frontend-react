@@ -4,12 +4,19 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import SearchableCountryDropdown from './SearchableCountryDropdown';
-import { setCountry } from '../store/user/userHelper';
+import { delPAfRevise, setCountry, setPafRevise } from '../store/user/userHelper';
 import SearchableCompositionsDropdown from './SearchableCompositionsDropdown';
 import SearchableStakeholderDropdown from './SearchableStakeholderDropdown';
 import api from './axiosapi'
+import { useNavigate } from 'react-router-dom';
 
-const AddPaf = () => {
+const RevisePAF = () => {
+
+    const selected_paf_revise = useSelector((state) => state.user.revise_details);
+
+    const navigate=useNavigate()
+
+    // console.log(JSON.parse(selected_paf_revise.stakeholders))
 
     const [drugs, setdrugs] = useState([]);
     const [mastertypes, setmastertypes] = useState([]);
@@ -20,17 +27,18 @@ const AddPaf = () => {
     const selectedcountry = useSelector((state) => state.user.countrydata);
 
     const [formData, setFormData] = useState({
-        client_information: "",
-        driving_market: selectedcountry,
+        client_information: selected_paf_revise?.client_information,
+        driving_market: JSON.parse(selected_paf_revise?.driving_market),
         paf_initiated_on: null,
-        brief_scope: "",
-        api_sources: "",
-        sku: "",
-        import_license_api: "",
-        import_license_rld: "",
-        drug_id: null,
-        master_type: null,
-        include_form_headers: []
+        brief_scope: selected_paf_revise?.brief_scope,
+        api_sources: selected_paf_revise?.api_sources,
+        sku: selected_paf_revise?.sku,
+        import_license_api: selected_paf_revise?.import_license_api,
+        import_license_rld: selected_paf_revise?.import_license_rld,
+        drug_id: selected_paf_revise?.drug_id,
+        master_type: selected_paf_revise?.master_type_id,
+        include_form_headers: [],
+        paf_unique: selected_paf_revise?.paf_unique
     });
 
     const [compositionsarray, setcompositionsarray] = useState([])
@@ -55,10 +63,10 @@ const AddPaf = () => {
                 let compo_array = drugs.find((ele) => ele.drug_id == value);
                 console.log("this is compo_Array", compo_array);
                 setFormData({ ...formData, "master_type": compo_array.master_type_id, [name]: value });
-                let setarray = mastertypes.find((ele) => ele.master_type_id == compo_array.master_type_id);
+                let setarray = mastertypes.find((ele) => ele.master_type_id == compo_array?.master_type_id);
                 console.log("this is set array", setarray)
-                settempmasterpafarray(setarray.items);
-                setcompositionsarray(compo_array.compositions)
+                settempmasterpafarray(setarray?.items);
+                setcompositionsarray(compo_array?.compositions)
                 setselectedcompositions([])
             }
         }
@@ -86,16 +94,9 @@ const AddPaf = () => {
 
         let datatopass = { ...formData, driving_market: selectedcountry, composition_array: selectedcompositions, stakeholders: selectedstakeholders, include_form_headers: masterpafarray }
 
-        // console.log(datatopass)
-        // return;
-
         try {
 
-            let response = await api.post("http://localhost:8000/api/paf/add", datatopass, {
-                headers: {
-                    "Accept": "application/json"
-                }
-            });
+            let response = await api.post("http://localhost:8000/api/paf/revise", datatopass);
 
             if (response.data.status) {
                 setFormData({
@@ -117,7 +118,8 @@ const AddPaf = () => {
                 setcompositionsarray([])
                 setselectedstakeholders([])
                 setmasterpafarray([])
-
+                navigate("/", { replace: true });
+                
                 toast.success(response.data.message)
 
             }
@@ -145,6 +147,10 @@ const AddPaf = () => {
 
             if (response.data.data) {
                 setdrugs(response.data.data)
+                let compo_array = response.data.data.find((ele) => ele.drug_id == selected_paf_revise.drug_id);
+                console.log(compo_array, "this is compo array")
+                setcompositionsarray(compo_array.compositions)
+                setselectedcompositions(JSON.parse(selected_paf_revise.compositions_selected))
             }
             else {
                 setdrugs([])
@@ -168,14 +174,18 @@ const AddPaf = () => {
 
             if (response.data.data) {
                 setstakeholders(response.data.data)
+                setselectedstakeholders(JSON.parse(selected_paf_revise.stakeholders))
+
             }
             else {
                 setstakeholders([])
+                setselectedstakeholders([])
             }
 
 
         } catch (error) {
             setstakeholders([])
+            setselectedstakeholders([])
         }
 
     }
@@ -192,6 +202,9 @@ const AddPaf = () => {
 
             if (response.data.data) {
                 setmastertypes(response.data.data)
+                let setarray = response.data.data.find((ele) => ele.master_type_id == selected_paf_revise.master_type_id);
+                // console.log("this is set array", setarray)
+                settempmasterpafarray(setarray.items);
             }
             else {
                 setmastertypes([])
@@ -210,6 +223,7 @@ const AddPaf = () => {
         getAllDrugs();
         getAllStakeholders();
         getAllMasterTypes();
+        dispatch(setCountry(JSON.parse(selected_paf_revise.driving_market)))
 
     }, [])
 
@@ -247,7 +261,7 @@ const AddPaf = () => {
 
     return (
         <div className='p-2'>
-            {/* <p className='text-cyan-900 text-xl text-center m-2'>Add PAF Form:</p> */}
+            <p className='text-cyan-900 text-xl text-center m-2'>Revise PAF: {selected_paf_revise?.paf_unique}</p>
 
             <form onSubmit={handleSubmit} className="p-4 border rounded-md w-full mx-auto">
                 <div className='grid grid-cols-4 gap-5'>
@@ -487,4 +501,4 @@ const AddPaf = () => {
     )
 }
 
-export default AddPaf
+export default RevisePAF

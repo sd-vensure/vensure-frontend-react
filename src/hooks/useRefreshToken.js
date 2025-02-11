@@ -19,7 +19,7 @@ const useRefreshToken = () => {
                 // return {...prev,
                 //     accessToken:response.data.accessToken}
                 settoken(response.data.token)
-                return (response.data.data);
+                return response.data.data;
             }
             else {
                 // console.log("Refresh Token  Expired need to login again");
@@ -30,7 +30,7 @@ const useRefreshToken = () => {
             }
 
         });
-        return response.data.accessToken;
+        return response.data.token;
     }
 
     return refresh;

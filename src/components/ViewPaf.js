@@ -4,16 +4,17 @@ import moment from 'moment'
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { toast } from 'react-toastify'
-import { setPaf } from '../store/user/userHelper'
+import { delPAfRevise, setPaf, setPafRevise } from '../store/user/userHelper'
 import { useNavigate } from 'react-router-dom'
+import api from './axiosapi'
 
 const ViewPaf = () => {
 
     const [paf, setpaf] = useState([]);
 
-    const dispatch=useDispatch();
+    const dispatch = useDispatch();
 
-    const navigate=useNavigate();
+    const navigate = useNavigate();
 
     const getAllPaf = async () => {
         try {
@@ -41,11 +42,36 @@ const ViewPaf = () => {
 
     useEffect(() => {
         getAllPaf();
+        dispatch(delPAfRevise())
     }, []);
 
-    const handlePageChange=(val)=>{
+    const handlePageChange = (val) => {
         dispatch(setPaf(val))
         navigate(`/pafform/${val.paf_id}`)
+    }
+
+    const approvePAF = async (ele) => {
+        try {
+            const resp = await api.post(`paf/approve/${ele.paf_id}`);
+
+            if (resp.data.status) {
+                toast.success("Approved")
+                getAllPaf();
+            }
+            else {
+                toast.info(resp.data.message)
+            }
+
+        } catch (error) {
+            toast.error(error.message)
+        }
+    }
+
+    const createRevise = (ele) => {
+
+        dispatch(setPafRevise(ele))
+        navigate(`/pafrevise`)
+
     }
 
 
@@ -72,6 +98,11 @@ const ViewPaf = () => {
                             <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Compositions Selected</th>
                             <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Driving Market</th>
                             <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Stakeholders</th>
+                            <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Created By</th>
+                            <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Created At</th>
+                            <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Approved By</th>
+                            <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Approved At</th>
+                            <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Revise</th>
                         </tr>
                     </thead>
 
@@ -79,7 +110,7 @@ const ViewPaf = () => {
                         {paf.map((ele, index) => (
                             <tr key={index} className="odd:bg-gray-50">
                                 <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{index + 1}</td>
-                                <td onClick={()=>handlePageChange(ele)} className="whitespace-nowrap px-4 py-2 text-gray-700 underline hover:cursor-pointer">{ele?.paf_unique}</td>
+                                <td onClick={() => handlePageChange(ele)} className="whitespace-nowrap px-4 py-2 text-gray-700 underline hover:cursor-pointer">{ele?.paf_unique}</td>
                                 <td className="whitespace-nowrap px-4 py-2 text-gray-700">{ele.drug_api}</td>
                                 <td className="whitespace-nowrap px-4 py-2 text-gray-700">{ele.drug_name}</td>
                                 <td className="whitespace-nowrap px-4 py-2 text-gray-700">{ele.innovator_name}</td>
@@ -106,12 +137,30 @@ const ViewPaf = () => {
                                 </td>
                                 <td className="whitespace-nowrap px-4 py-2 text-gray-700">
                                     <ul className="list-disc">
-                                        { ele.stakeholders && JSON.parse(ele.stakeholders)?.map((v, i) => (
+                                        {ele.stakeholders && JSON.parse(ele.stakeholders)?.map((v, i) => (
                                             <li key={i} className="text-sm text-left">{v.stakeholder_designation}-{v.stakeholder_name}</li>
                                         ))}
                                     </ul>
                                 </td>
+                                <td className="whitespace-nowrap px-4 py-2 text-gray-700">{ele.paf_created_by || "-"}</td>
+
+                                <td className="whitespace-nowrap px-4 py-2 text-gray-700">{ele.paf_created_at ? moment(ele.paf_created_at).format("DD-MMM-YYYY") : "-"}</td>
+
+                                <td className="whitespace-nowrap px-4 py-2 text-gray-700">
+                                    {
+                                        ele.paf_approved_by
+                                            ? ele.paf_approved_by
+                                            : <button onClick={() => { approvePAF(ele) }} className=' rounded-sm border border-indigo-600 bg-indigo-600 p-1 text-xs font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:ring-3 focus:outline-hidden'>Approve</button>
+                                    }
+                                </td>
+                                <td className="whitespace-nowrap px-4 py-2 text-gray-700">{ele.paf_approved_at ? moment(ele.paf_approved_at).format("DD-MMM-YYYY") : "-"}</td>
+
+                                <td className='whitespace-nowrap px-4 py-2 text-gray-700'>
+                                    <button onClick={() => { createRevise(ele) }} className=' rounded-sm border border-indigo-600 bg-indigo-600 p-1 text-xs font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:ring-3 focus:outline-hidden'>Create Revise</button>
+                                </td>
+
                             </tr>
+
                         ))}
                     </tbody>
 

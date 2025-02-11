@@ -13,8 +13,8 @@ const PAF = () => {
 
 
     const [tabs, settabs] = useState([
-        { name: 'Add PAF', number: '1', current: true },
-        { name: 'View PAFs', number: '2', current: false },
+        { name: 'View PAFs', number: '1', current: true },
+        { name: 'Add PAF', number: '2', current: false },
         { name: 'Add Stakeholder', number: '3', current: false },
         { name: 'View Stakeholders', number: '4', current: false }
     ]);
@@ -27,13 +27,13 @@ const PAF = () => {
                 </div>
 
                 {
-                    selectedoption == "1"
+                    selectedoption == "2"
                         ? <AddPaf />
                         : <></>
                 }
 
                 {
-                    selectedoption == "2"
+                    selectedoption == "1"
                         ? <ViewPaf />
                         : <></>
                 }
