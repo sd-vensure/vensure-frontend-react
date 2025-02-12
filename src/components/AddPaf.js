@@ -11,8 +11,6 @@ import api from './axiosapi'
 
 const AddPaf = () => {
 
-    const [drugs, setdrugs] = useState([]);
-    const [mastertypes, setmastertypes] = useState([]);
     const [stakeholders, setstakeholders] = useState([]);
     const [selectedstakeholders, setselectedstakeholders] = useState([]);
     const dispatch = useDispatch();
@@ -28,9 +26,7 @@ const AddPaf = () => {
         sku: "",
         import_license_api: "",
         import_license_rld: "",
-        drug_id: null,
-        master_type: null,
-        include_form_headers: []
+        master_type: null
     });
 
     const [compositionsarray, setcompositionsarray] = useState([])
@@ -52,14 +48,14 @@ const AddPaf = () => {
 
             }
             else {
-                let compo_array = drugs.find((ele) => ele.drug_id == value);
-                console.log("this is compo_Array", compo_array);
-                setFormData({ ...formData, "master_type": compo_array.master_type_id, [name]: value });
-                let setarray = mastertypes.find((ele) => ele.master_type_id == compo_array.master_type_id);
-                console.log("this is set array", setarray)
-                settempmasterpafarray(setarray.items);
-                setcompositionsarray(compo_array.compositions)
-                setselectedcompositions([])
+                // let compo_array = drugs.find((ele) => ele.drug_id == value);
+                // console.log("this is compo_Array", compo_array);
+                // setFormData({ ...formData, "master_type": compo_array.master_type_id, [name]: value });
+                // // let setarray = mastertypes.find((ele) => ele.master_type_id == compo_array.master_type_id);
+                // console.log("this is set array", setarray)
+                // settempmasterpafarray(setarray.items);
+                // setcompositionsarray(compo_array.compositions)
+                // setselectedcompositions([])
             }
         }
         else if (name == "master_type") {
@@ -134,29 +130,6 @@ const AddPaf = () => {
 
     };
 
-    const getAllDrugs = async () => {
-        try {
-
-            let response = await axios.get("http://localhost:8000/api/drug/get", {
-                headers: {
-                    "Accept": "application/json"
-                }
-            });
-
-            if (response.data.data) {
-                setdrugs(response.data.data)
-            }
-            else {
-                setdrugs([])
-            }
-
-
-        } catch (error) {
-            setdrugs([])
-        }
-
-    }
-
     const getAllStakeholders = async () => {
         try {
 
@@ -181,35 +154,34 @@ const AddPaf = () => {
     }
 
 
-    const getAllMasterTypes = async () => {
-        try {
+    // const getAllMasterTypes = async () => {
+    //     try {
 
-            let response = await api.get("http://localhost:8000/api/paf/get-master-types", {
-                headers: {
-                    "Accept": "application/json"
-                }
-            });
+    //         let response = await api.get("http://localhost:8000/api/paf/get-master-types", {
+    //             headers: {
+    //                 "Accept": "application/json"
+    //             }
+    //         });
 
-            if (response.data.data) {
-                setmastertypes(response.data.data)
-            }
-            else {
-                setmastertypes([])
-            }
+    //         if (response.data.data) {
+    //             setmastertypes(response.data.data)
+    //         }
+    //         else {
+    //             setmastertypes([])
+    //         }
 
 
-        } catch (error) {
-            setmastertypes([])
-        }
+    //     } catch (error) {
+    //         setmastertypes([])
+    //     }
 
-    }
+    // }
 
 
     useEffect(() => {
 
-        getAllDrugs();
         getAllStakeholders();
-        getAllMasterTypes();
+        // getAllMasterTypes();
 
     }, [])
 
@@ -250,6 +222,98 @@ const AddPaf = () => {
             {/* <p className='text-cyan-900 text-xl text-center m-2'>Add PAF Form:</p> */}
 
             <form onSubmit={handleSubmit} className="p-4 border rounded-md w-full mx-auto">
+                <div>
+                    <p className='text-cyan-900 text-xl my-2'>Drug Details and Composition:</p>
+
+                    <div className='grid grid-cols-3 gap-3'>
+
+                        <div>
+                            <label className='text-sm my-1 text-cyan-800'>Drug Name:</label>
+                            <input
+                                type="text"
+                                name="input1"
+                                // value={formData.input1}
+                                // onChange={handleChange}
+                                placeholder="Drug Name"
+                                className="border p-2 w-full my-2"
+                                required
+                            />
+                        </div>
+
+
+                        <div>
+                            <label className='text-sm text-cyan-800 my-1'>API Details:</label>
+                            <input
+                                type="text"
+                                name="input2"
+                                // value={formData.input2}
+                                // onChange={handleChange}
+                                placeholder="API"
+                                className="border p-2 w-full my-2"
+                                required
+                            />
+                        </div>
+
+                        <div>
+                            <label className='text-sm text-cyan-800 my-1'>Innovator:</label>
+
+                            <select
+                                name="dropdown"
+                                // value={formData.dropdown}
+                                // onChange={handleChange}
+                                className="border p-2 w-full my-2"
+                                required
+                            >
+                                <option value="">Select</option>
+                                {/* {
+                            innovators && innovators.length > 0 &&
+                            innovators.map((ele) =>
+                                <option value={ele.innovator_id}>{ele.innovator_name}</option>
+                            )
+                        } */}
+                            </select>
+                        </div>
+
+                    </div>
+
+
+                    <label className='text-sm text-cyan-800 my-1'>Master Type:</label>
+                    <select
+                        name="master_type_id"
+                        // value={formData.master_type_id}
+                        // onChange={handleChange}
+                        className="border p-2 w-full my-2"
+                        required
+                    >
+                        <option>Select</option>
+                        {/* {
+                            mastertypes && mastertypes.length > 0 &&
+                            mastertypes.map((ele) =>
+                                <option value={ele.master_type_id}>{ele.master_type_name}</option>
+                            )
+                        } */}
+                    </select>
+
+
+
+                    <div className='my-1 leading-relaxed w-full'>
+                        <span className='text-cyan-800 text-sm my-1'>Compositions:</span>
+                        <div className='flex my-2'>
+                            {/* <input value={composition} onChange={handleCompositionChange} type='text' placeholder='Add Composition' className='w-full outline-none p-2 border focus:border-blue-800' /> */}
+                            {/* <button onClick={addComposition} className='bg-blue-500 text-white px-3 py-1 rounded ml-2'>Add</button> */}
+                        </div>
+                        <ul className='mt-2'>
+                            {/* {compositions.map((ele, index) => (
+                                <li key={index} className='text-sm my-2 py-2 px-2 border text-gray-700 flex justify-between items-center'>
+                                    {ele}
+                                    <button onClick={(e) => removeComposition(e, index)} className='text-red-500 ml-2'>Remove</button>
+                                </li>
+                            ))} */}
+                        </ul>
+                    </div>
+
+                </div>
+
                 <div className='grid grid-cols-4 gap-5'>
                     <div>
                         <label className='text-sm my-1 text-cyan-800'>PAF Initiated On:</label>
@@ -286,12 +350,12 @@ const AddPaf = () => {
                             required
                         >
                             <option>Select</option>
-                            {
+                            {/* {
                                 drugs && drugs.length > 0 &&
                                 drugs.map((ele) =>
                                     <option value={ele.drug_id}>{ele.drug_name}</option>
                                 )
-                            }
+                            } */}
                         </select>
                     </div>
 

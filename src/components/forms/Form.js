@@ -11,6 +11,7 @@ import { useParams } from 'react-router-dom';
 import { delPAf, setPaf } from '../../store/user/userHelper';
 import { toast } from 'react-toastify';
 import axios from 'axios';
+import ViewFormComplete from './ViewFormComplete';
 
 const Form = () => {
 
@@ -26,6 +27,7 @@ const Form = () => {
     const [tabs, settabs] = useState([
         { name: 'View Form', number: '1', current: true },
         { name: 'Edit Form', number: '2', current: false },
+        { name: 'View Form Complete', number: '3', current: false },
     ]);
 
     const fetchPAFDetails= async()=>{
@@ -77,6 +79,12 @@ const Form = () => {
                 {
                     selectedoption == "1"
                         ? <ViewForm />
+                        : <></>
+                }
+                
+                {
+                    selectedoption == "3"
+                        ? <ViewFormComplete />
                         : <></>
                 }
 

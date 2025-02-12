@@ -242,14 +242,14 @@ const Sidebar = () => {
                         </details>
                     </li> */}
 
-                    <li>
+                    {/* <li>
                         <Link
                             to="/drug"
                             className="block rounded-lg px-4 py-2 text-sm font-medium text-white hover:bg-gray-100 hover:text-gray-700"
                         >
                             Drug and Innovator
                         </Link>
-                    </li>
+                    </li> */}
                     
                     <li>
                         <Link
@@ -257,6 +257,14 @@ const Sidebar = () => {
                             className="block rounded-lg px-4 py-2 text-sm font-medium text-white hover:bg-gray-100 hover:text-gray-700"
                         >
                             PAF and Stakeholder
+                        </Link>
+                    </li>
+                    <li>
+                        <Link
+                            to="/department"
+                            className="block rounded-lg px-4 py-2 text-sm font-medium text-white hover:bg-gray-100 hover:text-gray-700"
+                        >
+                            Departments
                         </Link>
                     </li>
 

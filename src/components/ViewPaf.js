@@ -102,7 +102,7 @@ const ViewPaf = () => {
                             <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Created At</th>
                             <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Approved By</th>
                             <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Approved At</th>
-                            <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Revise</th>
+                            {/* <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Revise</th> */}
                         </tr>
                     </thead>
 
@@ -113,20 +113,16 @@ const ViewPaf = () => {
                                 <td onClick={() => handlePageChange(ele)} className="whitespace-nowrap px-4 py-2 text-gray-700 underline hover:cursor-pointer">{ele?.paf_unique}</td>
                                 <td className="whitespace-nowrap px-4 py-2 text-gray-700">{ele.drug_api}</td>
                                 <td className="whitespace-nowrap px-4 py-2 text-gray-700">{ele.drug_name}</td>
-                                <td className="whitespace-nowrap px-4 py-2 text-gray-700">{ele.innovator_name}</td>
-                                <td className="whitespace-nowrap px-4 py-2 text-gray-700">{ele.client_information}</td>
-                                <td className="whitespace-nowrap px-4 py-2 text-gray-700">{moment(ele.paf_initiated_on).format("DD MMM YYYY")}</td>
+                                <td className="whitespace-nowrap px-4 py-2 text-gray-700">{ele.drug_innovator}</td>
+                                <td className="whitespace-nowrap px-4 py-2 text-gray-700">{ele.client_name}</td>
+                                <td className="whitespace-nowrap px-4 py-2 text-gray-700">{moment(ele.paf_created_on).format("DD MMM YYYY")}</td>
                                 <td className="whitespace-nowrap px-4 py-2 text-gray-700">{ele.brief_scope}</td>
                                 <td className="whitespace-nowrap px-4 py-2 text-gray-700">{ele.api_sources}</td>
                                 <td className="whitespace-nowrap px-4 py-2 text-gray-700">{ele.sku}</td>
                                 <td className="whitespace-nowrap px-4 py-2 text-gray-700">{ele.import_license_api}</td>
                                 <td className="whitespace-nowrap px-4 py-2 text-gray-700">{ele.import_license_rld}</td>
                                 <td className="whitespace-nowrap px-4 py-2 text-gray-700">
-                                    <ul className="list-disc">
-                                        {JSON.parse(ele.compositions_selected)?.map((v, i) => (
-                                            <li key={i} className="text-sm text-left">{v}</li>
-                                        ))}
-                                    </ul>
+                                    {ele.compositions}
                                 </td>
                                 <td className="whitespace-nowrap px-4 py-2 text-gray-700">
                                     <ul className="list-disc">
@@ -155,9 +151,9 @@ const ViewPaf = () => {
                                 </td>
                                 <td className="whitespace-nowrap px-4 py-2 text-gray-700">{ele.paf_approved_at ? moment(ele.paf_approved_at).format("DD-MMM-YYYY") : "-"}</td>
 
-                                <td className='whitespace-nowrap px-4 py-2 text-gray-700'>
+                                {/* <td className='whitespace-nowrap px-4 py-2 text-gray-700'>
                                     <button onClick={() => { createRevise(ele) }} className=' rounded-sm border border-indigo-600 bg-indigo-600 p-1 text-xs font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:ring-3 focus:outline-hidden'>Create Revise</button>
-                                </td>
+                                </td> */}
 
                             </tr>
 

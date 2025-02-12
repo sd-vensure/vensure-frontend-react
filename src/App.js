@@ -17,6 +17,7 @@ import Drugs from './components/drug/Drugs';
 import PAF from './components/paf/PAF';
 import Form from './components/forms/Form';
 import RevisePAF from './components/RevisePAF';
+import Department from './components/departments/Department';
 
 
 function App() {
@@ -33,6 +34,7 @@ function App() {
                 <Route path='/' element={<Home />} />
                 <Route path='/drug' element={<Drugs />} />
                 <Route path='/paf' element={<PAF />} />
+                <Route path='/department' element={<Department />} />
                 <Route path='/pafrevise' element={<RevisePAF />} />
                 <Route path='/pafform/:paf_id' element={<Form />} />
                 {/* <Route path='/dashboard/add-drug' element={<AddDrug />} />

@@ -23,6 +23,7 @@ const SearchableStakeholderDropdown = ({ stakeholders, selectedstakeholders, set
         const handleClickOutside = (event) => {
             if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
                 setOpen(false);
+                // setOpen(!open)
             }
         };
 
@@ -31,9 +32,9 @@ const SearchableStakeholderDropdown = ({ stakeholders, selectedstakeholders, set
     }, []);
 
     return (
-        <div className="h-auto relative my-2">
+        <div ref={dropdownRef} className="h-auto relative my-2">
             <div
-                onClick={() => { setOpen(!open); setInputValue(""); }}
+                 onClick={()=>{setOpen(!open);setInputValue("");}}
                 className={`border bg-white w-full p-2 flex items-center justify-between rounded overflow-hidden
                     }`}
             >
@@ -57,8 +58,8 @@ const SearchableStakeholderDropdown = ({ stakeholders, selectedstakeholders, set
             </div>
 
 
-            <ul ref={dropdownRef}
-                className={`border z-50 bg-white mt-1 w-full whitespace-break-spaces overflow-y-auto ${open ? "relative max-h-60" : " absolute max-h-0"
+            <ul 
+                className={`border z-50 bg-white mt-1 w-full whitespace-break-spaces overflow-y-auto ${open ? "absolute max-h-60" : " absolute max-h-0"
                     } `}
             >
                 <div className="border rounded-sm flex items-center px-2 sticky top-0 bg-white">

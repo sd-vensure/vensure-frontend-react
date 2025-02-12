@@ -4,6 +4,7 @@ import AddPaf from '../AddPaf';
 import ViewPaf from '../ViewPaf';
 import AddStakeholder from '../AddStakeholder';
 import ViewStakeholder from '../ViewStakeholder';
+import AddPafNew from '../AddPafNew';
 
 const PAF = () => {
 
@@ -16,7 +17,8 @@ const PAF = () => {
         { name: 'View PAFs', number: '1', current: true },
         { name: 'Add PAF', number: '2', current: false },
         { name: 'Add Stakeholder', number: '3', current: false },
-        { name: 'View Stakeholders', number: '4', current: false }
+        { name: 'View Stakeholders', number: '4', current: false },
+        { name: 'Add PAF NEw', number: '5', current: false }
     ]);
 
     return (
@@ -26,11 +28,11 @@ const PAF = () => {
                     <HeaderComponent tabs={tabs} settabs={settabs} setselectedoption={setselectedoption} selectedoption={selectedoption} headertext={headertext} />
                 </div>
 
-                {
+                {/* {
                     selectedoption == "2"
                         ? <AddPaf />
                         : <></>
-                }
+                } */}
 
                 {
                     selectedoption == "1"
@@ -48,6 +50,12 @@ const PAF = () => {
                     selectedoption == "4"
                         ? <ViewStakeholder />
                         : <></>
+                }
+
+                {
+                    selectedoption=="5"
+                    ?<AddPafNew />
+                    :<></>
                 }
 
             {/* </div> */}
