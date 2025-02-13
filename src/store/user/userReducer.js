@@ -3,7 +3,7 @@
 import { USER_LOGIN, USER_LOGOUT, SET_COUNTRY, SET_PAF, DEL_PAF, REVISE_PAF_ADD, REVISE_PAF_DEL } from './userTypes';
 
 const initialState = {
-    current_user: "manish",
+    current_user: null,
     token: null,
     countrydata: [],
     paf_selected: null,

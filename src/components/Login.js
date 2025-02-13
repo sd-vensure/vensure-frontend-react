@@ -10,12 +10,16 @@ import Loader from './Loader'
 import modal from '../context/ModalContext';
 import Logout from '../modals/Logout';
 import useModal from '../hooks/useModal';
+import { useDispatch } from 'react-redux';
+import { userLogin } from '../store/user/userHelper';
 
 const Login = () => {
 
     const navigate = useNavigate();
 
     const { modal, setmodal, modalmessage, setmodalmessage } = useModal();
+
+    const dispatch=useDispatch();
 
     const { setauth, setadminname,token, settoken } = useAuth();
 
@@ -49,6 +53,7 @@ const Login = () => {
                     localStorage.setItem("user", response.data.data)
                     localStorage.setItem("token", response.data.token)
                     setauth(response.data.data);
+                    dispatch(userLogin(response.data.data,response.data.token))
                     settoken(response.data.token)
                     setloading(false);
                     navigate("/", { replace: true })

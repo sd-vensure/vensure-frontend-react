@@ -18,6 +18,9 @@ import PAF from './components/paf/PAF';
 import Form from './components/forms/Form';
 import RevisePAF from './components/RevisePAF';
 import Department from './components/departments/Department';
+import Unauthorised from './components/Unauthorised';
+import AssignDepartmentAndTimeline from './components/AssignDepartmentAndTimeline';
+import AssignBudget from './components/AssignBudget';
 
 
 function App() {
@@ -37,6 +40,9 @@ function App() {
                 <Route path='/department' element={<Department />} />
                 <Route path='/pafrevise' element={<RevisePAF />} />
                 <Route path='/pafform/:paf_id' element={<Form />} />
+                <Route path='/unauthorised' element={<Unauthorised />} />
+                <Route path='/pafdepartmentassign' element={<AssignDepartmentAndTimeline />} />
+                <Route path='/assignbudget' element={<AssignBudget />} />
                 {/* <Route path='/dashboard/add-drug' element={<AddDrug />} />
                 <Route path='/dashboard/view-drug' element={<ViewDrug />} />
                 <Route path='/dashboard/add-innovator' element={<AddInnovator />} />
