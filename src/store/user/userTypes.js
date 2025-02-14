@@ -5,3 +5,5 @@ export const SET_PAF = 'SET_PAF';
 export const DEL_PAF = 'DEL_PAF';
 export const REVISE_PAF_ADD = 'REVISE_PAF_ADD';
 export const REVISE_PAF_DEL = 'REVISE_PAF_DEL';
+export const OPEN_PAF_MODAL = 'OPEN_PAF_MODAL';
+export const CLOSE_PAF_MODAL = 'CLOSE_PAF_MODAL';

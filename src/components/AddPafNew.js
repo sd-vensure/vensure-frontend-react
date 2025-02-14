@@ -12,6 +12,9 @@ const AddPafNew = () => {
     const [stakeholders, setstakeholders] = useState([]);
     const [selectedstakeholders, setselectedstakeholders] = useState([]);
 
+    const [masterTypeList, setmasterTypeList] = useState([])
+    const [departments, setdepartments] = useState([])
+
     const dispatch = useDispatch()
 
     const selectedcountry = useSelector((state) => state.user.countrydata);
@@ -33,9 +36,27 @@ const AddPafNew = () => {
 
     const handleChangeDrug = (e) => {
         const name = e.target.name;
-        const value = e.target.value;
+        let value = e.target.value;
 
-        setdrugdata({ ...drugdata, [name]: value })
+        if (name == "master_type_id") {
+            if (value == "") {
+                setdrugdata({ ...drugdata, [name]: null });
+                setmasterTypeList([])
+            }
+            else {
+                console.log(value)
+                setdrugdata({ ...drugdata, [name]: value });
+                let foundobj = masterTypes.find((ele) => ele.master_type_id == value)
+                let data = foundobj.items;
+                setmasterTypeList(data.map((ele) => {
+                    return { ...ele, "status_selected": "Active", "timeline_selected": "", "target_date_selected": "", "department": "", "department_id": null }
+                }))
+
+            }
+        }
+        else {
+            setdrugdata({ ...drugdata, [name]: value });
+        }
 
     }
 
@@ -69,15 +90,67 @@ const AddPafNew = () => {
         }
     }
 
+    const handleCheckboxChange = (index) => {
+        // Toggle the status_selected value when checkbox is clicked
+        const updatedArray = [...masterTypeList];
+        updatedArray[index].status_selected = updatedArray[index].status_selected === "Active" ? "Inactive" : "Active";
+        setmasterTypeList(updatedArray); // Assuming setMasterpafArray updates the state
+    };
+
+    const handleTimelineChange = (e, index) => {
+        const updatedArray = [...masterTypeList];
+        updatedArray[index].timeline_selected = e.target.value;
+        setmasterTypeList(updatedArray); // Update the array with new timeline
+    };
+
+    const handleTargetDateChange = (e, index) => {
+        const updatedArray = [...masterTypeList];
+        updatedArray[index].target_date_selected = e.target.value; // Update the target date
+        setmasterTypeList(updatedArray); // Update the array with new target date
+    };
+
+    const handleDepartmentChange = (e, index, val) => {
+        let department_id = null;
+
+        if (e.target.value != "Select") {
+            let tt = departments.find((ele) => ele.department_name == e.target.value)
+            department_id = tt.department_id
+        }
+
+        const updatedArray = [...masterTypeList];
+        updatedArray[index].department = e.target.value; // Update the target date
+        updatedArray[index].department_id = department_id; // Update the target date
+        setmasterTypeList(updatedArray); // Update the array with new target date
+    };
+
+    const getAllDepartments = async () => {
+        try {
+
+            let response = await api.get(`http://localhost:8000/api/department/get`);
+
+            if (response.data.data) {
+                setdepartments(response.data.data)
+            }
+            else {
+                setdepartments([])
+            }
+
+
+        } catch (error) {
+            setdepartments([])
+        }
+    }
+
     useEffect(() => {
         getAllMasterTypes();
         getAllStakeholders();
+        getAllDepartments()
     }, [])
 
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        let datatopass = { ...drugdata, selectedcountry, selectedstakeholders }
+        let datatopass = { ...drugdata, selectedcountry, selectedstakeholders, "include_form_headers": masterTypeList }
 
         try {
 
@@ -102,10 +175,11 @@ const AddPafNew = () => {
                     "import_license_rld": "",
                     "import_license_api": ""
                 });
-                
+
 
                 dispatch(setCountry([]))
                 setselectedstakeholders([])
+                setmasterTypeList([])
 
                 toast.success(response.data.message)
 
@@ -180,7 +254,7 @@ const AddPafNew = () => {
                                 className="border p-2 w-full my-2"
                                 required
                             >
-                                <option>Select</option>
+                                <option value="">Select</option>
                                 {
                                     masterTypes && masterTypes.length > 0 &&
                                     masterTypes.map((ele) =>
@@ -319,6 +393,75 @@ const AddPafNew = () => {
                     </div>
 
                 </div>
+
+                {masterTypeList && masterTypeList.length > 0 && (
+                    <div className="col-span-4">
+                        <table className="table-auto w-full border-collapse">
+                            <thead>
+                                <tr>
+                                    <th className="border px-4 py-1">Select</th>
+                                    <th className="border px-4 py-1">Activity</th>
+
+                                    <th className="border px-4 py-1">Target Date</th>
+                                    <th className="border px-4 py-1">Department</th>
+                                    <th className="border px-4 py-1">Timeline</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {masterTypeList.map((ele, index) => (
+                                    <tr key={index}>
+                                        <td className="border px-4 py-1">
+                                            <input
+                                                type="checkbox"
+                                                checked={ele.status_selected === "Active"}
+                                                onChange={() => handleCheckboxChange(index)}
+                                            />
+                                        </td>
+                                        <td className="border px-4 py-1">{ele.master_item_name}</td>
+
+                                        <td className="border px-4 py-1">
+                                            <input
+                                                type="date"
+                                                className="border p-1"
+                                                value={ele.target_date_selected || ""}
+                                                onChange={(e) => handleTargetDateChange(e, index)}
+                                            />
+                                        </td>
+                                        <td className="border px-4 py-2">
+                                            <select
+                                                className="border p-1"
+                                                value={ele.department || ""}
+                                                onChange={(e) => handleDepartmentChange(e, index)}
+                                            >
+                                                <option>Select</option>
+                                                {
+                                                    departments && departments.length > 0 && departments.map((ele) =>
+                                                        <option>{ele.department_name}</option>
+                                                    )
+                                                }
+                                            </select>
+                                        </td>
+                                        <td className="border px-4 py-2">
+                                            <select
+                                                className="border p-1"
+                                                value={ele.timeline_selected || ""}
+                                                onChange={(e) => handleTimelineChange(e, index)}
+                                            >
+                                                <option value="">Select</option>
+                                                <option>T0</option>
+                                                <option>T1</option>
+                                                <option>T2</option>
+                                                <option>T3</option>
+                                                <option>T4</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                )}
+
 
 
                 <button type="submit" className="bg-blue-700 text-white p-2 rounded w-full">

@@ -5,6 +5,8 @@ import Layout from "./Layout";
 import Navbar from "./Navbar";
 import Sidebar from "./Sidebar";
 import useAuth from "../hooks/useAuth";
+import PAFInformationModal from "../modals/PAFInformationModal";
+import { useSelector } from "react-redux";
 
 
 const RequireAuth = () => {
@@ -12,6 +14,9 @@ const RequireAuth = () => {
     // const { auth, setauth } = useState(true);
     // const [try1, settry1] = useState(true);
     const { auth, setauth, token } = useAuth();
+
+    const showPAFModal = useSelector((state) => state.user.paf_modal);
+
     //  const [auth, setauth] = useState(useAuth());
 
     // console.log(auth)
@@ -36,6 +41,10 @@ const RequireAuth = () => {
                             </div>
 
                         </div>
+
+                        {
+                            showPAFModal && <PAFInformationModal />
+                        }
 
 
                     </>

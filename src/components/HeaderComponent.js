@@ -30,12 +30,12 @@ export default function HeaderComponent({ tabs, settabs, setselectedoption, sele
     }
 
     return (
-        <div className="relative border-gray-200 pb-5 sm:pb-0">
+        <div className="relative border-gray-200 pb-5 mb-1 sm:pb-0">
             <div className="md:flex md:items-center md:justify-between">
                 <h3 className="text-xl font-semibold leading-6 text-cyan-800">{headertext}</h3>
                
             </div>
-            <div className="mt-6">
+            <div className="mt-5">
                 <div className="sm:hidden">
                     <label htmlFor="current-tab" className="sr-only">
                         Select a tab
@@ -45,7 +45,7 @@ export default function HeaderComponent({ tabs, settabs, setselectedoption, sele
                         name="current-tab"
                         defaultValue={tabs.find((tab) => tab.current)?.name}  // Safe optional chaining for .name
                         onChange={(e) => { e.preventDefault(); handlechange(e.target.value) }}
-                        className="block w-full rounded-md border-0 py-1.5 pl-3 pr-10 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 cursor-pointer"
+                        className="block w-full rounded-md  border-0 py-1.5 pl-3 pr-10 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 cursor-pointer"
                     >
                         {
                             tabs.map((tab) => (
@@ -57,7 +57,7 @@ export default function HeaderComponent({ tabs, settabs, setselectedoption, sele
                     </select>
                 </div>
                 <div className="hidden sm:block">
-                    <nav className="-mb-px flex space-x-8">
+                    <nav className="-mb-px flex space-x-6">
                         {tabs.map((tab) => (
                             <p
                                 key={tab.name}
@@ -67,7 +67,7 @@ export default function HeaderComponent({ tabs, settabs, setselectedoption, sele
                                     tab.current
                                         ? 'border-indigo-500 text-indigo-600'
                                         : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700',
-                                    'whitespace-nowrap border-b-2 px-1 pb-4 text-sm font-medium cursor-pointer',
+                                    'whitespace-nowrap border-b-2 px-1 pb-2 text-sm font-medium cursor-pointer',
                                 )}
                             >
                                 {tab.name}
