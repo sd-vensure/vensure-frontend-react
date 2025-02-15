@@ -16,7 +16,7 @@ export default function PAFInformationModal() {
                     {/* Header */}
                     <div className="flex items-center justify-between p-4 border-b">
                         <h3 className="text-lg md:text-xl font-semibold">
-                            PAF Details: {pafdetails.paf_unique}
+                            PAF Details: <span className="text-blue-900">{pafdetails.paf_unique}</span>
                         </h3>
                         <button onClick={closeModal} className="text-lg font-semibold">
                             ✕

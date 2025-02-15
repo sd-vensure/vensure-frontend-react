@@ -58,9 +58,9 @@ const ViewPaf = () => {
         navigate(`/pafform/${val.paf_id}`)
     }
 
-    const approveDeclinePAF = async (ele,status) => {
+    const approveDeclinePAF = async (ele, status) => {
         try {
-            const resp = await api.post(`paf/status-change/${ele.paf_id}`,{"status":status});
+            const resp = await api.post(`paf/status-change/${ele.paf_id}`, { "status": status });
 
             if (resp.data.status) {
                 getAllPaf();
@@ -80,22 +80,22 @@ const ViewPaf = () => {
         navigate(`/pafrevise`)
 
     }
-    
-    
+
+
     const assignDepartmentTimeline = (ele) => {
 
         dispatch(setPafRevise(ele))
         navigate(`/pafdepartmentassign`)
 
     }
-    
+
     const addBudget = (ele) => {
 
         dispatch(setPafRevise(ele))
         navigate(`/assignbudget`)
 
     }
-    
+
     const openPAFInformation = (ele) => {
 
         dispatch(setPaf(ele))
@@ -189,9 +189,9 @@ const ViewPaf = () => {
                                     </td> */}
                                     {/* <td className="whitespace-nowrap px-4 py-2 text-gray-700">{ele.paf_created_by || "-"}</td> */}
                                     <td className="whitespace-nowrap px-4 py-2">
-                                        {ele.paf_approved_status=="Pending" && <span className='text-red-600'>Pending</span>}
-                                        {ele.paf_approved_status=="Accepted" && <span className='text-green-600'>Accepted</span>}
-                                        {ele.paf_approved_status=="Rejected" && <span className='text-red-600'>Rejected</span>}</td>
+                                        {ele.paf_approved_status == "Pending" && <span className='text-red-600'>Pending</span>}
+                                        {ele.paf_approved_status == "Accepted" && <span className='text-green-600'>Accepted</span>}
+                                        {ele.paf_approved_status == "Rejected" && <span className='text-red-600'>Rejected</span>}</td>
 
                                     {/* <td className="whitespace-nowrap px-4 py-2 text-gray-700">{ele.paf_created_at ? moment(ele.paf_created_at).format("DD-MMM-YYYY") : "-"}</td> */}
 
@@ -200,15 +200,15 @@ const ViewPaf = () => {
                                             ele.paf_approved_by
                                                 ? ele.paf_approved_by
                                                 : Array.isArray(roles) && roles.some(role => ["ApprovePAF"].includes(role))
-                                                    ?<div>
-                                                         <button onClick={() => { approveDeclinePAF(ele,"Accepted") }} className='block w-full m-1 rounded-sm border border-green-600 bg-green-600 p-1 text-xs font-medium text-white hover:bg-transparent hover:text-green-600 focus:ring-3 focus:outline-hidden'>Approve</button>
-                                                         <button onClick={() => { approveDeclinePAF(ele,"Rejected") }} className='block w-full m-1 rounded-sm border border-red-600 bg-red-600 p-1 text-xs font-medium text-white hover:bg-transparent hover:text-red-600 focus:ring-3 focus:outline-hidden'>Reject</button>
-                                                         </div>
+                                                    ? <div className='w-full flex flex-col justify-center items-center'>
+                                                        <button onClick={() => { approveDeclinePAF(ele, "Accepted") }} className='block w-1/2 m-1 rounded-sm border border-green-600 bg-green-600 p-1 text-xs font-medium text-white hover:bg-transparent hover:text-green-600 focus:ring-3 focus:outline-hidden'>Approve</button>
+                                                        <button onClick={() => { approveDeclinePAF(ele, "Rejected") }} className='block w-1/2 m-1 rounded-sm border border-red-600 bg-red-600 p-1 text-xs font-medium text-white hover:bg-transparent hover:text-red-600 focus:ring-3 focus:outline-hidden'>Reject</button>
+                                                    </div>
                                                     : <span className='text-red-700'>Approval Pending</span>
                                         }
                                     </td>
                                     <td className="whitespace-nowrap px-4 py-2 text-gray-700">
-                                        <span onClick={()=>{openPAFInformation(ele)}} className='underline'>View</span>
+                                        <span onClick={() => { openPAFInformation(ele) }} className='underline cursor-pointer'>View</span>
                                     </td>
                                     {/* <td className="whitespace-nowrap px-4 py-2 text-gray-700">{ele.paf_approved_at ? moment(ele.paf_approved_at).format("DD-MMM-YYYY") : "Approval Pending"}</td> */}
 
@@ -221,7 +221,7 @@ const ViewPaf = () => {
                                                 : "Waiting for Approval"
                                         }
                                     </td> */}
-                                
+
                                     {/* <td className='whitespace-nowrap px-4 py-2 text-gray-700'>
                                         {
                                             ele.assign_departments=="Y"
