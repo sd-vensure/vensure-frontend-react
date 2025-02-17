@@ -146,6 +146,7 @@ const ViewPaf = () => {
                             {/* <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Created At</th> */}
                             <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Status</th>
                             <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Approved/Rejected</th>
+                            <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Assign Department</th>
                             <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">View</th>
                             {/* <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Approved At</th> */}
                             {/* <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Assign</th>
@@ -159,7 +160,13 @@ const ViewPaf = () => {
                             .map((ele, index) => (
                                 <tr key={index} className="odd:bg-gray-50">
                                     <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{index + 1}</td>
-                                    <td onClick={() => handlePageChange(ele)} className="whitespace-nowrap px-4 py-2 text-gray-700 underline hover:cursor-pointer">{ele?.paf_unique}</td>
+                                    <td
+                                        onClick={() => ele.paf_approved_status === "Accepted" && handlePageChange(ele)}
+                                        className="whitespace-nowrap px-4 py-2 text-gray-700 underline hover:cursor-pointer"
+                                    >
+                                        {ele?.paf_unique}
+                                    </td>
+
                                     {/* <td className="whitespace-nowrap px-4 py-2 text-gray-700">{ele.drug_api}</td> */}
                                     <td className="whitespace-nowrap px-4 py-2 text-gray-700">{ele.drug_name}</td>
                                     {/* <td className="whitespace-nowrap px-4 py-2 text-gray-700">{ele.drug_innovator}</td> */}
@@ -207,20 +214,22 @@ const ViewPaf = () => {
                                                     : <span className='text-red-700'>Approval Pending</span>
                                         }
                                     </td>
+
+                                    {/* <td className="whitespace-nowrap px-4 py-2 text-gray-700">{ele.paf_approved_at ? moment(ele.paf_approved_at).format("DD-MMM-YYYY") : "Approval Pending"}</td> */}
+
+                                    <td className='whitespace-nowrap px-4 py-2 text-gray-700'>
+                                        {
+                                            ele.paf_approved_by && ele.paf_approved_status == "Accepted"
+                                                ? ele.assign_departments == "Y"
+                                                    ? <span className='text-green-700'>Assigned</span>
+                                                    : <button onClick={() => handlePageChange(ele)} className=' rounded-sm border border-indigo-600 bg-indigo-600 p-1 text-xs font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:ring-3 focus:outline-hidden'>Assign</button>
+                                                : "Waiting for Approval"
+                                        }
+                                    </td>
+
                                     <td className="whitespace-nowrap px-4 py-2 text-gray-700">
                                         <span onClick={() => { openPAFInformation(ele) }} className='underline cursor-pointer'>View</span>
                                     </td>
-                                    {/* <td className="whitespace-nowrap px-4 py-2 text-gray-700">{ele.paf_approved_at ? moment(ele.paf_approved_at).format("DD-MMM-YYYY") : "Approval Pending"}</td> */}
-
-                                    {/* <td className='whitespace-nowrap px-4 py-2 text-gray-700'>
-                                        {
-                                            ele.paf_approved_by
-                                                ?ele.assign_departments=="Y"
-                                                ?<span className='text-green-700'>Assigned</span>
-                                                :<button onClick={() => { assignDepartmentTimeline(ele) }} className=' rounded-sm border border-indigo-600 bg-indigo-600 p-1 text-xs font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:ring-3 focus:outline-hidden'>Assign</button>
-                                                : "Waiting for Approval"
-                                        }
-                                    </td> */}
 
                                     {/* <td className='whitespace-nowrap px-4 py-2 text-gray-700'>
                                         {

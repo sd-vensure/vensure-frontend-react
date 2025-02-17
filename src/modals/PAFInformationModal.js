@@ -42,7 +42,6 @@ export default function PAFInformationModal() {
                                     { label: "Drug Name", value: pafdetails.drug_name },
                                     { label: "Drug API", value: pafdetails.drug_api },
                                     { label: "Innovator", value: pafdetails.drug_innovator },
-                                    { label: "Compositions", value: pafdetails.compositions },
                                     { label: "Brief Scope", value: pafdetails.brief_scope },
                                     { label: "API Sources", value: pafdetails.api_sources },
                                     { label: "SKU", value: pafdetails.sku },
@@ -57,6 +56,19 @@ export default function PAFInformationModal() {
                                 ))}
 
                                 {/* Dynamic Fields */}
+                                <div className="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
+                                    <dt className="font-medium text-gray-900">Compositions</dt>
+                                    <dd className="text-gray-700 sm:col-span-2">
+                                        <ul className="list-disc list-inside">
+                                            {pafdetails.compositions &&
+                                                JSON.parse(pafdetails.compositions)?.map((v, i) => (
+                                                    <li key={i} className="text-sm text-left">{v}</li>
+                                                ))}
+                                        </ul>
+                                    </dd>
+                                </div>
+
+
                                 <div className="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
                                     <dt className="font-medium text-gray-900">Driving Market</dt>
                                     <dd className="text-gray-700 sm:col-span-2">

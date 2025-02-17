@@ -12,6 +12,9 @@ const AddPafNew = () => {
     const [stakeholders, setstakeholders] = useState([]);
     const [selectedstakeholders, setselectedstakeholders] = useState([]);
 
+    const [compositioncreated, setcompositioncreated] = useState([])
+    const [compositiontext, setcompositiontext] = useState("")
+
     const [masterTypeList, setmasterTypeList] = useState([])
     const [departments, setdepartments] = useState([])
 
@@ -150,7 +153,7 @@ const AddPafNew = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        let datatopass = { ...drugdata, selectedcountry, selectedstakeholders, "include_form_headers": masterTypeList }
+        let datatopass = { ...drugdata, selectedcountry, selectedstakeholders, "include_form_headers": masterTypeList, "compositions": compositioncreated }
 
         try {
 
@@ -179,6 +182,7 @@ const AddPafNew = () => {
 
                 dispatch(setCountry([]))
                 setselectedstakeholders([])
+                setcompositioncreated([])
                 setmasterTypeList([])
 
                 toast.success(response.data.message)
@@ -196,6 +200,18 @@ const AddPafNew = () => {
         }
 
     }
+
+    const addComposition = (e) => {
+        e.preventDefault();
+        setcompositioncreated(previtems => [...previtems, compositiontext])
+        setcompositiontext("")
+    }
+
+    const removeComposition = (e, index) => {
+        e.preventDefault();
+        setcompositioncreated(prevItems => prevItems.filter((item, i) => i !== index));
+    }
+
 
     return (
         <div className='p-2'>
@@ -246,7 +262,7 @@ const AddPafNew = () => {
                         </div>
 
                         <div>
-                            <label className='text-sm text-cyan-800 my-1'>Master Type:</label>
+                            <label className='text-sm text-cyan-800 my-1'>Product Type:</label>
                             <select
                                 name="master_type_id"
                                 value={drugdata.master_type_id}
@@ -264,7 +280,7 @@ const AddPafNew = () => {
                             </select>
                         </div>
 
-                        <div className='col-span-2'>
+                        {/* <div className='col-span-2'>
                             <label className='text-sm text-cyan-800 my-1'>Compositions:</label>
                             <input
                                 type="text"
@@ -275,6 +291,27 @@ const AddPafNew = () => {
                                 className="border p-2 w-full my-2"
                                 required
                             />
+                        </div> */}
+
+                        <div className=' leading-relaxed w-full'>
+                            <span className='text-cyan-800 text-sm my-1'>Compositions:</span>
+                            <div className='flex justify-center items-center'>
+                                <input value={compositiontext} onChange={(e) => { setcompositiontext(e.target.value) }} type='text' placeholder='Add Composition' className='w-full outline-none p-2 border my-2 focus:border-blue-800' />
+                                <button onClick={addComposition} className='bg-blue-500 text-white py-2 px-3 h-full rounded ml-2'>Add</button>
+                            </div>
+                        </div>
+
+                        <div className=' leading-relaxed w-full'>
+                            <span className='text-cyan-800 text-sm my-1'>Compositions Created:</span>
+                            <ul className='mt-2'>
+                                {compositioncreated.map((ele, index) => (
+                                    <li key={index} className='text-sm my-2 py-2 px-2 border text-gray-700 flex justify-between items-center'>
+                                        {ele}
+                                        <button onClick={(e) => removeComposition(e, index)} className='text-red-500 ml-2'>Remove</button>
+                                    </li>
+                                ))}
+                            </ul>
+
                         </div>
 
                     </div>

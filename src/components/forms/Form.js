@@ -84,13 +84,13 @@ const Form = () => {
                 
                 {
                     selectedoption == "3"
-                        ? <ViewFormComplete />
+                        ? <EditForm />
                         : <></>
                 }
 
                 {
                     selectedoption == "2"
-                        ? <EditForm />
+                        ? <ViewFormComplete />
                         : <></>
                 }
 
