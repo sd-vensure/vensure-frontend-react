@@ -70,3 +70,14 @@ code {
 
   box-shadow: rgba(0, 0, 0, 0.2) 0px 20px 18px -20px;
 }
+
+
+/* Add this to your global CSS file */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

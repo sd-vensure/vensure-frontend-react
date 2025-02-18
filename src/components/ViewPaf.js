@@ -147,6 +147,7 @@ const ViewPaf = () => {
                             <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Status</th>
                             <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Approved/Rejected</th>
                             <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Assign Department</th>
+                            <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Budget</th>
                             <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">View</th>
                             {/* <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Approved At</th> */}
                             {/* <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Assign</th>
@@ -224,6 +225,17 @@ const ViewPaf = () => {
                                                     ? <span className='text-green-700'>Assigned</span>
                                                     : <button onClick={() => handlePageChange(ele)} className=' rounded-sm border border-indigo-600 bg-indigo-600 p-1 text-xs font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:ring-3 focus:outline-hidden'>Assign</button>
                                                 : "Waiting for Approval"
+                                        }
+                                    </td>
+
+                                    <td className='whitespace-nowrap px-4 py-2 text-gray-700'>
+                                        {
+                                            ele.assign_departments == "N"
+                                                ? "-"
+                                                : ele.budget_recieve == "N"
+                                                    ? <button onClick={() => handlePageChange(ele)} className=' rounded-sm border border-indigo-600 bg-indigo-600 p-1 text-xs font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:ring-3 focus:outline-hidden'>Budget</button>
+                                                    : "Budget Recorded"
+
                                         }
                                     </td>
 
