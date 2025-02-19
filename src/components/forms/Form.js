@@ -92,7 +92,7 @@ const Form = () => {
                     ? <EditForm />
                     : <></>
             }
-            
+
             {
                 selectedoption == "5"
                     ? <BudgetApprove />
@@ -105,10 +105,15 @@ const Form = () => {
                     : <></>
             }
             {
+                // selectedoption == "3"
+                //     ? pafdetails.budget_recieve == "N"
+                //         ? <BudgetEdit />
+                //         : "Budget already recieved and noted"
+                //     : <></>
+
                 selectedoption == "3"
-                    ? pafdetails.budget_recieve == "N"
-                        ? <BudgetEdit />
-                        : "Budget already recieved and noted"
+                    ?
+                    <BudgetEdit />
                     : <></>
             }
 

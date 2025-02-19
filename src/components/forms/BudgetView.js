@@ -48,11 +48,13 @@ const BudgetView = () => {
         let totalsum = 0;
 
         val.map((v) => {
-            sumq1 += parseInt(v.q1);
-            sumq2 += parseInt(v.q2);
-            sumq3 += parseInt(v.q3);
-            sumq4 += parseInt(v.q4);
-            totalsum += (parseInt(v.q1) + parseInt(v.q2) + parseInt(v.q3) + parseInt(v.q4))
+            if (v.budget_status == "Approved") {
+                sumq1 += parseInt(v.q1);
+                sumq2 += parseInt(v.q2);
+                sumq3 += parseInt(v.q3);
+                sumq4 += parseInt(v.q4);
+                totalsum += (parseInt(v.q1) + parseInt(v.q2) + parseInt(v.q3) + parseInt(v.q4))
+            }
             // totalsum+=parseInt(v.q4);
             tempdata.push({
                 ...v, "qtotal": (parseInt(v.q1) + parseInt(v.q2) + parseInt(v.q3) + parseInt(v.q4))
@@ -60,7 +62,7 @@ const BudgetView = () => {
         })
 
         setextradata({
-            sumq1, sumq2, sumq3, sumq4,totalsum
+            sumq1, sumq2, sumq3, sumq4, totalsum
         })
 
         return tempdata;
@@ -154,11 +156,10 @@ const BudgetView = () => {
                                             <td>{ele.q4}</td>
                                             <td>{ele.qtotal}</td>
                                             <td>
-                                                {
-                                                    ele.budget_status == "Approved"
-                                                        ? <span className='text-green-600'>{ele.budget_status}</span>
-                                                        : <span className='text-red-600'>{ele.budget_status}</span>
-                                                }
+                                                {ele.budget_status == "Approved" && <span className='text-green-600'>Approved</span>}
+                                                {ele.budget_status == "Rejected" && <span className='text-red-600'>Rejected</span>}
+                                                {ele.budget_status == "Pending" && <span className='text-blue-600'>In Process</span>}
+
 
                                             </td>
                                             {/* <td>
@@ -181,31 +182,31 @@ const BudgetView = () => {
 
                             <tr className=''>
                                 <td className='p-2' colSpan={9}>
-                                    Total Q1: {extradata?.sumq1}
+                                    Total Q1 (Approved): {extradata?.sumq1}
                                 </td>
                             </tr>
 
                             <tr className=''>
                                 <td className='p-2' colSpan={9}>
-                                    Total Q2: {extradata?.sumq2}
+                                    Total Q2 (Approved): {extradata?.sumq2}
                                 </td>
                             </tr>
 
                             <tr className=''>
                                 <td className='p-2' colSpan={9}>
-                                    Total Q3: {extradata?.sumq3}
+                                    Total Q3 (Approved): {extradata?.sumq3}
                                 </td>
                             </tr>
 
                             <tr className=''>
                                 <td className='p-2' colSpan={9}>
-                                    Total Q4: {extradata?.sumq4}
+                                    Total Q4 (Approved): {extradata?.sumq4}
                                 </td>
                             </tr>
-                            
+
                             <tr className=''>
                                 <td className='p-2' colSpan={9}>
-                                    Total All: {extradata?.totalsum}
+                                    Total All (Approved): {extradata?.totalsum}
                                 </td>
                             </tr>
                         </tbody>

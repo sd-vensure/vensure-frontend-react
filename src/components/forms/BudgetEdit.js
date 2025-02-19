@@ -13,8 +13,9 @@ const BudgetEdit = () => {
     const navigate = useNavigate();
 
     const paf_selected = useSelector((state) => state.user.paf_selected);
-    
+
     const [data, setdata] = useState([])
+    const [data1, setdata1] = useState([])
     const [finaldata, setfinaldata] = useState([])
 
     const [departments, setdepartments] = useState([])
@@ -23,16 +24,29 @@ const BudgetEdit = () => {
 
         try {
 
-            let response = await api.get(`http://localhost:8000/api/form/get-paf-form/${paf_id}`);
+            let resp = await api.get(`http://localhost:8000/api/budget/get/${paf_id}`)
 
-            if (response.data.data) {
-                // toast.success(response.data.message)
-                setdata(response.data.data)
+            if (resp.data.status) {
+
+                setdata1(resp.data.data)
+
             }
             else {
-                toast.info(response.data.message)
-                setdata([])
+
+                let response = await api.get(`http://localhost:8000/api/form/get-paf-form/${paf_id}`);
+
+                if (response.data.data) {
+                    // toast.success(response.data.message)
+                    setdata(response.data.data)
+                }
+                else {
+                    toast.info(response.data.message)
+                    setdata([])
+                }
+
             }
+
+
 
         } catch (error) {
             toast.error(error.message)
@@ -85,8 +99,10 @@ const BudgetEdit = () => {
                         "q4": 0,
                         "department_name": department?.department_name,
                         "department_id": department?.department_id,
-                        "paf_id":paf_selected.paf_id,
-                        "paf_unique":paf_selected.paf_unique
+                        "paf_id": paf_selected.paf_id,
+                        "paf_unique": paf_selected.paf_unique,
+                        "item_type": "New",
+                        "budget_status": "New"
                     };
                     result.push(header);
                 }
@@ -101,6 +117,63 @@ const BudgetEdit = () => {
 
     }, [data, departments])
 
+    useEffect(() => {
+
+        const result = [];
+
+        if (data1.length > 0 && departments.length > 0) {
+            data1.forEach(item => {
+                if (item.budget_status == "Rejected") {
+                    result.push({ ...item, "header_status": "Active", "pafform_team": item?.department_name, "item_type": "Old" })
+
+                    let findingsame = data1.find((vv) => (vv.budget_status == "Pending" || vv.budget_status == "Approved") && item.pafform_id == vv.pafform_id && item.department_id == vv.department_id)
+                    let findalreadyinsert = result.find((zz) => item.pafform_id == zz.pafform_id && item.department_id == zz.department_id && zz.item_type == "New")
+
+                    let header = {
+                        ...item,  // Add the entire header data
+                        "q1": 0,
+                        "q2": 0,
+                        "q3": 0,
+                        "q4": 0,
+                        "department_name": item?.department_name,
+                        "department_id": item?.department_id,
+                        "paf_id": item?.paf_id,
+                        "paf_unique": item?.paf_unique,
+                        "item_type": "New",
+                        "budget_status": "New",
+                        "pafform_item_name": item.pafform_item_name,
+                        "pafform_team": item?.department_name,
+                        "header_status": "Active"
+                    };
+
+                    if (!findingsame && !findalreadyinsert) {
+                        console.log(findingsame, "this is finding same")
+                        result.push(header);
+                    }
+                }
+                else {
+                    result.push({ ...item, "header_status": "Active", "pafform_team": item?.department_name, "item_type": "Old" })
+                }
+
+            });
+        }
+
+        const statusOrder = { "Approved": 1, "Rejected": 2, "Processing": 3, "New": 4 };
+
+        result.sort((a, b) => {
+
+            if (a.department_id !== b.department_id) {
+                return a.department_id - b.department_id;
+            }
+
+            return statusOrder[a.budget_status] - statusOrder[b.budget_status];
+        });
+
+        setfinaldata(result);
+
+    }, [data1, departments])
+
+
     const handleHeaderChange = (name, val, index) => {
         let tempdata = [...finaldata];
         val = val == "" ? 0 : parseInt(val);
@@ -113,23 +186,24 @@ const BudgetEdit = () => {
     const onSubmit = async (e) => {
         e.preventDefault()
 
-        console.log(finaldata)
+        // console.log(finaldata,"this is finaldats")
+        let datatopass = finaldata.filter((vv) => vv.item_type == "New")
+
         // const converteddata= convertDataSending();
 
         try {
-          const updatedata=await api.post("budget/add",{"data":finaldata})
+            const updatedata = await api.post("budget/add", { "data": datatopass })
 
-          if(updatedata.status)
-          {
-            toast.success(updatedata.data.message)
-            navigate("/paf")
-          }
-          else{
-            toast.info(updatedata.data.message)
-          }
+            if (updatedata.status) {
+                toast.success(updatedata.data.message)
+                navigate("/paf")
+            }
+            else {
+                toast.info(updatedata.data.message)
+            }
 
         } catch (error) {
-          toast.error(error.message)
+            toast.error(error.message)
         }
 
     }
@@ -144,11 +218,12 @@ const BudgetEdit = () => {
                             <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">No.</th>
                             <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Action</th>
                             <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Team</th>
-                            <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Target Date</th>
+                            {/* <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Target Date</th> */}
                             <th className="whitespace-nowrap py-2 font-medium text-gray-900">Q1</th>
                             <th className="whitespace-nowrap py-2 font-medium text-gray-900">Q2</th>
                             <th className="whitespace-nowrap py-2 font-medium text-gray-900">Q3</th>
                             <th className="whitespace-nowrap py-2 font-medium text-gray-900">Q4</th>
+                            <th className="whitespace-nowrap py-2 font-medium text-gray-900">Status</th>
                         </tr>
                     </thead>
 
@@ -161,18 +236,24 @@ const BudgetEdit = () => {
                                         <td>{index + 1}</td>
                                         <td className='whitespace-wrap'>{ele.pafform_item_name}</td>
                                         <td>{ele.pafform_team}</td>
-                                        <td>{moment(ele.pafform_target).format("DD-MMM-YYYY")}</td>
+                                        {/* <td>{moment(ele.pafform_target).format("DD-MMM-YYYY")}</td> */}
                                         <td className=''>
-                                            <input value={ele.q1} onChange={(e) => handleHeaderChange(e.target.name, e.target.value, index)} className='w-32 h-9 text-center' name="q1" type="text" pattern="\d*" required placeholder='Q1' />
+                                            <input disabled={ele.item_type == "New" ? false : true} value={ele.q1} onChange={(e) => handleHeaderChange(e.target.name, e.target.value, index)} className='w-32 h-9 text-center' name="q1" type="text" pattern="\d*" required placeholder='Q1' />
                                         </td>
                                         <td>
-                                            <input value={ele.q2} onChange={(e) => handleHeaderChange(e.target.name, e.target.value, index)} className='w-32 h-9 text-center' name="q2" type="text" pattern="\d*" required placeholder='Q2' />
+                                            <input disabled={ele.item_type == "New" ? false : true} value={ele.q2} onChange={(e) => handleHeaderChange(e.target.name, e.target.value, index)} className='w-32 h-9 text-center' name="q2" type="text" pattern="\d*" required placeholder='Q2' />
                                         </td>
                                         <td>
-                                            <input value={ele.q3} onChange={(e) => handleHeaderChange(e.target.name, e.target.value, index)} className='w-32 h-9 text-center' name="q3" type="text" pattern="\d*" required placeholder='Q3' />
+                                            <input disabled={ele.item_type == "New" ? false : true} value={ele.q3} onChange={(e) => handleHeaderChange(e.target.name, e.target.value, index)} className='w-32 h-9 text-center' name="q3" type="text" pattern="\d*" required placeholder='Q3' />
                                         </td>
                                         <td>
-                                            <input value={ele.q4} onChange={(e) => handleHeaderChange(e.target.name, e.target.value, index)} className='w-32 h-9 text-center' name="q4" type="text" pattern="\d*" required placeholder='Q4' />
+                                            <input disabled={ele.item_type == "New" ? false : true} value={ele.q4} onChange={(e) => handleHeaderChange(e.target.name, e.target.value, index)} className='w-32 h-9 text-center' name="q4" type="text" pattern="\d*" required placeholder='Q4' />
+                                        </td>
+                                        <td className='whitespace-wrap'>
+                                            {ele.budget_status == "Approved" && <span className='text-green-500'>Approved</span>}
+                                            {ele.budget_status == "Rejected" && <span className='text-red-500'>Rejected</span>}
+                                            {ele.budget_status == "Pending" && <span className='text-blue-500'>Processing</span>}
+                                            {ele.budget_status == "New" && <span className='text-blue-500'>New</span>}
                                         </td>
 
                                     </tr>
