@@ -17,6 +17,8 @@ const BudgetView = () => {
     const [data, setdata] = useState([])
     const [extradata, setextradata] = useState(null)
 
+    const [filter, setfilter] = useState("All")
+
 
     const getBudgetEntries = async () => {
         try {
@@ -124,12 +126,26 @@ const BudgetView = () => {
         <>
             <div className="overflow-x-auto ">
                 <form>
+                    <label className='text-sm text-cyan-800 my-1'>Filter:</label>
+
+                    <select
+                        name="dropdown"
+                        value={filter}
+                        onChange={(e) => { e.preventDefault(); setfilter(e.target.value) }}
+                        className="border p-2 w-full my-2"
+                        required
+                    >
+                        <option>All</option>
+                        <option>Approved</option>
+
+                    </select>
                     {/* <button onClick={onSubmit} className='bg-blue-500 text-white px-3 py-1 rounded ml-2 m-2'>Update</button> */}
                     <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
                         <thead className="text-center">
                             <tr>
                                 <th className="whitespace-nowrap py-2 font-medium text-gray-900">No.</th>
                                 <th className="whitespace-nowrap py-2 font-medium text-gray-900">Department Name</th>
+                                <th className="whitespace-nowrap py-2 font-medium text-gray-900">Costhead</th>
                                 <th className="whitespace-nowrap py-2 font-medium text-gray-900">Created By</th>
                                 <th className="whitespace-nowrap py-2 font-medium text-gray-900">Q1</th>
                                 <th className="whitespace-nowrap py-2 font-medium text-gray-900">Q2</th>
@@ -143,12 +159,13 @@ const BudgetView = () => {
 
                         <tbody className="divide-y divide-gray-200">
                             {
-                                data.map((ele, index) =>
+                                data.filter((vv) => filter == "All" ? vv : vv.budget_status == "Approved").map((ele, index) =>
                                 (
                                     <>
                                         <tr key={index} className=' text-center'>
                                             <td>{index + 1}</td>
                                             <td>{ele.department_name}</td>
+                                            <td className='whitespace-wrap'>{ele.costhead ||"-"}</td>
                                             <td>{ele.budget_updated_by}</td>
                                             <td>{ele.q1}</td>
                                             <td>{ele.q2}</td>

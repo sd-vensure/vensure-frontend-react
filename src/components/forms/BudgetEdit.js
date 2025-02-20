@@ -102,7 +102,8 @@ const BudgetEdit = () => {
                         "paf_id": paf_selected.paf_id,
                         "paf_unique": paf_selected.paf_unique,
                         "item_type": "New",
-                        "budget_status": "New"
+                        "budget_status": "New",
+                        "costhead": ""
                     };
                     result.push(header);
                 }
@@ -143,7 +144,8 @@ const BudgetEdit = () => {
                         "budget_status": "New",
                         "pafform_item_name": item.pafform_item_name,
                         "pafform_team": item?.department_name,
-                        "header_status": "Active"
+                        "header_status": "Active",
+                        "costhead": ""
                     };
 
                     if (!findingsame && !findalreadyinsert) {
@@ -176,19 +178,24 @@ const BudgetEdit = () => {
 
     const handleHeaderChange = (name, val, index) => {
         let tempdata = [...finaldata];
-        val = val == "" ? 0 : parseInt(val);
+        if(name=="costhead")
+        {
+            val = val == "" ? "" : val;
+        }
+        else{
+            val = val == "" ? 0 : parseInt(val);
+        }
         tempdata[index][name] = val;
         setfinaldata(tempdata)
     }
-
-
 
     const onSubmit = async (e) => {
         e.preventDefault()
 
         // console.log(finaldata,"this is finaldats")
         let datatopass = finaldata.filter((vv) => vv.item_type == "New")
-
+        // console.log(datatopass)
+        // return
         // const converteddata= convertDataSending();
 
         try {
@@ -218,6 +225,7 @@ const BudgetEdit = () => {
                             <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">No.</th>
                             <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Action</th>
                             <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Team</th>
+                            <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Costhead</th>
                             {/* <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Target Date</th> */}
                             <th className="whitespace-nowrap py-2 font-medium text-gray-900">Q1</th>
                             <th className="whitespace-nowrap py-2 font-medium text-gray-900">Q2</th>
@@ -236,7 +244,10 @@ const BudgetEdit = () => {
                                         <td>{index + 1}</td>
                                         <td className='whitespace-wrap'>{ele.pafform_item_name}</td>
                                         <td>{ele.pafform_team}</td>
-                                        {/* <td>{moment(ele.pafform_target).format("DD-MMM-YYYY")}</td> */}
+                                        <td>
+                                            <input disabled={ele.item_type == "New" ? false : true} value={ele.costhead} onChange={(e)=>handleHeaderChange(e.target.name, e.target.value, index)} name="costhead" type="text" placeholder='Costhead' className="m-1 shadow appearance-none border h-9 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-base" />
+                                        </td>
+
                                         <td className=''>
                                             <input disabled={ele.item_type == "New" ? false : true} value={ele.q1} onChange={(e) => handleHeaderChange(e.target.name, e.target.value, index)} className='w-32 h-9 text-center' name="q1" type="text" pattern="\d*" required placeholder='Q1' />
                                         </td>

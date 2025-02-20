@@ -128,6 +128,7 @@ const BudgetApprove = () => {
                             <tr>
                                 <th className="whitespace-nowrap py-2 font-medium text-gray-900">No.</th>
                                 <th className="whitespace-nowrap py-2 font-medium text-gray-900">Department Name</th>
+                                <th className="whitespace-nowrap py-2 font-medium text-gray-900">Costhead</th>
                                 <th className="whitespace-nowrap py-2 font-medium text-gray-900">Created By</th>
                                 <th className="whitespace-nowrap py-2 font-medium text-gray-900">Q1</th>
                                 <th className="whitespace-nowrap py-2 font-medium text-gray-900">Q2</th>
@@ -147,6 +148,7 @@ const BudgetApprove = () => {
                                         <tr key={index} className=' text-center'>
                                             <td>{index + 1}</td>
                                             <td>{ele.department_name}</td>
+                                            <td className='whitespace-wrap'>{ele.costhead?ele.costhead:"-"}</td>
                                             <td>{ele.budget_updated_by}</td>
                                             <td>{ele.q1}</td>
                                             <td>{ele.q2}</td>
