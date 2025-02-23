@@ -13,6 +13,8 @@ const BudgetEdit = () => {
     const navigate = useNavigate();
 
     const paf_selected = useSelector((state) => state.user.paf_selected);
+    const currentuser = useSelector((state) => state.user.current_user);
+
 
     const [data, setdata] = useState([])
     const [data1, setdata1] = useState([])
@@ -28,7 +30,28 @@ const BudgetEdit = () => {
 
             if (resp.data.status) {
 
-                setdata1(resp.data.data)
+                let tempdata = resp.data.data;
+                let arrayfiltered = tempdata.filter((ele) => ele.department_name == currentuser.department_name);
+
+                if (arrayfiltered.length > 0) {
+                    setdata1(arrayfiltered)
+                }
+                else {
+
+                    let response = await api.get(`http://localhost:8000/api/form/get-paf-form/${paf_id}`);
+
+                    if (response.data.data) {
+                        // toast.success(response.data.message)
+
+                        setdata(response.data.data)
+                    }
+                    else {
+                        toast.info(response.data.message)
+                        setdata([])
+                    }
+                }
+
+
 
             }
             else {
@@ -37,6 +60,7 @@ const BudgetEdit = () => {
 
                 if (response.data.data) {
                     // toast.success(response.data.message)
+
                     setdata(response.data.data)
                 }
                 else {
@@ -82,7 +106,7 @@ const BudgetEdit = () => {
 
 
     useEffect(() => {
-        const result = [];
+        let result = [];
 
         if (data.length > 0 && departments.length > 0) {
             data.forEach(item => {
@@ -109,7 +133,13 @@ const BudgetEdit = () => {
                 }
 
             });
+
+            console.log(result, "this is result")
+            result = result.filter((ele) => ele.department_name == currentuser.department_name);
+
         }
+
+
 
         // console.log(result)
 
@@ -178,11 +208,10 @@ const BudgetEdit = () => {
 
     const handleHeaderChange = (name, val, index) => {
         let tempdata = [...finaldata];
-        if(name=="costhead")
-        {
+        if (name == "costhead") {
             val = val == "" ? "" : val;
         }
-        else{
+        else {
             val = val == "" ? 0 : parseInt(val);
         }
         tempdata[index][name] = val;
@@ -194,8 +223,7 @@ const BudgetEdit = () => {
 
         // console.log(finaldata,"this is finaldats")
         let datatopass = finaldata.filter((vv) => vv.item_type == "New")
-        // console.log(datatopass)
-        // return
+        console.log(datatopass)
         // const converteddata= convertDataSending();
 
         try {
@@ -236,7 +264,7 @@ const BudgetEdit = () => {
                     </thead>
 
                     <tbody className="divide-y divide-gray-200">
-                        {
+                        {/* {
                             finaldata.filter((ee) => ee.header_status == "Active").map((ele, index) =>
                             (
                                 <>
@@ -271,7 +299,45 @@ const BudgetEdit = () => {
 
                                 </>
                             ))
-                        }
+                        } */}
+
+                        {finaldata.filter((ee) => ee.header_status == "Active").length > 0 ? (
+                            finaldata.filter((ee) => ee.header_status == "Active").map((ele, index) => (
+                                <tr key={index}>
+                                    <td>{index + 1}</td>
+                                    <td className='whitespace-wrap'>{ele.pafform_item_name}</td>
+                                    <td>{ele.pafform_team}</td>
+                                    <td>
+                                        <input disabled={ele.item_type !== "New"} value={ele.costhead} onChange={(e) => handleHeaderChange(e.target.name, e.target.value, index)} name="costhead" type="text" placeholder='Costhead' className="m-1 shadow appearance-none border h-9 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-base" />
+                                    </td>
+                                    <td>
+                                        <input disabled={ele.item_type !== "New"} value={ele.q1} onChange={(e) => handleHeaderChange(e.target.name, e.target.value, index)} className='w-32 h-9 text-center' name="q1" type="text" pattern="\d*" required placeholder='Q1' />
+                                    </td>
+                                    <td>
+                                        <input disabled={ele.item_type !== "New"} value={ele.q2} onChange={(e) => handleHeaderChange(e.target.name, e.target.value, index)} className='w-32 h-9 text-center' name="q2" type="text" pattern="\d*" required placeholder='Q2' />
+                                    </td>
+                                    <td>
+                                        <input disabled={ele.item_type !== "New"} value={ele.q3} onChange={(e) => handleHeaderChange(e.target.name, e.target.value, index)} className='w-32 h-9 text-center' name="q3" type="text" pattern="\d*" required placeholder='Q3' />
+                                    </td>
+                                    <td>
+                                        <input disabled={ele.item_type !== "New"} value={ele.q4} onChange={(e) => handleHeaderChange(e.target.name, e.target.value, index)} className='w-32 h-9 text-center' name="q4" type="text" pattern="\d*" required placeholder='Q4' />
+                                    </td>
+                                    <td className='whitespace-wrap'>
+                                        {ele.budget_status == "Approved" ? <span className='text-green-500'>Approved</span> :
+                                            ele.budget_status == "Rejected" ? <span className='text-red-500'>Rejected</span> :
+                                                ele.budget_status == "Pending" ? <span className='text-blue-500'>Processing</span> :
+                                                    ele.budget_status == "New" ? <span className='text-blue-500'>New</span> : null}
+                                    </td>
+                                </tr>
+                            ))
+                        ) : (
+                            <tr>
+                                <td colSpan="9" className="text-center text-gray-500 py-4">
+                                    Your department isnt assigned.
+                                </td>
+                            </tr>
+                        )}
+
                     </tbody>
 
                 </table>
