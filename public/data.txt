@@ -1,0 +1,34 @@
+Attendance:
+1. All Workers - "/"
+2. Add Worker - "/addworker"
+3. Add Attendance - "/adminattendance" "/supervisorattendance"
+4. Cash Labour Attendance - "/cashattendanceadmin" "/cashattendancesupervisor"
+5. Defaulter Attendance - "/attendancedefaulter"
+6. All Site - "/allsite"
+7. Generate Report - "/report"
+8. Cash Labour Report - "/cashlabourreport"
+9. Defaulter Report - "/report-defaulter"
+10. Site Report - "/reportsite"
+11. Extras Report - "/extrasreport"
+12. Daily attendance Supervisor - "/reportdailysupervisor"
+12. View Cash Labour Attendance - "/reportcashsupervisor"
+
+
+1. Home - "/"
+2. Add Expense - "/expenseformdirect" "/expense"
+3. Money Transfer - "/moneytransferdirect" "/transfer"
+4. Expenses Report - "/reportexpense"
+5. Recieved Report - "/reportrecieve"
+6. Sent Report - "/reportsent"
+7. Add Site Money - "/sitemoney"
+8. People Balances - "/allpeoplebalance"
+9. Report People - "/reportpeople"
+10. Site Expense Report - "/siteexpenses"
+11. Site Entries Report - "/sitewisereport"
+12. Vendor Transfer - "/vendortransfer"
+13. Vendor Expense - "/expenseformvendor"
+14. Profit/Loss - "/profitloss"
+15. Misc. Ratio - "/miscratio"
+
+["home","expense","expenseformdirect","reportexpense","moneytransferdirect","transfer","reportexpense","reportrecieve","reportsent","sitemoney","allpeoplebalance","reportpeople","siteexpenses","sitewisereport","vendortransfer","expenseformvendor","profitloss","miscratio"]
+["home","addworker","adminattendance","supervisorattendance","cashattendanceadmin","cashattendancesupervisor","attendancedefaulter","report","cashlabourreport","report-defaulter","reportsite","extrasreport","reportdailysupervisor","reportcashsupervisor"]

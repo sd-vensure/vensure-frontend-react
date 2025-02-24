@@ -15,6 +15,8 @@ const BudgetEdit = () => {
     const paf_selected = useSelector((state) => state.user.paf_selected);
     const currentuser = useSelector((state) => state.user.current_user);
 
+    const [extras, setextras] = useState([])
+
 
     const [data, setdata] = useState([])
     const [data1, setdata1] = useState([])
@@ -146,7 +148,7 @@ const BudgetEdit = () => {
         setfinaldata(result);
 
 
-    }, [data, departments])
+    }, [data, departments]);
 
     useEffect(() => {
 
@@ -208,7 +210,7 @@ const BudgetEdit = () => {
 
     const handleHeaderChange = (name, val, index) => {
         let tempdata = [...finaldata];
-        if (name == "costhead") {
+        if (name == "costhead" || name == "pafform_item_name") {
             val = val == "" ? "" : val;
         }
         else {
@@ -240,6 +242,29 @@ const BudgetEdit = () => {
         } catch (error) {
             toast.error(error.message)
         }
+
+    }
+
+    const addExtrasItems = () => {
+
+        let addobj = {
+            "q1": 0,
+            "q2": 0,
+            "q3": 0,
+            "q4": 0,
+            "department_name": currentuser?.department_name,
+            "department_id": currentuser?.department_id,
+            "paf_id": paf_selected?.paf_id,
+            "paf_unique": paf_selected?.paf_unique,
+            "item_type": "New",
+            "budget_status": "New",
+            "pafform_item_name": "",
+            "pafform_team": currentuser?.department_name,
+            "header_status": "Active",
+            "costhead": ""
+        }
+
+        setfinaldata([...finaldata, addobj])
 
     }
 
@@ -305,7 +330,9 @@ const BudgetEdit = () => {
                             finaldata.filter((ee) => ee.header_status == "Active").map((ele, index) => (
                                 <tr key={index}>
                                     <td>{index + 1}</td>
-                                    <td className='whitespace-wrap'>{ele.pafform_item_name}</td>
+                                    <td className='whitespace-wrap'>
+                                        <textarea disabled={ele.item_type !== "New"} value={ele.pafform_item_name} onChange={(e) => handleHeaderChange(e.target.name, e.target.value, index)} name="pafform_item_name" type="text" placeholder='Item Name' className="m-1 shadow appearance-none border h-9 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-base" />
+                                    </td>
                                     <td>{ele.pafform_team}</td>
                                     <td>
                                         <input disabled={ele.item_type !== "New"} value={ele.costhead} onChange={(e) => handleHeaderChange(e.target.name, e.target.value, index)} name="costhead" type="text" placeholder='Costhead' className="m-1 shadow appearance-none border h-9 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-base" />
@@ -342,6 +369,9 @@ const BudgetEdit = () => {
 
                 </table>
             </form>
+
+            <button onClick={() => addExtrasItems()} className='bg-blue-500 text-white px-3 py-1 rounded ml-2 m-2'>Add Extra</button>
+
         </div>
     )
 }

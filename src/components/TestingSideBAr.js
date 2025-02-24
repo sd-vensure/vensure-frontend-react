@@ -1,8 +1,23 @@
-import React from 'react'
+import { ChevronDown } from 'lucide-react';
+import React, { useState } from 'react'
+import { useEffect } from 'react';
 
 const TestingSideBAr = () => {
+
+    const [openIndex, setOpenIndex] = useState(null);
+
+    // Function to handle opening and closing of dropdowns
+    const toggleDropdown = (index, isOpen) => {
+        setOpenIndex(isOpen ? index : null); // Open the new one, close others
+    };
+
+    useEffect(() => {
+        console.log(openIndex, "this is openindex")
+    }, [openIndex])
+
+
     return (
-        <div className="max-h-screen bg-gray-800 text-white flex flex-col">
+        <div className="max-h-screen min-h-screen bg-gray-800 text-white flex flex-col">
             {/* Logo Section */}
             <div className="p-4 text-xl font-bold text-center">
                 <img src="your-logo-url" alt="Logo" className="w-12 mx-auto" />
@@ -11,65 +26,28 @@ const TestingSideBAr = () => {
 
             {/* Menu Buttons */}
             <div className="flex flex-col space-y-2 mt-6 px-4 overflow-y-auto overflow-scroll scrollbar-hide">
-                <button className="text-left text-white p-2 hover:bg-gray-700 rounded">Dashboard</button>
-                <button className="text-left text-white p-2 hover:bg-gray-700 rounded">Settings</button>
-                <button className="text-left text-white p-2 hover:bg-gray-700 rounded">Notifications</button>
-                <button className="text-left text-white p-2 hover:bg-gray-700 rounded">Messages</button>
-                <button className="text-left text-white p-2 hover:bg-gray-700 rounded">Messages</button>
-                <button className="text-left text-white p-2 hover:bg-gray-700 rounded">Messages</button>
-                <button className="text-left text-white p-2 hover:bg-gray-700 rounded">Messages</button>
-                <button className="text-left text-white p-2 hover:bg-gray-700 rounded">Messages</button>
-                <button className="text-left text-white p-2 hover:bg-gray-700 rounded">Messages</button>
-                <button className="text-left text-white p-2 hover:bg-gray-700 rounded">Messages</button>
-                <button className="text-left text-white p-2 hover:bg-gray-700 rounded">Messages</button>
-                <button className="text-left text-white p-2 hover:bg-gray-700 rounded">Messages</button>
-                <button className="text-left text-white p-2 hover:bg-gray-700 rounded">Messages</button>
-                <button className="text-left text-white p-2 hover:bg-gray-700 rounded">Messages</button>
-                <button className="text-left text-white p-2 hover:bg-gray-700 rounded">Messages</button>
-                <button className="text-left text-white p-2 hover:bg-gray-700 rounded">Messages</button>
-                <button className="text-left text-white p-2 hover:bg-gray-700 rounded">Messages</button>
-                <button className="text-left text-white p-2 hover:bg-gray-700 rounded">Messages</button>
-                <button className="text-left text-white p-2 hover:bg-gray-700 rounded">Messages</button>
-                <button className="text-left text-white p-2 hover:bg-gray-700 rounded">Messages</button>
-                <button className="text-left text-white p-2 hover:bg-gray-700 rounded">Messages</button>
-                <button className="text-left text-white p-2 hover:bg-gray-700 rounded">Messages</button>
-                <button className="text-left text-white p-2 hover:bg-gray-700 rounded">Messages</button>
-                <button className="text-left text-white p-2 hover:bg-gray-700 rounded">Messages</button>
-                <button className="text-left text-white p-2 hover:bg-gray-700 rounded">Messages</button>
-                <button className="text-left text-white p-2 hover:bg-gray-700 rounded">Messages</button>
-                <button className="text-left text-white p-2 hover:bg-gray-700 rounded">Messages</button>
-                <button className="text-left text-white p-2 hover:bg-gray-700 rounded">Messages</button>
-                <button className="text-left text-white p-2 hover:bg-gray-700 rounded">Messages</button>
-                <button className="text-left text-white p-2 hover:bg-gray-700 rounded">Messages1</button>
 
-                <li>
-                    <details className="group [&_summary::-webkit-details-marker]:hidden">
+
+
+                <li key={0} className='list-none'>
+                    <details
+                        className="group"
+                        open={openIndex === 0} // Open only if this dropdown is selected
+                        onToggle={(e) => toggleDropdown(0, e.target.open)} // Ensure only one stays open
+    
+                    >
                         <summary
-                            className="flex cursor-pointer items-center justify-between rounded-lg px-4 py-2 text-gray-500 hover:bg-gray-100 hover:text-gray-700"
+                            className="flex cursor-pointer items-center justify-between transition-all hover:pl-5 rounded-lg hover:bg-blue-500 hover:shadow-lg hover:shadow-blue-500/40 px-4 py-2 text-base font-medium text-white drop-shadow-sm"
                         >
-                            <span className="text-sm font-medium"> Teams </span>
-
-                            <span className="shrink-0 transition duration-300 group-open:-rotate-180">
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="size-5"
-                                    viewBox="0 0 20 20"
-                                    fill="currentColor"
-                                >
-                                    <path
-                                        fillRule="evenodd"
-                                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                        clipRule="evenodd"
-                                    />
-                                </svg>
-                            </span>
+                            <span>Teams</span>
+                            <ChevronDown className={`h-4 w-5 transition-transform ${openIndex === 0 ? '-rotate-180' : 'rotate-0'}`} />
                         </summary>
 
                         <ul className="mt-2 space-y-1 px-4">
                             <li>
                                 <a
                                     href="#"
-                                    className="block rounded-lg px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700"
+                                    className="transition-all hover:pl-5 block rounded-lg hover:bg-blue-500 hover:shadow-lg hover:shadow-blue-500/40 px-4 py-2 text-base font-medium text-white drop-shadow-sm"
                                 >
                                     Banned Users
                                 </a>
@@ -78,7 +56,43 @@ const TestingSideBAr = () => {
                             <li>
                                 <a
                                     href="#"
-                                    className="block rounded-lg px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700"
+                                    className="transition-all hover:pl-5 block rounded-lg hover:bg-blue-500 hover:shadow-lg hover:shadow-blue-500/40 px-4 py-2 text-base font-medium text-white drop-shadow-sm"
+                                >
+                                    Calendar
+                                </a>
+                            </li>
+                        </ul>
+                    </details>
+                </li>
+              
+                <li key={1} className='list-none'>
+                    <details
+                        className="group"
+                        open={openIndex === 1} // Open only if this dropdown is selected
+                        onToggle={(e) => toggleDropdown(1, e.target.open)} // Ensure only one stays open
+    
+                    >
+                        <summary
+                            className="flex cursor-pointer items-center justify-between transition-all hover:pl-5 rounded-lg hover:bg-blue-500 hover:shadow-lg hover:shadow-blue-500/40 px-4 py-2 text-base font-medium text-white drop-shadow-sm"
+                        >
+                            <span>Teams</span>
+                            <ChevronDown className={`h-4 w-5 transition-transform ${openIndex === 1 ? '-rotate-180' : 'rotate-0'}`} />
+                        </summary>
+
+                        <ul className="mt-2 space-y-1 px-4">
+                            <li>
+                                <a
+                                    href="#"
+                                    className="transition-all hover:pl-5 block rounded-lg hover:bg-blue-500 hover:shadow-lg hover:shadow-blue-500/40 px-4 py-2 text-base font-medium text-white drop-shadow-sm"
+                                >
+                                    Banned Users
+                                </a>
+                            </li>
+
+                            <li>
+                                <a
+                                    href="#"
+                                    className="transition-all hover:pl-5 block rounded-lg hover:bg-blue-500 hover:shadow-lg hover:shadow-blue-500/40 px-4 py-2 text-base font-medium text-white drop-shadow-sm"
                                 >
                                     Calendar
                                 </a>
@@ -87,79 +101,41 @@ const TestingSideBAr = () => {
                     </details>
                 </li>
 
-                <li>
-                    <a
-                        href="#"
-                        className="block rounded-lg px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700"
+                <li className='list-none'>
+                    <details
+                        className="group [&_summary::-webkit-details-marker]:hidden"
+                        open={openIndex === 1}
+                        onClick={() => toggleDropdown(1)}
                     >
-                        Billing
-                    </a>
-                </li>
-
-                <li>
-                    <a
-                        href="#"
-                        className="block rounded-lg px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700"
-                    >
-                        Invoices
-                    </a>
-                </li>
-
-                <li>
-                    <details className="group [&_summary::-webkit-details-marker]:hidden">
                         <summary
-                            className="flex cursor-pointer items-center justify-between rounded-lg px-4 py-2 text-gray-500 hover:bg-gray-100 hover:text-gray-700"
+                            className="flex cursor-pointer items-center justify-between transition-all hover:pl-5 rounded-lg hover:bg-blue-500 hover:shadow-lg hover:shadow-blue-500/40 px-4 py-2 text-base font-medium text-white drop-shadow-sm"
                         >
-                            <span className="text-sm font-medium"> Account </span>
-
-                            <span className="shrink-0 transition duration-300 group-open:-rotate-180">
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="size-5"
-                                    viewBox="0 0 20 20"
-                                    fill="currentColor"
-                                >
-                                    <path
-                                        fillRule="evenodd"
-                                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                        clipRule="evenodd"
-                                    />
-                                </svg>
-                            </span>
+                            <span>Other Dropdown</span>
+                            <ChevronDown className={`h-4 w-5 transition-transform ${openIndex === 1 ? '-rotate-180' : 'rotate-0'}`} />
                         </summary>
 
                         <ul className="mt-2 space-y-1 px-4">
                             <li>
                                 <a
                                     href="#"
-                                    className="block rounded-lg px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700"
+                                    className="transition-all hover:pl-5 block rounded-lg hover:bg-blue-500 hover:shadow-lg hover:shadow-blue-500/40 px-4 py-2 text-base font-medium text-white drop-shadow-sm"
                                 >
-                                    Details
+                                    Option 1
                                 </a>
                             </li>
 
                             <li>
                                 <a
                                     href="#"
-                                    className="block rounded-lg px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700"
+                                    className="transition-all hover:pl-5 block rounded-lg hover:bg-blue-500 hover:shadow-lg hover:shadow-blue-500/40 px-4 py-2 text-base font-medium text-white drop-shadow-sm"
                                 >
-                                    Security
+                                    Option 2
                                 </a>
-                            </li>
-
-                            <li>
-                                <form action="#">
-                                    <button
-                                        type="submit"
-                                        className="w-full rounded-lg px-4 py-2 [text-align:_inherit] text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700"
-                                    >
-                                        Logout
-                                    </button>
-                                </form>
                             </li>
                         </ul>
                     </details>
                 </li>
+
             </div>
 
             {/* User Information Section */}
