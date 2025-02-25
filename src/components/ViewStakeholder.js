@@ -38,15 +38,15 @@ const ViewStakeholder = () => {
     return (
         <>
 
-            <p className='text-cyan-900 text-2xl m-2'>All Stakeholders:</p>
+            <p className='text-cyan-900 font-semibold text-xl mt-4 m-2'>All Stakeholders:</p>
 
             <div className="overflow-x-auto border">
-                <table className="min-w-full text-center divide-y-2 divide-gray-200 bg-white text-sm">
-                    <thead className="text-center">
+                <table className="min-w-full text-center divide-y-2 divide-gray-200  text-sm">
+                    <thead className="text-center bg-blue-500">
                         <tr>
-                            <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">No.</th>
-                            <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Stakeholder Name</th>
-                            <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Designation</th>
+                            <th className="whitespace-nowrap px-4 py-2 font-medium text-white border">No.</th>
+                            <th className="whitespace-nowrap px-4 py-2 font-medium text-white border">Stakeholder Name</th>
+                            <th className="whitespace-nowrap px-4 py-2 font-medium text-white border">Designation</th>
                             
                         </tr>
                     </thead>
@@ -54,9 +54,9 @@ const ViewStakeholder = () => {
                     <tbody className="divide-y divide-gray-200">
                         {stakeholders.map((ele, index) => (
                             <tr key={index} className="odd:bg-gray-50">
-                                <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{index + 1}</td>
-                                <td className="whitespace-nowrap px-4 py-2 text-gray-700">{ele?.stakeholder_name}</td>
-                                <td className="whitespace-nowrap px-4 py-2 text-gray-700">{ele.stakeholder_designation}</td>
+                                <td className="border whitespace-nowrap px-4 py-2 font-medium text-gray-900">{index + 1}</td>
+                                <td className="border whitespace-nowrap px-4 py-2 text-gray-800">{ele?.stakeholder_name}</td>
+                                <td className="border whitespace-nowrap px-4 py-2 text-gray-800">{ele.stakeholder_designation}</td>
                                 
                             </tr>
                         ))}

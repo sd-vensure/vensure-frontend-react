@@ -5,7 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import api from '../axiosapi';
 
-const ViewFormComplete = () => {
+const ViewFormCompleteEdit = () => {
 
   const { paf_id } = useParams();
 
@@ -165,14 +165,15 @@ const ViewFormComplete = () => {
     let temparray = []
 
     finaldata.map((ele) => {
-      temparray.push({ "pafform_id": ele.pafform_id, "pafform_team": ele.pafform_team })
+      temparray.push({ "pafform_id": ele.pafform_id, "pafform_team": ele.pafform_team, "pafform_start": ele.pafform_start, "pafform_end": ele.pafform_end, "pafform_remarks": ele.pafform_remarks })
 
       if (ele.item && ele.item.length > 0) {
         ele.item.map((ele1) => {
-          temparray.push({ "pafform_id": ele1.pafform_id, "pafform_team": ele1.pafform_team })
+          temparray.push({ "pafform_id": ele1.pafform_id, "pafform_team": ele1.pafform_team, "pafform_start": ele1.pafform_start, "pafform_end": ele1.pafform_end, "pafform_remarks": ele1.pafform_remarks })
           if (ele1.subitems && ele1.subitems.length > 0) {
             ele1.subitems.map((ele2) => {
-              temparray.push({ "pafform_id": ele2.pafform_id, "pafform_team": ele2.pafform_team })
+              temparray.push({ "pafform_id": ele2.pafform_id, "pafform_team": ele2.pafform_team, "pafform_start": ele2.pafform_start, "pafform_end": ele2.pafform_end, "pafform_remarks": ele2.pafform_remarks })
+
             })
           }
         })
@@ -186,9 +187,9 @@ const ViewFormComplete = () => {
   const onSubmit = async () => {
 
     const converteddata = convertDataSending();
-
+    console.log(converteddata)
     try {
-      const updatedata = await api.put("form/update", { "data": converteddata })
+      const updatedata = await api.put("form/updatePAFComplete", { "data": converteddata })
 
       if (updatedata.status) {
         toast.success(updatedata.data.message)
@@ -211,15 +212,15 @@ const ViewFormComplete = () => {
       <table className="min-w-full text-center divide-y-2 divide-gray-200 bg-white text-sm">
         <thead className="text-center bg-blue-500">
           <tr>
-            <th className="whitespace-nowrap px-4 py-2 font-medium text-white border">No.</th>
-            <th className="whitespace-nowrap px-4 py-2 font-medium text-white border">Action</th>
-            <th className="whitespace-nowrap px-4 py-2 font-medium text-white border">Team</th>
+            <th className="whitespace-nowrap px-4 py-2 font-medium border text-white">No.</th>
+            <th className="whitespace-nowrap px-4 py-2 font-medium border text-white">Action</th>
+            <th className="whitespace-nowrap px-4 py-2 font-medium border text-white">Team</th>
             {/* <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Progress</th> */}
-            <th className="whitespace-nowrap px-4 py-2 font-medium text-white border">Target Date</th>
-            {/* <th className="whitespace-nowrap px-4 py-2 font-medium text-white border">Latest Target Date</th> */}
-            <th className="whitespace-nowrap px-4 py-2 font-medium text-white border">Start Date</th>
-            <th className="whitespace-nowrap px-4 py-2 font-medium text-white border">End Date</th>
-            <th className="whitespace-nowrap px-4 py-2 font-medium text-white border">Remarks</th>
+            <th className="whitespace-nowrap px-4 py-2 font-medium border text-white">Target Date</th>
+            {/* <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Latest Target Date</th> */}
+            <th className="whitespace-nowrap px-4 py-2 font-medium border text-white">Start Date</th>
+            <th className="whitespace-nowrap px-4 py-2 font-medium border text-white">End Date</th>
+            <th className="whitespace-nowrap px-4 py-2 font-medium border text-white">Remarks</th>
           </tr>
         </thead>
 
@@ -231,7 +232,7 @@ const ViewFormComplete = () => {
                 <tr key={index}>
                   <td className='border'>{index + 1}</td>
                   <td onClick={() => toggleHeader(index)} className='whitespace-wrap border'>{ele.pafform_item_name}</td>
-                  <td>
+                  <td className='border'>
                     {/* {ele.pafform_team} */}
                     <select
                       name="pafform_team"
@@ -265,9 +266,16 @@ const ViewFormComplete = () => {
                     </select>
                   </td> */}
                   <td className='border'>{moment(ele.pafform_target).format("DD-MMM-YYYY")}</td>
-                  <td className='border'>{moment(ele.pafform_start).format("DD-MMM-YYYY")}</td>
-                  <td className='border'>{moment(ele.pafform_end).format("DD-MMM-YYYY")}</td>
-                  <td className='border'>{ele.pafform_remarks}</td>
+                  <td className='border'>
+                    <input onChange={(e) => handleHeaderChange(e.target.name, e.target.value, "Header", index)} value={moment(ele.pafform_start).format("YYYY-MM-DD")} name="pafform_start" className='text-xs h-fit w-fit p-0 m-2' type="date" />
+                  </td>
+                  <td className='border'>
+                    <input onChange={(e) => handleHeaderChange(e.target.name, e.target.value, "Header", index)} value={moment(ele.pafform_end).format("YYYY-MM-DD")} name='pafform_end' className='text-xs h-fit w-fit p-0 m-2' type="date" />
+                  </td>
+
+                  <td className='border'>
+                    <textarea onChange={(e) => handleHeaderChange(e.target.name, e.target.value, "Header", index)} value={ele.pafform_remarks} name="pafform_remarks" placeholder='Remarks' className="m-1 shadow appearance-none border h-9 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-base" />
+                  </td>
                 </tr>
 
                 {
@@ -309,9 +317,16 @@ const ViewFormComplete = () => {
                           </select>
                         </td> */}
                         <td className='border'>{moment(ele1.pafform_target).format("DD-MMM-YYYY")}</td>
-                        <td className='border'>{moment(ele1.pafform_start).format("DD-MMM-YYYY")}</td>
-                        <td className='border'>{moment(ele1.pafform_end).format("DD-MMM-YYYY")}</td>
-                        <td className='border'>{ele1.pafform_remarks}</td>
+                        <td className='border'>
+                          <input onChange={(e) => handleItemChange(e.target.name, e.target.value, "Item", index, index1)} value={moment(ele1.pafform_start).format("YYYY-MM-DD")} name="pafform_start" className='text-xs h-fit w-fit p-0 m-2' type="date" />
+                        </td>
+                        <td className='border'>
+                          <input onChange={(e) => handleItemChange(e.target.name, e.target.value, "Item", index, index1)} value={moment(ele1.pafform_end).format("YYYY-MM-DD")} name='pafform_end' className='text-xs h-fit w-fit p-0 m-2' type="date" />
+                        </td>
+
+                        <td className='border'>
+                          <textarea onChange={(e) => handleItemChange(e.target.name, e.target.value, "Item", index, index1)} value={ele1.pafform_remarks} name="pafform_remarks" placeholder='Remarks' className="m-1 shadow appearance-none border h-9 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-base" />
+                        </td>
                       </tr>
 
                       {
@@ -319,7 +334,7 @@ const ViewFormComplete = () => {
                           <tr>
                             <td className='pl-14 border'>{index + 1}.{index1 + 1}.{index2 + 1}</td>
                             <td className='whitespace-wrap border'>{ele2.pafform_item_name}</td>
-                            <td>
+                            <td className='border'>
                               {/* {ele2.pafform_team} */}
                               <select
                                 name="pafform_team"
@@ -354,9 +369,19 @@ const ViewFormComplete = () => {
 
                             </td> */}
                             <td className='border'>{moment(ele2.pafform_target).format("DD-MMM-YYYY")}</td>
-                            <td className='border'>{moment(ele2.pafform_start).format("DD-MMM-YYYY")}</td>
-                            <td className='border'>{moment(ele2.pafform_end).format("DD-MMM-YYYY")}</td>
-                            <td className='border'>{ele2.pafform_remarks}</td>
+                            <td className='border'>
+                              <input onChange={(e) => handleSubItemChange(e.target.name, e.target.value, "Subitem", index, index1, index2)}
+                                value={moment(ele2.pafform_start).format("YYYY-MM-DD")} name="pafform_start" className='text-xs h-fit w-fit p-0 m-2' type="date" />
+                            </td>
+                            <td className='border'>
+                              <input onChange={(e) => handleSubItemChange(e.target.name, e.target.value, "Subitem", index, index1, index2)}
+                                value={moment(ele2.pafform_end).format("YYYY-MM-DD")} name='pafform_end' className='text-xs h-fit w-fit p-0 m-2' type="date" />
+                            </td>
+
+                            <td className='border'>
+                              <textarea onChange={(e) => handleSubItemChange(e.target.name, e.target.value, "Subitem", index, index1, index2)}
+                                value={ele2.pafform_remarks} name="pafform_remarks" placeholder='Remarks' className="m-1 shadow appearance-none border h-9 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-base" />
+                            </td>
                           </tr>
                         )
                       }
@@ -374,4 +399,4 @@ const ViewFormComplete = () => {
   )
 }
 
-export default ViewFormComplete
+export default ViewFormCompleteEdit

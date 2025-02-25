@@ -90,33 +90,33 @@ const ViewForm = () => {
   return (
     <div className="overflow-x-auto border">
       <table className="min-w-full text-center divide-y-2 divide-gray-200 bg-white text-sm">
-        <thead className="text-center">
+        <thead className="text-center bg-blue-500">
           <tr>
-            <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">No.</th>
-            <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Action</th>
-            <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Team</th>
-            <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Progress</th>
-            <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Target Date</th>
-            <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Start Date</th>
-            <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">End Date</th>
-            <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Remarks</th>
+            <th className="whitespace-nowrap px-4 py-2 font-medium text-white border">No.</th>
+            <th className="whitespace-nowrap px-4 py-2 font-medium text-white border">Action</th>
+            <th className="whitespace-nowrap px-4 py-2 font-medium text-white border">Team</th>
+            <th className="whitespace-nowrap px-4 py-2 font-medium text-white border">Progress</th>
+            <th className="whitespace-nowrap px-4 py-2 font-medium text-white border">Target Date</th>
+            <th className="whitespace-nowrap px-4 py-2 font-medium text-white border">Start Date</th>
+            <th className="whitespace-nowrap px-4 py-2 font-medium text-white border">End Date</th>
+            <th className="whitespace-nowrap px-4 py-2 font-medium text-white border">Remarks</th>
           </tr>
         </thead>
 
         <tbody className="divide-y divide-gray-200">
           {
-            finaldata.filter((ee)=>ee.header_status=="Active").map((ele, index) =>
+            finaldata.filter((ee) => ee.header_status == "Active").map((ele, index) =>
             (
               <>
-                <tr>
-                  <td>{index + 1}</td>
-                  <td>{ele.pafform_item_name}</td>
-                  <td>{ele.pafform_team}</td>
-                  <td>{ele.pafform_progress}</td>
-                  <td>{moment(ele.pafform_target).format("DD-MMM-YYYY")}</td>
-                  <td>{ele.pafform_start}</td>
-                  <td>{ele.pafform_end}</td>
-                  <td>{ele.pafform_remarks}</td>
+                <tr className=''>
+                  <td className='border'>{index + 1}</td>
+                  <td className='border'>{ele.pafform_item_name}</td>
+                  <td className='border'>{ele.pafform_team}</td>
+                  <td className='border'>{ele.pafform_progress}</td>
+                  <td className='border'>{moment(ele.pafform_target).format("DD-MMM-YYYY")}</td>
+                  <td className='border'>{ele.pafform_start ? moment(ele.pafform_start).format("DD-MMM-YYYY") : "-"}</td>
+                  <td className='border'>{ele.pafform_end ? moment(ele.pafform_end).format("DD-MMM-YYYY") : "-"}</td>
+                  <td className='border'>{ele.pafform_remarks}</td>
                 </tr>
 
                 {/* {

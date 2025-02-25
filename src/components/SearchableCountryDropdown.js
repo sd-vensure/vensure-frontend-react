@@ -43,7 +43,7 @@ const SearchableCountryDropdown = () => {
         <div ref={dropdownRef} className="h-auto relative my-2">
             <div 
                 onClick={() => { setOpen(!open); setInputValue(""); }}
-                className={`border border-slate-500 bg-white w-full p-1.5 flex items-center justify-between overflow-hidden
+                className={`border border-gray-500 rounded shadow bg-white w-full p-1.5 flex items-center justify-between overflow-hidden
                     }`}
             >
                 <div>

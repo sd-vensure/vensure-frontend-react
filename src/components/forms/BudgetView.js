@@ -132,7 +132,7 @@ const BudgetView = () => {
                         name="dropdown"
                         value={filter}
                         onChange={(e) => { e.preventDefault(); setfilter(e.target.value) }}
-                        className="border p-2 w-full my-2"
+                        className="border rounded border-black shadow p-2 w-full my-2"
                         required
                     >
                         <option>All</option>
@@ -141,18 +141,18 @@ const BudgetView = () => {
                     </select>
                     {/* <button onClick={onSubmit} className='bg-blue-500 text-white px-3 py-1 rounded ml-2 m-2'>Update</button> */}
                     <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
-                        <thead className="text-center">
+                        <thead className="text-center bg-blue-500">
                             <tr>
-                                <th className="whitespace-nowrap py-2 font-medium text-gray-900">No.</th>
-                                <th className="whitespace-nowrap py-2 font-medium text-gray-900">Department Name</th>
-                                <th className="whitespace-nowrap py-2 font-medium text-gray-900">Costhead</th>
-                                <th className="whitespace-nowrap py-2 font-medium text-gray-900">Created By</th>
-                                <th className="whitespace-nowrap py-2 font-medium text-gray-900">Q1</th>
-                                <th className="whitespace-nowrap py-2 font-medium text-gray-900">Q2</th>
-                                <th className="whitespace-nowrap py-2 font-medium text-gray-900">Q3</th>
-                                <th className="whitespace-nowrap py-2 font-medium text-gray-900">Q4</th>
-                                <th className="whitespace-nowrap py-2 font-medium text-gray-900">Total</th>
-                                <th className="whitespace-nowrap py-2 font-medium text-gray-900">Status</th>
+                                <th className="whitespace-nowrap py-2 font-medium text-white border">No.</th>
+                                <th className="whitespace-nowrap py-2 font-medium text-white border">Department Name</th>
+                                <th className="whitespace-nowrap py-2 font-medium text-white border">Costhead</th>
+                                <th className="whitespace-nowrap py-2 font-medium text-white border">Created By</th>
+                                <th className="whitespace-nowrap py-2 font-medium text-white border">Q1</th>
+                                <th className="whitespace-nowrap py-2 font-medium text-white border">Q2</th>
+                                <th className="whitespace-nowrap py-2 font-medium text-white border">Q3</th>
+                                <th className="whitespace-nowrap py-2 font-medium text-white border">Q4</th>
+                                <th className="whitespace-nowrap py-2 font-medium text-white border">Total</th>
+                                <th className="whitespace-nowrap py-2 font-medium text-white border">Status</th>
                                 {/* <th className="whitespace-nowrap py-2 font-medium text-gray-900">Approve/Reject</th> */}
                             </tr>
                         </thead>
@@ -163,16 +163,16 @@ const BudgetView = () => {
                                 (
                                     <>
                                         <tr key={index} className=' text-center'>
-                                            <td>{index + 1}</td>
-                                            <td>{ele.department_name}</td>
-                                            <td className='whitespace-wrap'>{ele.costhead ||"-"}</td>
-                                            <td>{ele.budget_updated_by}</td>
-                                            <td>{ele.q1}</td>
-                                            <td>{ele.q2}</td>
-                                            <td>{ele.q3}</td>
-                                            <td>{ele.q4}</td>
-                                            <td>{ele.qtotal}</td>
-                                            <td>
+                                            <td className='border'>{index + 1}</td>
+                                            <td className='border'>{ele.department_name}</td>
+                                            <td className='border whitespace-wrap'>{ele.costhead ||"-"}</td>
+                                            <td className='border'>{ele.budget_updated_by}</td>
+                                            <td className='border'>{ele.q1}</td>
+                                            <td className='border'>{ele.q2}</td>
+                                            <td className='border'>{ele.q3}</td>
+                                            <td className='border'>{ele.q4}</td>
+                                            <td className='border'>{ele.qtotal}</td>
+                                            <td className='border'>
                                                 {ele.budget_status == "Approved" && <span className='text-green-600'>Approved</span>}
                                                 {ele.budget_status == "Rejected" && <span className='text-red-600'>Rejected</span>}
                                                 {ele.budget_status == "Pending" && <span className='text-blue-600'>In Process</span>}

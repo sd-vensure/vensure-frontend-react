@@ -35,7 +35,7 @@ const SearchableStakeholderDropdown = ({ stakeholders, selectedstakeholders, set
         <div ref={dropdownRef} className="h-auto relative my-2">
             <div
                  onClick={()=>{setOpen(!open);setInputValue("");}}
-                className={`border bg-white w-full p-2 flex items-center justify-between rounded overflow-hidden
+                className={`border bg-white border-gray-500 shadow w-full p-2 flex items-center justify-between rounded overflow-hidden
                     }`}
             >
                 <div>
@@ -59,7 +59,7 @@ const SearchableStakeholderDropdown = ({ stakeholders, selectedstakeholders, set
 
 
             <ul 
-                className={`border z-50 bg-white mt-1 w-full whitespace-break-spaces overflow-y-auto ${open ? "absolute max-h-60" : " absolute max-h-0"
+                className={`border z-50 bg-white mt-1 w-full whitespace-break-spaces scroll-smooth overflow-y-auto ${open ? "absolute max-h-60" : " absolute max-h-0"
                     } `}
             >
                 <div className="border rounded-sm flex items-center px-2 sticky top-0 bg-white">

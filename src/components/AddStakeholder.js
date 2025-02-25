@@ -34,7 +34,7 @@ const AddStakeholder = () => {
 
     return (
         <div className='p-2'>
-            <p className='text-cyan-900 text-xl text-center m-2'>Add Stakeholder:</p>
+            <p className='text-cyan-800 font-semibold text-xl text-center m-2'>Add Stakeholder:</p>
 
             <form onSubmit={handleSubmit} className="p-4 border rounded-md max-w-md mx-auto">
 

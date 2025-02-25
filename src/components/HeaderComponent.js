@@ -32,7 +32,7 @@ export default function HeaderComponent({ tabs, settabs, setselectedoption, sele
     return (
         <div className="relative border-gray-200 pb-5 mb-1 sm:pb-0">
             <div className="md:flex md:items-center md:justify-between">
-                <h3 className="text-xl font-semibold leading-6 text-cyan-800">{headertext}</h3>
+                <h3 className="text-xl font-semibold leading-6 text-cyan-800 underline underline-offset-4">{headertext}</h3>
                
             </div>
             <div className="mt-5">
@@ -56,7 +56,7 @@ export default function HeaderComponent({ tabs, settabs, setselectedoption, sele
                         }
                     </select>
                 </div>
-                <div className="hidden sm:block">
+                <div className="hidden sm:block border-b-2">
                     <nav className="-mb-px flex space-x-6">
                         {tabs.map((tab) => (
                             <p
@@ -65,9 +65,9 @@ export default function HeaderComponent({ tabs, settabs, setselectedoption, sele
                                 onClick={(e) => { e.preventDefault(); handlechange(tab.name) }}
                                 className={classNames(
                                     tab.current
-                                        ? 'border-indigo-500 text-indigo-600'
-                                        : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700',
-                                    'whitespace-nowrap border-b-2 px-1 pb-2 text-sm font-medium cursor-pointer',
+                                        ? 'text-white bg-blue-500  rounded-tl-sm rounded-tr-sm '
+                                        : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-white rounded-tl-md rounded-tr-md',
+                                    'whitespace-nowrap px-2 py-2 text-sm font-medium cursor-pointer hover:bg-blue-500 rounded-tl-md rounded-tr-md',
                                 )}
                             >
                                 {tab.name}

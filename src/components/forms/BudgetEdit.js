@@ -272,23 +272,23 @@ const BudgetEdit = () => {
         <div className="overflow-x-auto ">
             <form>
                 <button onClick={onSubmit} className='bg-blue-500 text-white px-3 py-1 rounded ml-2 m-2'>Update</button>
-                <table className="min-w-full text-center divide-y-2 divide-gray-200 bg-white text-sm">
-                    <thead className="text-center">
+                <table className="min-w-full text-center divide-y-2  divide-gray-200  text-sm">
+                    <thead className="text-center bg-blue-500">
                         <tr>
-                            <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">No.</th>
-                            <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Action</th>
-                            <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Team</th>
-                            <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Costhead</th>
+                            <th className="border whitespace-nowrap px-4 py-2 font-medium text-white">No.</th>
+                            <th className="border whitespace-nowrap px-4 py-2 font-medium text-white">Action</th>
+                            <th className="border whitespace-nowrap px-4 py-2 font-medium text-white">Team</th>
+                            <th className="border whitespace-nowrap px-4 py-2 font-medium text-white">Costhead</th>
                             {/* <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Target Date</th> */}
-                            <th className="whitespace-nowrap py-2 font-medium text-gray-900">Q1</th>
-                            <th className="whitespace-nowrap py-2 font-medium text-gray-900">Q2</th>
-                            <th className="whitespace-nowrap py-2 font-medium text-gray-900">Q3</th>
-                            <th className="whitespace-nowrap py-2 font-medium text-gray-900">Q4</th>
-                            <th className="whitespace-nowrap py-2 font-medium text-gray-900">Status</th>
+                            <th className="border whitespace-nowrap py-2 font-medium text-white">Q1</th>
+                            <th className="border whitespace-nowrap py-2 font-medium text-white">Q2</th>
+                            <th className="border whitespace-nowrap py-2 font-medium text-white">Q3</th>
+                            <th className="border whitespace-nowrap py-2 font-medium text-white">Q4</th>
+                            <th className="border whitespace-nowrap py-2 font-medium text-white">Status</th>
                         </tr>
                     </thead>
 
-                    <tbody className="divide-y divide-gray-200">
+                    <tbody className="divide-y  divide-gray-200">
                         {/* {
                             finaldata.filter((ee) => ee.header_status == "Active").map((ele, index) =>
                             (
@@ -329,27 +329,27 @@ const BudgetEdit = () => {
                         {finaldata.filter((ee) => ee.header_status == "Active").length > 0 ? (
                             finaldata.filter((ee) => ee.header_status == "Active").map((ele, index) => (
                                 <tr key={index}>
-                                    <td>{index + 1}</td>
-                                    <td className='whitespace-wrap'>
+                                    <td className='border'>{index + 1}</td>
+                                    <td className='border whitespace-wrap'>
                                         <textarea disabled={ele.item_type !== "New"} value={ele.pafform_item_name} onChange={(e) => handleHeaderChange(e.target.name, e.target.value, index)} name="pafform_item_name" type="text" placeholder='Item Name' className="m-1 shadow appearance-none border h-9 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-base" />
                                     </td>
-                                    <td>{ele.pafform_team}</td>
-                                    <td>
+                                    <td className='border '>{ele.pafform_team}</td>
+                                    <td className='border '>
                                         <input disabled={ele.item_type !== "New"} value={ele.costhead} onChange={(e) => handleHeaderChange(e.target.name, e.target.value, index)} name="costhead" type="text" placeholder='Costhead' className="m-1 shadow appearance-none border h-9 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-base" />
                                     </td>
-                                    <td>
+                                    <td className='border '>
                                         <input disabled={ele.item_type !== "New"} value={ele.q1} onChange={(e) => handleHeaderChange(e.target.name, e.target.value, index)} className='w-32 h-9 text-center' name="q1" type="text" pattern="\d*" required placeholder='Q1' />
                                     </td>
-                                    <td>
+                                    <td className='border '>
                                         <input disabled={ele.item_type !== "New"} value={ele.q2} onChange={(e) => handleHeaderChange(e.target.name, e.target.value, index)} className='w-32 h-9 text-center' name="q2" type="text" pattern="\d*" required placeholder='Q2' />
                                     </td>
-                                    <td>
+                                    <td className='border '>
                                         <input disabled={ele.item_type !== "New"} value={ele.q3} onChange={(e) => handleHeaderChange(e.target.name, e.target.value, index)} className='w-32 h-9 text-center' name="q3" type="text" pattern="\d*" required placeholder='Q3' />
                                     </td>
-                                    <td>
+                                    <td className='border '>
                                         <input disabled={ele.item_type !== "New"} value={ele.q4} onChange={(e) => handleHeaderChange(e.target.name, e.target.value, index)} className='w-32 h-9 text-center' name="q4" type="text" pattern="\d*" required placeholder='Q4' />
                                     </td>
-                                    <td className='whitespace-wrap'>
+                                    <td className='whitespace-wrap border'>
                                         {ele.budget_status == "Approved" ? <span className='text-green-500'>Approved</span> :
                                             ele.budget_status == "Rejected" ? <span className='text-red-500'>Rejected</span> :
                                                 ele.budget_status == "Pending" ? <span className='text-blue-500'>Processing</span> :

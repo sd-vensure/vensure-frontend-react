@@ -218,56 +218,56 @@ const AddPafNew = () => {
 
             <form onSubmit={handleSubmit} className="rounded-md w-full mx-auto">
                 <div>
-                    <p className='text-cyan-900 text-xl my-2'>Drug Details:</p>
+                    <p className='text-cyan-900 font-semibold text-xl my-2'>Drug Details:</p>
 
                     <div className='grid grid-cols-3 gap-x-4 gap-y-0'>
 
                         <div>
-                            <label className='text-sm my-1 text-cyan-800'>Drug Name:</label>
+                            <label className='text-sm font-semibold my-1 text-cyan-800'>Drug Name:</label>
                             <input
                                 type="text"
                                 name="drug_name"
                                 value={drugdata.drug_name}
                                 onChange={handleChangeDrug}
                                 placeholder="Drug Name"
-                                className="border p-2 w-full my-2"
+                                className="border bg-white border-gray-500 shadow rounded p-2 w-full my-2"
                                 required
                             />
                         </div>
 
                         <div>
-                            <label className='text-sm text-cyan-800 my-1'>API Details:</label>
+                            <label className='text-sm font-semibold text-cyan-800 my-1'>API Details:</label>
                             <input
                                 type="text"
                                 name="drug_api"
                                 value={drugdata.drug_api}
                                 onChange={handleChangeDrug}
                                 placeholder="API"
-                                className="border p-2 w-full my-2"
+                                className="border border-gray-500 shadow rounded p-2 w-full my-2"
                                 required
                             />
                         </div>
 
                         <div>
-                            <label className='text-sm text-cyan-800 my-1'>Innovator:</label>
+                            <label className='text-sm font-semibold text-cyan-800 my-1'>Innovator:</label>
                             <input
                                 type="text"
                                 name="drug_innovator"
                                 value={drugdata.drug_innovator}
                                 onChange={handleChangeDrug}
                                 placeholder="Innovator"
-                                className="border p-2 w-full my-2"
+                                className="border border-gray-500 shadow rounded p-2 w-full my-2"
                                 required
                             />
                         </div>
 
                         <div>
-                            <label className='text-sm text-cyan-800 my-1'>Product Type:</label>
+                            <label className='text-sm font-semibold text-cyan-800 my-1'>Product Type:</label>
                             <select
                                 name="master_type_id"
                                 value={drugdata.master_type_id}
                                 onChange={handleChangeDrug}
-                                className="border p-2 w-full my-2"
+                                className="border border-gray-500 rounded shadow p-2 w-full my-2"
                                 required
                             >
                                 <option value="">Select</option>
@@ -294,15 +294,15 @@ const AddPafNew = () => {
                         </div> */}
 
                         <div className=' leading-relaxed w-full'>
-                            <span className='text-cyan-800 text-sm my-1'>Compositions:</span>
+                            <span className='text-cyan-800 font-semibold text-sm my-1'>Compositions:</span>
                             <div className='flex justify-center items-center'>
-                                <input value={compositiontext} onChange={(e) => { setcompositiontext(e.target.value) }} type='text' placeholder='Add Composition' className='w-full outline-none p-2 border my-2 focus:border-blue-800' />
-                                <button onClick={addComposition} className='bg-blue-500 text-white py-2 px-3 h-full rounded ml-2'>Add</button>
+                                <input value={compositiontext} onChange={(e) => { setcompositiontext(e.target.value) }} type='text' placeholder='Add Composition' className='w-full rounded border-gray-500 shadow outline-none p-2 border my-2 focus:border-blue-800' />
+                                <button onClick={addComposition} className='bg-blue-700 hover:bg-blue-600 text-white py-2 px-3 h-full rounded ml-2'>Add</button>
                             </div>
                         </div>
 
-                        <div className=' leading-relaxed w-full'>
-                            <span className='text-cyan-800 text-sm my-1'>Compositions Created:</span>
+                        <div className='leading-relaxed w-full'>
+                            <span className='text-cyan-800 font-semibold text-sm my-1'>Compositions Created:</span>
                             <ul className='mt-2'>
                                 {compositioncreated.map((ele, index) => (
                                     <li key={index} className='text-sm my-2 py-2 px-2 border text-gray-700 flex justify-between items-center'>
@@ -316,26 +316,26 @@ const AddPafNew = () => {
 
                     </div>
 
-                    <p className='text-cyan-900 text-xl my-2'>PAF Details:</p>
+                    <p className='text-cyan-900 font-semibold text-xl my-2'>PAF Details:</p>
 
 
                     <div className='grid grid-cols-2 gap-x-4 gap-y-0'>
 
                         <div>
-                            <label className='text-sm my-1 text-cyan-800'>Client Information:</label>
+                            <label className='text-sm my-1 text-cyan-800 font-semibold'>Client Information:</label>
                             <input
                                 type="text"
                                 name="client_name"
                                 value={drugdata.client_name}
                                 onChange={handleChangeDrug}
                                 placeholder="Client Information"
-                                className="border p-2 w-full my-2"
+                                className="border border-gray-500 rounded shadow p-2 w-full my-2"
                                 required
                             />
                         </div>
 
                         <div>
-                            <label className='text-sm text-cyan-800 my-1'>Driving Market:</label>
+                            <label className='text-sm text-cyan-800 font-semibold my-1'>Driving Market:</label>
                             <SearchableCountryDropdown />
                         </div>
                     </div>
@@ -343,41 +343,41 @@ const AddPafNew = () => {
                     <div className='grid grid-cols-3 gap-x-4 gap-y-0'>
 
                         <div>
-                            <label className='text-sm my-1 text-cyan-800'>Brief Scope:</label>
+                            <label className='text-sm my-1 text-cyan-800 font-semibold'>Brief Scope:</label>
                             <input
                                 type="text"
                                 name="brief_scope"
                                 value={drugdata.brief_scope}
                                 onChange={handleChangeDrug}
                                 placeholder="Scope"
-                                className="border p-2 w-full my-2"
+                                className="border border-gray-500 rounded shadow p-2 w-full my-2"
                                 required
                             />
                         </div>
 
                         <div>
-                            <label className='text-sm my-1 text-cyan-800'>API Sources:</label>
+                            <label className='text-sm my-1 text-cyan-800 font-semibold'>API Sources:</label>
                             <input
                                 type="text"
                                 name="api_sources"
                                 value={drugdata.api_sources}
                                 onChange={handleChangeDrug}
                                 placeholder="Sources"
-                                className="border p-2 w-full my-2"
+                                className="border border-gray-500 rounded shadow p-2 w-full my-2"
                                 required
                             />
                         </div>
 
 
                         <div>
-                            <label className='text-sm my-1 text-cyan-800'>SKU:</label>
+                            <label className='text-sm my-1 text-cyan-800 font-semibold'>SKU:</label>
                             <input
                                 type="text"
                                 name="sku"
                                 value={drugdata.sku}
                                 onChange={handleChangeDrug}
                                 placeholder="SKU"
-                                className="border p-2 w-full my-2"
+                                className="border border-gray-500 rounded shadow p-2 w-full my-2"
                                 required
                             />
                         </div>
@@ -386,7 +386,7 @@ const AddPafNew = () => {
 
                     <div className='grid grid-cols-3 gap-x-4'>
                         <div>
-                            <label className='text-sm my-1 text-cyan-800'>Import License API:</label>
+                            <label className='text-sm my-1 text-cyan-800 font-semibold'>Import License API:</label>
                             <div className="flex space-x-4 my-2">
                                 {['Yes', 'No', 'Not Applicable'].map((option) => (
                                     <label key={option}>
@@ -396,7 +396,7 @@ const AddPafNew = () => {
                                             value={option}
                                             checked={drugdata.import_license_api === option}
                                             onChange={() => { setdrugdata({ ...drugdata, "import_license_api": option }); }}
-                                            className="mr-2"
+                                            className="mr-2 shadow"
                                         />
                                         {option}
                                     </label>
@@ -405,7 +405,7 @@ const AddPafNew = () => {
                         </div>
 
                         <div>
-                            <label className='text-sm my-1 text-cyan-800'>Import License RLD:</label>
+                            <label className='text-sm my-1 text-cyan-800 font-semibold'>Import License RLD:</label>
                             <div className="flex space-x-4 my-2">
                                 {['Yes', 'No', 'Not Applicable'].map((option) => (
                                     <label key={option}>
@@ -415,7 +415,7 @@ const AddPafNew = () => {
                                             value={option}
                                             checked={drugdata.import_license_rld === option}
                                             onChange={() => { setdrugdata({ ...drugdata, "import_license_rld": option }); }}
-                                            className="mr-2"
+                                            className="mr-2 shadow"
                                         />
                                         {option}
                                     </label>
@@ -425,7 +425,7 @@ const AddPafNew = () => {
                     </div>
 
                     <div className='col-span-4'>
-                        <label className='text-sm text-cyan-800 my-1'>Stakeholders:</label>
+                        <label className='text-sm text-cyan-800 my-1 font-semibold'>Stakeholders:</label>
                         <SearchableStakeholderDropdown stakeholders={stakeholders} selectedstakeholders={selectedstakeholders} setselectedstakeholders={setselectedstakeholders} />
                     </div>
 
@@ -501,7 +501,7 @@ const AddPafNew = () => {
 
 
 
-                <button type="submit" className="bg-blue-700 text-white p-2 rounded w-full">
+                <button type="submit" className="bg-blue-700 hover:bg-blue-600 text-white p-2 rounded w-full">
                     Submit
                 </button>
             </form>

@@ -111,10 +111,9 @@ const ViewPaf = () => {
             <div className='flex items-center'>
                 <p className='text-cyan-900 text-base m-2'>Filter:</p>
                 <select
-
                     value={filterby}
                     onChange={(e) => { setfilterby(e.target.value) }}
-                    className="border p-2 w-fit my-2"
+                    className="border border-black rounded shadow-md px-2 py-1 w-fit my-2"
                     required
                 >
                     <option>All</option>
@@ -125,14 +124,14 @@ const ViewPaf = () => {
 
             <div className="overflow-x-auto border">
                 <table className="min-w-full text-center divide-y-2 divide-gray-200 bg-white text-sm">
-                    <thead className="text-center">
-                        <tr>
-                            <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">No.</th>
-                            <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">PAF ID</th>
+                    <thead className="text-center bg-blue-500 text-white">
+                        <tr className=''>
+                            <th className="border whitespace-nowrap px-4 py-2 font-medium text-white">No.</th>
+                            <th className="border whitespace-nowrap px-4 py-2 font-medium text-white">PAF ID</th>
                             {/* <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Drug API</th> */}
-                            <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Drug Name</th>
+                            <th className="border whitespace-nowrap px-4 py-2 font-medium text-white">Drug Name</th>
                             {/* <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Innovator</th> */}
-                            <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Client</th>
+                            <th className="border whitespace-nowrap px-4 py-2 font-medium text-white">Client</th>
                             {/* <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">PAF Date</th> */}
                             {/* <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Brief Scope</th> */}
                             {/* <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">API Sources</th> */}
@@ -144,11 +143,11 @@ const ViewPaf = () => {
                             {/* <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Stakeholders</th> */}
                             {/* <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Created By</th> */}
                             {/* <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Created At</th> */}
-                            <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Status</th>
-                            <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Approved/Rejected</th>
-                            <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Assign Department</th>
-                            <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Budget</th>
-                            <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">View</th>
+                            <th className="border whitespace-nowrap px-4 py-2 font-medium text-white">Status</th>
+                            <th className="border whitespace-nowrap px-4 py-2 font-medium text-white">Approved/Rejected</th>
+                            <th className="border whitespace-nowrap px-4 py-2 font-medium text-white">Assign Department</th>
+                            <th className="border whitespace-nowrap px-4 py-2 font-medium text-white">Budget</th>
+                            <th className="border whitespace-nowrap px-4 py-2 font-medium text-white">View</th>
                             {/* <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Approved At</th> */}
                             {/* <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Assign</th>
                             <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Budget</th> */}
@@ -160,18 +159,18 @@ const ViewPaf = () => {
                             .filter((ele) => filterby == "All" ? ele : ele.paf_approved_by == null)
                             .map((ele, index) => (
                                 <tr key={index} className="odd:bg-gray-50">
-                                    <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{index + 1}</td>
+                                    <td className="border whitespace-nowrap px-4 py-2 font-medium text-gray-900">{index + 1}</td>
                                     <td
                                         onClick={() => ele.paf_approved_status === "Accepted" && handlePageChange(ele)}
-                                        className="whitespace-nowrap px-4 py-2 text-gray-700 underline hover:cursor-pointer"
+                                        className="border whitespace-nowrap px-4 py-2 text-gray-700 underline hover:cursor-pointer"
                                     >
                                         {ele?.paf_unique}
                                     </td>
 
                                     {/* <td className="whitespace-nowrap px-4 py-2 text-gray-700">{ele.drug_api}</td> */}
-                                    <td className="whitespace-nowrap px-4 py-2 text-gray-700">{ele.drug_name}</td>
+                                    <td className="border whitespace-nowrap px-4 py-2 text-gray-700">{ele.drug_name}</td>
                                     {/* <td className="whitespace-nowrap px-4 py-2 text-gray-700">{ele.drug_innovator}</td> */}
-                                    <td className="whitespace-nowrap px-4 py-2 text-gray-700">{ele.client_name}</td>
+                                    <td className="border whitespace-nowrap px-4 py-2 text-gray-700">{ele.client_name}</td>
                                     {/* <td className="whitespace-nowrap px-4 py-2 text-gray-700">{moment(ele.paf_created_on).format("DD MMM YYYY")}</td> */}
                                     {/* <td className="whitespace-nowrap px-4 py-2 text-gray-700">{ele.brief_scope}</td> */}
                                     {/* <td className="whitespace-nowrap px-4 py-2 text-gray-700">{ele.api_sources}</td> */}
@@ -196,14 +195,14 @@ const ViewPaf = () => {
                                         </ul>
                                     </td> */}
                                     {/* <td className="whitespace-nowrap px-4 py-2 text-gray-700">{ele.paf_created_by || "-"}</td> */}
-                                    <td className="whitespace-nowrap px-4 py-2">
+                                    <td className="border whitespace-nowrap px-4 py-2">
                                         {ele.paf_approved_status == "Pending" && <span className='text-red-600'>Pending</span>}
                                         {ele.paf_approved_status == "Accepted" && <span className='text-green-600'>Accepted</span>}
                                         {ele.paf_approved_status == "Rejected" && <span className='text-red-600'>Rejected</span>}</td>
 
                                     {/* <td className="whitespace-nowrap px-4 py-2 text-gray-700">{ele.paf_created_at ? moment(ele.paf_created_at).format("DD-MMM-YYYY") : "-"}</td> */}
 
-                                    <td className="whitespace-nowrap px-4 py-2 text-gray-700">
+                                    <td className="border whitespace-nowrap px-4 py-2 text-gray-700">
                                         {
                                             ele.paf_approved_by
                                                 ? ele.paf_approved_by
@@ -218,7 +217,7 @@ const ViewPaf = () => {
 
                                     {/* <td className="whitespace-nowrap px-4 py-2 text-gray-700">{ele.paf_approved_at ? moment(ele.paf_approved_at).format("DD-MMM-YYYY") : "Approval Pending"}</td> */}
 
-                                    <td className='whitespace-nowrap px-4 py-2 text-gray-700'>
+                                    <td className='border whitespace-nowrap px-4 py-2 text-gray-700'>
                                         {
                                             ele.paf_approved_by && ele.paf_approved_status == "Accepted"
                                                 ? ele.assign_departments == "Y"
@@ -228,7 +227,7 @@ const ViewPaf = () => {
                                         }
                                     </td>
 
-                                    <td className='whitespace-nowrap px-4 py-2 text-gray-700'>
+                                    <td className='border whitespace-nowrap px-4 py-2 text-gray-700'>
                                         {
                                             ele.assign_departments == "N"
                                                 ? "-"
@@ -239,7 +238,7 @@ const ViewPaf = () => {
                                         }
                                     </td>
 
-                                    <td className="whitespace-nowrap px-4 py-2 text-gray-700">
+                                    <td className="border whitespace-nowrap px-4 py-2 text-gray-700">
                                         <span onClick={() => { openPAFInformation(ele) }} className='underline cursor-pointer'>View</span>
                                     </td>
 

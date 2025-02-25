@@ -15,6 +15,7 @@ import ViewFormComplete from './ViewFormComplete';
 import BudgetEdit from './BudgetEdit';
 import BudgetApprove from './BudgetApprove';
 import BudgetView from './BudgetView';
+import ViewFormCompleteEdit from './ViewFormCompleteEdit';
 
 const Form = () => {
 
@@ -33,7 +34,7 @@ const Form = () => {
         { name: 'Budget Edit', number: '3', current: false },
         { name: 'Budget View', number: '4', current: false },
         { name: 'Budget Approve', number: '5', current: false },
-        // { name: 'View Form Complete', number: '6', current: false },
+        { name: 'View Form Complete', number: '6', current: false },
     ]);
 
     const fetchPAFDetails = async () => {
@@ -89,7 +90,7 @@ const Form = () => {
 
             {
                 selectedoption == "6"
-                    ? <EditForm />
+                    ? <ViewFormCompleteEdit />
                     : <></>
             }
 
