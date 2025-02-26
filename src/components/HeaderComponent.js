@@ -65,7 +65,7 @@ export default function HeaderComponent({ tabs, settabs, setselectedoption, sele
                                 onClick={(e) => { e.preventDefault(); handlechange(tab.name) }}
                                 className={classNames(
                                     tab.current
-                                        ? 'text-white bg-blue-500  rounded-tl-sm rounded-tr-sm '
+                                        ? 'text-white bg-blue-500  rounded-tl-md rounded-tr-md '
                                         : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-white rounded-tl-md rounded-tr-md',
                                     'whitespace-nowrap px-2 py-2 text-sm font-medium cursor-pointer hover:bg-blue-500 rounded-tl-md rounded-tr-md',
                                 )}

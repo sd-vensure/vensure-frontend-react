@@ -168,9 +168,9 @@ const ViewPaf = () => {
                                     </td>
 
                                     {/* <td className="whitespace-nowrap px-4 py-2 text-gray-700">{ele.drug_api}</td> */}
-                                    <td className="border whitespace-nowrap px-4 py-2 text-gray-700">{ele.drug_name}</td>
+                                    <td className="border whitespace-wrap px-4 py-2 text-gray-700">{ele.drug_name}</td>
                                     {/* <td className="whitespace-nowrap px-4 py-2 text-gray-700">{ele.drug_innovator}</td> */}
-                                    <td className="border whitespace-nowrap px-4 py-2 text-gray-700">{ele.client_name}</td>
+                                    <td className="border whitespace-wrap px-4 py-2 text-gray-700">{ele.client_name}</td>
                                     {/* <td className="whitespace-nowrap px-4 py-2 text-gray-700">{moment(ele.paf_created_on).format("DD MMM YYYY")}</td> */}
                                     {/* <td className="whitespace-nowrap px-4 py-2 text-gray-700">{ele.brief_scope}</td> */}
                                     {/* <td className="whitespace-nowrap px-4 py-2 text-gray-700">{ele.api_sources}</td> */}

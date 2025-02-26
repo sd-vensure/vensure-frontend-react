@@ -52,7 +52,7 @@ const AddPafNew = () => {
                 let foundobj = masterTypes.find((ele) => ele.master_type_id == value)
                 let data = foundobj.items;
                 setmasterTypeList(data.map((ele) => {
-                    return { ...ele, "status_selected": "Active", "timeline_selected": "", "target_date_selected": "", "department": "", "department_id": null }
+                    return { ...ele, "status_selected": "Active", "timeline_selected": "", "target_date_selected": "", "department": "", "department_id": null, "milestone": "Inactive" }
                 }))
 
             }
@@ -97,6 +97,13 @@ const AddPafNew = () => {
         // Toggle the status_selected value when checkbox is clicked
         const updatedArray = [...masterTypeList];
         updatedArray[index].status_selected = updatedArray[index].status_selected === "Active" ? "Inactive" : "Active";
+        setmasterTypeList(updatedArray); // Assuming setMasterpafArray updates the state
+    };
+
+    const handleCheckboxMilestoneChange = (index) => {
+        // Toggle the status_selected value when checkbox is clicked
+        const updatedArray = [...masterTypeList];
+        updatedArray[index].milestone = updatedArray[index].milestone === "Active" ? "Inactive" : "Active";
         setmasterTypeList(updatedArray); // Assuming setMasterpafArray updates the state
     };
 
@@ -154,6 +161,9 @@ const AddPafNew = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         let datatopass = { ...drugdata, selectedcountry, selectedstakeholders, "include_form_headers": masterTypeList, "compositions": compositioncreated }
+
+        console.log(datatopass,"this is datatopass")
+        return;
 
         try {
 
@@ -434,20 +444,21 @@ const AddPafNew = () => {
                 {masterTypeList && masterTypeList.length > 0 && (
                     <div className="col-span-4">
                         <table className="table-auto w-full border-collapse">
-                            <thead>
+                            <thead className='bg-blue-500 text-white'>
                                 <tr>
-                                    <th className="border px-4 py-1">Select</th>
+                                    <th className="border px-1 py-1">Select</th>
                                     <th className="border px-4 py-1">Activity</th>
 
-                                    <th className="border px-4 py-1">Target Date</th>
-                                    <th className="border px-4 py-1">Department</th>
-                                    <th className="border px-4 py-1">Timeline</th>
+                                    <th className="border px-1 py-1">Target Date</th>
+                                    <th className="border px-1 py-1">Department</th>
+                                    <th className="border px-2 py-1">Timeline</th>
+                                    <th className="border py-1">Milestone</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {masterTypeList.map((ele, index) => (
                                     <tr key={index}>
-                                        <td className="border px-4 py-1">
+                                        <td className="border text-center px-4 py-1">
                                             <input
                                                 type="checkbox"
                                                 checked={ele.status_selected === "Active"}
@@ -456,7 +467,7 @@ const AddPafNew = () => {
                                         </td>
                                         <td className="border px-4 py-1">{ele.master_item_name}</td>
 
-                                        <td className="border px-4 py-1">
+                                        <td className="border text-center px-1 py-1">
                                             <input
                                                 type="date"
                                                 className="border p-1"
@@ -464,7 +475,7 @@ const AddPafNew = () => {
                                                 onChange={(e) => handleTargetDateChange(e, index)}
                                             />
                                         </td>
-                                        <td className="border px-4 py-2">
+                                        <td className="border text-center px-1 py-2">
                                             <select
                                                 className="border p-1"
                                                 value={ele.department || ""}
@@ -478,7 +489,7 @@ const AddPafNew = () => {
                                                 }
                                             </select>
                                         </td>
-                                        <td className="border px-4 py-2">
+                                        <td className="border text-center px-1 py-2">
                                             <select
                                                 className="border p-1"
                                                 value={ele.timeline_selected || ""}
@@ -491,6 +502,13 @@ const AddPafNew = () => {
                                                 <option>T3</option>
                                                 <option>T4</option>
                                             </select>
+                                        </td>
+                                        <td className="border text-center px-1 py-1">
+                                            <input
+                                                type="checkbox"
+                                                checked={ele.milestone === "Active"}
+                                                onChange={() => handleCheckboxMilestoneChange(index)}
+                                            />
                                         </td>
                                     </tr>
                                 ))}

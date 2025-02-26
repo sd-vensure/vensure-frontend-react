@@ -251,10 +251,10 @@ const Sidebar = () => {
                         </Link>
                     </li> */}
                     
-                    <li>
+                    <li className=''>
                         <Link
                             to="/paf"
-                            className="block rounded-lg px-4 py-2 text-sm font-medium text-white hover:bg-gray-100 hover:text-gray-700"
+                            className="block rounded-lg px-4 py-2 text-sm font-medium text-white hover:bg-blue-500"
                         >
                             PAF and Stakeholder
                         </Link>
@@ -262,7 +262,7 @@ const Sidebar = () => {
                     <li>
                         <Link
                             to="/department"
-                            className="block rounded-lg px-4 py-2 text-sm font-medium text-white hover:bg-gray-100 hover:text-gray-700"
+                            className="block rounded-lg px-4 py-2 text-sm font-medium text-white hover:bg-blue-500"
                         >
                             Departments
                         </Link>
@@ -338,7 +338,7 @@ const Sidebar = () => {
                     <li>
                         <button
                             onClick={() => { logoutuser() }}
-                            className="block w-full text-left rounded-lg px-4 py-2 text-sm font-medium text-red-600 hover:bg-gray-100 hover:text-red-800"
+                            className="block w-full text-left rounded-lg px-4 py-2 text-sm font-medium text-red-600 hover:text-white hover:bg-red-500 "
                         >
                             Logout
                         </button>
