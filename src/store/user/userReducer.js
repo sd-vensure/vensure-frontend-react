@@ -1,6 +1,6 @@
 // src/store/admin/adminReducer.js
 
-import { USER_LOGIN, USER_LOGOUT, SET_COUNTRY, SET_PAF, DEL_PAF, REVISE_PAF_ADD, REVISE_PAF_DEL,OPEN_PAF_MODAL,CLOSE_PAF_MODAL } from './userTypes';
+import { USER_LOGIN, USER_LOGOUT, SET_COUNTRY, SET_PAF, DEL_PAF, REVISE_PAF_ADD, REVISE_PAF_DEL, OPEN_PAF_MODAL, CLOSE_PAF_MODAL,SET_USER_FORM,DEL_USER_FORM } from './userTypes';
 
 const initialState = {
     current_user: null,
@@ -8,7 +8,8 @@ const initialState = {
     countrydata: [],
     paf_selected: null,
     revise_details: null,
-    paf_modal:false
+    paf_modal: false,
+    user_form: null
 };
 
 const userReducer = (state = initialState, action) => {
@@ -39,6 +40,16 @@ const userReducer = (state = initialState, action) => {
             return {
                 ...state,
                 paf_selected: null
+            };
+        case SET_USER_FORM:
+            return {
+                ...state,
+                user_form: action.payload
+            };
+        case DEL_USER_FORM:
+            return {
+                ...state,
+                user_form: null
             };
         case REVISE_PAF_ADD:
             return {

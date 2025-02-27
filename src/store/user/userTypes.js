@@ -7,3 +7,5 @@ export const REVISE_PAF_ADD = 'REVISE_PAF_ADD';
 export const REVISE_PAF_DEL = 'REVISE_PAF_DEL';
 export const OPEN_PAF_MODAL = 'OPEN_PAF_MODAL';
 export const CLOSE_PAF_MODAL = 'CLOSE_PAF_MODAL';
+export const SET_USER_FORM = 'SET_USER_FORM';
+export const DEL_USER_FORM = 'DEL_USER_FORM';

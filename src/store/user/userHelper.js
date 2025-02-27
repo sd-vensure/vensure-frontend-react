@@ -1,6 +1,6 @@
 // src/store/admin/adminHelper.js
 
-import { USER_LOGIN, USER_LOGOUT, SET_COUNTRY, SET_PAF, DEL_PAF, REVISE_PAF_ADD, REVISE_PAF_DEL, OPEN_PAF_MODAL, CLOSE_PAF_MODAL } from './userTypes';
+import { USER_LOGIN, USER_LOGOUT, SET_COUNTRY, SET_PAF, DEL_PAF, REVISE_PAF_ADD, REVISE_PAF_DEL, OPEN_PAF_MODAL, CLOSE_PAF_MODAL,SET_USER_FORM,DEL_USER_FORM } from './userTypes';
 
 export const userLogin = (userData, token) => ({
   type: USER_LOGIN,
@@ -23,6 +23,16 @@ export const setPaf = (data) => ({
 
 export const delPAf = () => ({
   type: DEL_PAF
+});
+
+
+export const setUserForm = (data) => ({
+  type: SET_USER_FORM,
+  payload: data
+});
+
+export const delUserForm = () => ({
+  type: DEL_USER_FORM
 });
 
 export const setPafRevise = (data) => ({

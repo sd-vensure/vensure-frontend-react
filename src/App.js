@@ -21,6 +21,9 @@ import Department from './components/departments/Department';
 import Unauthorised from './components/Unauthorised';
 import AssignDepartmentAndTimeline from './components/AssignDepartmentAndTimeline';
 import AssignBudget from './components/AssignBudget';
+import UserForms from './components/userforms/UserForms';
+import ViewParticularForm from './components/userforms/ViewParticularForm';
+import EditUserForm from './components/userforms/EditUserForm';
 
 
 function App() {
@@ -43,6 +46,9 @@ function App() {
                 <Route path='/unauthorised' element={<Unauthorised />} />
                 <Route path='/pafdepartmentassign' element={<AssignDepartmentAndTimeline />} />
                 <Route path='/assignbudget' element={<AssignBudget />} />
+                <Route path='/userforms' element={<UserForms />} />
+                <Route path='/viewparticularform' element={<ViewParticularForm />} />
+                <Route path='/editparticularform' element={<EditUserForm />} />
                 {/* <Route path='/dashboard/add-drug' element={<AddDrug />} />
                 <Route path='/dashboard/view-drug' element={<ViewDrug />} />
                 <Route path='/dashboard/add-innovator' element={<AddInnovator />} />
