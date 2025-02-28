@@ -272,7 +272,7 @@ const Sidebar = () => {
                             to="/userforms"
                             className="block rounded-lg px-4 py-2 text-sm font-medium text-white hover:bg-blue-500"
                         >
-                            User Forms
+                            KRA/KPI
                         </Link>
                     </li>
 

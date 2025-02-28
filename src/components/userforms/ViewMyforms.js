@@ -56,7 +56,7 @@ const ViewMyforms = () => {
         <thead className="text-center bg-blue-500">
             <tr>
                 <th className="whitespace-nowrap px-4 py-2 font-medium text-white border">No.</th>
-                <th className="whitespace-nowrap px-4 py-2 font-medium text-white border">Form</th>
+                <th className="whitespace-nowrap px-4 py-2 font-medium text-white border">Financial Year</th>
                 <th className="whitespace-nowrap px-1 py-2 font-medium text-white border">Date</th>
                 <th className="whitespace-nowrap px-4 py-2 font-medium text-white border">View</th>
             </tr>
@@ -69,7 +69,7 @@ const ViewMyforms = () => {
                         <tr key={index}>
                             <td className='border'>{index + 1}</td>
                             <td className='whitespace-wrap border'>
-                                Form {index + 1}
+                                {item.financial_year}
                             </td>
                             <td className='border'>
                                 {moment(item.created_at).format('DD-MM-YYYY')}

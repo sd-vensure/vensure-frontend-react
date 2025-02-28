@@ -21,7 +21,7 @@ const UserForms = () => {
         { name: 'Add Form', number: '1', current: true },
         { name: 'View My Form', number: '2', current: false },
         { name: 'View Department Forms', number: '3', current: false },
-        { name: 'Verification', number: '4', current: false }
+        { name: 'Shared Forms', number: '4', current: false }
     ]);
 
     return (

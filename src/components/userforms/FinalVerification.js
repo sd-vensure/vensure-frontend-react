@@ -21,7 +21,7 @@ const FinalVerification = () => {
     const getFormsForUserId = async () => {
 
         try {
-            const getdata = await api.get(`userform/getinprogressforms`)
+            const getdata = await api.get(`userform/getsubmittedforms`)
 
             if (getdata.data.status) {
                 // toast.success(getdata.data.message)
@@ -73,11 +73,12 @@ const FinalVerification = () => {
                 <thead className="text-center bg-blue-500">
                     <tr>
                         <th className="whitespace-nowrap px-4 py-2 font-medium text-white border">No.</th>
-                        <th className="whitespace-nowrap px-4 py-2 font-medium text-white border">Form</th>
+                        <th className="whitespace-nowrap px-4 py-2 font-medium text-white border">Department</th>
+                        <th className="whitespace-nowrap px-4 py-2 font-medium text-white border">User Name</th>
                         <th className="whitespace-nowrap px-1 py-2 font-medium text-white border">Date</th>
                         <th className="whitespace-nowrap px-4 py-2 font-medium text-white border">View</th>
-                        <th className="whitespace-wrap py-2 font-medium text-white border">Verification Status</th>
-                        <th className="whitespace-wrap py-2 font-medium text-white border">Update Status</th>
+                        {/* <th className="whitespace-wrap py-2 font-medium text-white border">Verification Status</th>
+                        <th className="whitespace-wrap py-2 font-medium text-white border">Update Status</th> */}
                     </tr>
                 </thead>
 
@@ -88,7 +89,10 @@ const FinalVerification = () => {
                                 <tr key={index}>
                                     <td className='border'>{index + 1}</td>
                                     <td className='whitespace-wrap border'>
-                                        Form {index + 1}
+                                        {item.department_name}
+                                    </td>
+                                    <td className='whitespace-wrap border'>
+                                        {item.user_first_name}
                                     </td>
                                     <td className='border'>
                                         {moment(item.created_at).format('DD-MM-YYYY')}
@@ -97,21 +101,21 @@ const FinalVerification = () => {
                                         View
                                     </td>
 
-                                    <td className='border' >
+                                    {/* <td className='border' >
                                         {item.is_verified === "In Progress" && <span className='text-blue-500'>In Progress</span>}
                                         {item.is_verified === "Pending" && <span className='text-blue-500'>Pending</span>}
                                         {item.is_verified === "Rejected" && <span className='text-red-500'>Rejected</span>}
                                         {item.is_verified === "Verified" && <span className='text-green-500'>Verified</span>}
-                                    </td>
+                                    </td> */}
 
-                                    <td className='border text-blue-500 p-1' >
+                                    {/* <td className='border text-blue-500 p-1' >
                                         {
                                             <div className='w-full flex flex-col justify-center items-center'>
                                                 <button onClick={() => { approveDecline(item, "Verified") }} className='block w-1/2 m-1 rounded-sm border border-green-600 bg-green-600 p-1 text-xs font-medium text-white hover:bg-transparent hover:text-green-600 focus:ring-3 focus:outline-hidden'>Approve</button>
                                                 <button onClick={() => { approveDecline(item, "Rejected") }} className='block w-1/2 m-1 rounded-sm border border-red-600 bg-red-600 p-1 text-xs font-medium text-white hover:bg-transparent hover:text-red-600 focus:ring-3 focus:outline-hidden'>Reject</button>
                                             </div>
                                         }
-                                    </td>
+                                    </td> */}
                                 </tr>
                             )) :
                             <tr>
