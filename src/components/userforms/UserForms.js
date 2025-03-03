@@ -8,6 +8,7 @@ import { useSelector } from 'react-redux';
 import Unauthorised from '../Unauthorised';
 import AddForm1 from './AddForm1';
 import AddForm2 from './AddForm2';
+import ViewMyformsNew from './ViewMyformsNew';
 
 const UserForms = () => {
     const [selectedoption, setselectedoption] = useState("1");
@@ -46,7 +47,8 @@ const UserForms = () => {
             {
                 selectedoption == "2"
                     ? Array.isArray(roles) && roles.some(role => ["ViewForm"].includes(role))
-                        ? <ViewMyforms />
+                        // ? <ViewMyforms />
+                        ? <ViewMyformsNew />
                         : <Unauthorised />
                     : <></>
             }

@@ -24,6 +24,8 @@ import AssignBudget from './components/AssignBudget';
 import UserForms from './components/userforms/UserForms';
 import ViewParticularForm from './components/userforms/ViewParticularForm';
 import EditUserForm from './components/userforms/EditUserForm';
+import ViewParticularFormNew from './components/userforms/ViewParticularFormNew';
+import EditUserFormNew from './components/userforms/EditUserFormNew';
 
 
 function App() {
@@ -48,7 +50,9 @@ function App() {
                 <Route path='/assignbudget' element={<AssignBudget />} />
                 <Route path='/userforms' element={<UserForms />} />
                 <Route path='/viewparticularform' element={<ViewParticularForm />} />
+                <Route path='/viewparticularformnew' element={<ViewParticularFormNew />} />
                 <Route path='/editparticularform' element={<EditUserForm />} />
+                <Route path='/editparticularformnew' element={<EditUserFormNew />} />
                 {/* <Route path='/dashboard/add-drug' element={<AddDrug />} />
                 <Route path='/dashboard/view-drug' element={<ViewDrug />} />
                 <Route path='/dashboard/add-innovator' element={<AddInnovator />} />
