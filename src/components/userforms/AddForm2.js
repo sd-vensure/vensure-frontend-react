@@ -11,12 +11,14 @@ const AddForm2 = () => {
         { min: 50, max: 80 },
         { min: 5, max: 25 },
         { min: 10, max: 20 },
+        { min: 0, max: 0 }
     ];
 
     const [categories, setCategories] = useState([
-        { id: 1, name: "Organizational Goals", kras: [], total: 0 },
-        { id: 2, name: "Persoanl Behaviour and Training", kras: [], total: 0 },
-        { id: 3, name: "Extra Activities", kras: [], total: 0 },
+        { id: 1, name: "Major Goals", kras: [], total: 0, include_kpis: "Y" },
+        { id: 2, name: "Organizational Goals", kras: [], total: 0, include_kpis: "Y" },
+        { id: 3, name: "Personal Goals", kras: [], total: 0, include_kpis: "Y" },
+        { id: 4, name: "Training", kras: [], total: 0, include_kpis: "N" }
     ]);
 
     const [totalKPIs, settotalKPIs] = useState(0);
@@ -30,13 +32,13 @@ const AddForm2 = () => {
 
 
     // Add KRA
-    const addKRA = (catIndex) => {
+    const addKRA = (catIndex, includeKpis) => {
         const updatedCategories = [...categories];
         updatedCategories[catIndex].kras.push({
             id: Date.now(),
             text: "",
             date: "",
-            kpis: [{ id: Date.now(), name: "", number: 0, quarter: "Q1",date:null }],
+            kpis: includeKpis == "Y" ? [{ id: Date.now(), name: "", number: 0, quarter: "Q1", date: null }] : [],
         });
         setCategories(updatedCategories);
     };
@@ -130,8 +132,7 @@ const AddForm2 = () => {
 
     const submitForm = async () => {
 
-        if(finance=="")
-        {
+        if (finance == "") {
             toast.info("Please select financial year")
             return;
         }
@@ -178,23 +179,37 @@ const AddForm2 = () => {
 
             {categories.map((category, catIndex) => (
                 <div key={category.id} className="mb-5 border p-4 rounded-lg shadow-lg">
-                    <div className="flex justify-between items-center border">
+                    <div className="flex justify-between items-center">
 
-                        <h2 className="text-lg font-semibold mb-2">
-                            {category.name}<br />  (Total KPIs:
+                        {
+                            categoryLimits[catIndex].max > 0
+                            &&
 
-                            {
-                                category.total >= categoryLimits[catIndex].min && category.total <= categoryLimits[catIndex].max
-                                    ? <span className="text-green-500"> {category.total}</span>
-                                    : <span className="text-red-500"> {category.total}</span>
-                            }
+                            <h2 className="text-lg font-semibold mb-2">
+                                <span className="text-blue-600">{category.name}</span><br />
+                                (Total KPIs:
 
-                            /{categoryLimits[catIndex].min}-{categoryLimits[catIndex].max})
-                        </h2>
+                                {
+                                    category.total >= categoryLimits[catIndex].min && category.total <= categoryLimits[catIndex].max
+                                        ? <span className="text-green-500"> {category.total}</span>
+                                        : <span className="text-red-500"> {category.total}</span>
+                                }
+
+                                /{categoryLimits[catIndex].min}-{categoryLimits[catIndex].max})
+                            </h2>
+                        }
+
+                        {
+                            categoryLimits[catIndex].max == 0 &&
+                            <h2 className="text-lg font-semibold mb-2">
+                                <span className="text-blue-600">{category.name}</span>
+                            </h2>
+                        }
+
 
                         <button
                             className="whitespace-nowrap bg-blue-500 text-white px-4 py-2 rounded"
-                            onClick={() => addKRA(catIndex)}
+                            onClick={() => addKRA(catIndex, category.include_kpis)}
                         >
                             Add KRA
                         </button>
@@ -230,12 +245,17 @@ const AddForm2 = () => {
 
                                             <td className="p-2 flex items-center gap-1 h-fit w-fit">
 
-                                                <button
-                                                    className=" bg-green-500 whitespace-nowrap text-white px-3 py-1 rounded"
-                                                    onClick={() => addKPI(catIndex, kraIndex)}
-                                                >
-                                                    Add KPI
-                                                </button>
+                                                {
+                                                    category.include_kpis == "Y"
+                                                    &&
+                                                    <button
+                                                        className=" bg-green-500 whitespace-nowrap text-white px-3 py-1 rounded"
+                                                        onClick={() => addKPI(catIndex, kraIndex)}
+                                                    >
+                                                        Add KPI
+                                                    </button>
+                                                }
+
                                                 <button
                                                     className="bg-red-500 whitespace-nowrap text-white px-3 py-1 rounded w-fit"
                                                     onClick={() => removeKRA(catIndex, kraIndex)}
@@ -245,7 +265,7 @@ const AddForm2 = () => {
 
                                             </td>
 
-                                            
+
 
                                         </tr>
 

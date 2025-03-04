@@ -26,6 +26,9 @@ import ViewParticularForm from './components/userforms/ViewParticularForm';
 import EditUserForm from './components/userforms/EditUserForm';
 import ViewParticularFormNew from './components/userforms/ViewParticularFormNew';
 import EditUserFormNew from './components/userforms/EditUserFormNew';
+import EditCompletionDate from './components/userforms/EditCompletionDate';
+import EditCompletionMarks from './components/userforms/EditCompletionMarks';
+import EditCompletionDateAndMarks from './components/userforms/EditCompletionDateAndMarks';
 
 
 function App() {
@@ -53,6 +56,11 @@ function App() {
                 <Route path='/viewparticularformnew' element={<ViewParticularFormNew />} />
                 <Route path='/editparticularform' element={<EditUserForm />} />
                 <Route path='/editparticularformnew' element={<EditUserFormNew />} />
+
+                <Route path='/editcompletiondate' element={<EditCompletionDate />} />
+                <Route path='/editcompletionmarks' element={<EditCompletionMarks />} />
+                <Route path='/editboth' element={<EditCompletionDateAndMarks />} />
+
                 {/* <Route path='/dashboard/add-drug' element={<AddDrug />} />
                 <Route path='/dashboard/view-drug' element={<ViewDrug />} />
                 <Route path='/dashboard/add-innovator' element={<AddInnovator />} />

@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
 
-const EditUserFormNew = () => {
+const EditCompletionDateAndMarks = () => {
 
     const [data, setdata] = useState([]);
 
@@ -293,9 +293,9 @@ const EditUserFormNew = () => {
 
             settotalKPIs(allotalKPIs);
 
-            if (distinctCategories.length == 3) {
-                distinctCategories.push({ category_id: 4, category_name: "Training", kras: [], total: 0, include_kpis: "N" })
-            }
+            // if (distinctCategories.length == 3) {
+            //     distinctCategories.push({ category_id: 4, category_name: "Training", kras: [], total: 0, include_kpis: "N" })
+            // }
 
 
             setCategories(distinctCategories);
@@ -309,14 +309,15 @@ const EditUserFormNew = () => {
 
     const submitForm = async () => {
 
-        // console.log(data)
+        // console.log(categories,"this is imp")
+        // return ;
 
         try {
-            const uploaddata = await api.put(`userform/updatenew/${userform.form_id}`, { "data": categories })
+            const uploaddata = await api.put(`userform/updatedateandmarks`, { "data": categories })
 
             if (uploaddata.data.status) {
                 toast.success(uploaddata.data.message)
-                navigate("/")
+                // navigate("/")
             }
             else {
                 toast.info(uploaddata.data.message)
@@ -366,12 +367,12 @@ const EditUserFormNew = () => {
                         }
 
 
-                        <button
+                        {/* <button
                             className="whitespace-nowrap bg-blue-500 text-white px-4 py-2 rounded"
                             onClick={() => addKRA(catIndex, category.include_kpis)}
                         >
                             Add KRA
-                        </button>
+                        </button> */}
                     </div>
 
                     <table className="w-full border">
@@ -379,7 +380,7 @@ const EditUserFormNew = () => {
                             <tr className="bg-gray-200">
                                 <th className="p-2 border">No.</th>
                                 <th className="p-2 border">KRA</th>
-                                <th className="p-2 border">Actions</th>
+                                {/* <th className="p-2 border">Actions</th> */}
 
                             </tr>
                         </thead>
@@ -393,6 +394,7 @@ const EditUserFormNew = () => {
                                             </td>
                                             <td className="p-2 border w-full">
                                                 <textarea
+                                                    disabled
                                                     type="text"
                                                     value={kra.text}
                                                     onChange={(e) => handleKRAChange(catIndex, kraIndex, "text", e.target.value)}
@@ -401,7 +403,7 @@ const EditUserFormNew = () => {
                                                 />
                                             </td>
                                             <td className="p-2 flex items-center gap-1 h-fit w-fit">
-                                                {
+                                                {/* {
                                                     category.include_kpis == "Y"
                                                     &&
 
@@ -417,7 +419,7 @@ const EditUserFormNew = () => {
                                                     onClick={() => removeKRA(catIndex, kraIndex)}
                                                 >
                                                     Remove KRA
-                                                </button>
+                                                </button> */}
 
                                             </td>
 
@@ -435,7 +437,7 @@ const EditUserFormNew = () => {
                                                                 <th className="border w-fit">Weightage</th>
                                                                 <th className="border w-fit">Completion Date</th>
                                                                 <th className="border w-fit">Obtained</th>
-                                                                <th className="border w-fit">Action</th>
+                                                                {/* <th className="border w-fit">Action</th> */}
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -444,6 +446,7 @@ const EditUserFormNew = () => {
                                                                 <tr>
                                                                     <td className="p-2 border">
                                                                         <textarea
+                                                                            disabled
                                                                             value={kpi.name}
                                                                             onChange={(e) => handleKPIChange(catIndex, kraIndex, kpiIndex, "name", e.target.value)}
                                                                             placeholder="KPI Name"
@@ -453,6 +456,7 @@ const EditUserFormNew = () => {
 
                                                                     <td className="max-w-fit border text-center">
                                                                         <input
+                                                                            disabled
                                                                             name="target"
                                                                             type="date"
                                                                             value={kpi.target ? moment(kpi.target).format("YYYY-MM-DD") : ""}
@@ -464,6 +468,7 @@ const EditUserFormNew = () => {
 
                                                                     <td className="max-w-fit border text-center">
                                                                         <select
+                                                                            disabled
                                                                             name="dropdown"
                                                                             value={kpi.quarter}
                                                                             onChange={(e) => handleKPIChange(catIndex, kraIndex, kpiIndex, "quarter", e.target.value)}
@@ -479,6 +484,7 @@ const EditUserFormNew = () => {
 
                                                                     <td className="w-fit border text-center">
                                                                         <input
+                                                                            disabled
                                                                             onWheel={(e) => e.target.blur()}
                                                                             type="number"
                                                                             value={kpi.number || ""}
@@ -489,6 +495,7 @@ const EditUserFormNew = () => {
                                                                     </td>
                                                                     <td className="max-w-fit border text-center">
                                                                         <input
+                                                                            
                                                                             name="completion"
                                                                             type="date"
                                                                             value={kpi.completion ? moment(kpi.completion).format("YYYY-MM-DD") : ""}
@@ -498,6 +505,7 @@ const EditUserFormNew = () => {
                                                                     </td>
                                                                     <td className="w-fit border text-center">
                                                                         <input
+                                                                            
                                                                             onWheel={(e) => e.target.blur()}
                                                                             type="number"
                                                                             min="0" max="10" step="1"
@@ -507,7 +515,7 @@ const EditUserFormNew = () => {
                                                                             className="p-2 border w-16"
                                                                         />
                                                                     </td>
-                                                                    <td className="w-fit border text-center">
+                                                                    {/* <td className="w-fit border text-center">
                                                                         <button
                                                                             className="bg-red-500 text-white w-fit px-3 py-1 rounded"
                                                                             onClick={() => removeKPI(catIndex, kraIndex, kpiIndex)}
@@ -515,7 +523,7 @@ const EditUserFormNew = () => {
                                                                             -
                                                                         </button>
 
-                                                                    </td>
+                                                                    </td> */}
 
 
                                                                 </tr>
@@ -575,5 +583,5 @@ const EditUserFormNew = () => {
     );
 };
 
-export default EditUserFormNew;
+export default EditCompletionDateAndMarks;
 

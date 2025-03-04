@@ -7,12 +7,12 @@ import moment from "moment";
 
 const ViewParticularFormNew = () => {
 
-    
+
     const [data, setdata] = useState([]);
-    
+
     const currentuser = useSelector((state) => state.user.current_user);
     const userform = useSelector((state) => state.user.user_form);
-    
+
     const [finance, setfinance] = useState(userform.financial_year);
 
 
@@ -20,12 +20,15 @@ const ViewParticularFormNew = () => {
         { min: 50, max: 80 },
         { min: 5, max: 25 },
         { min: 10, max: 20 },
+        { min: 0, max: 0 }
     ];
 
     const [categories, setCategories] = useState([
-        { category_id: 1, category_name: "Organizational Goals", kras: [], total: 0 },
-        { category_id: 2, category_name: "Persoanl Behaviour and Training", kras: [], total: 0 },
-        { category_id: 3, category_name: "Extra Activities", kras: [], total: 0 },
+        { category_id: 1, category_name: "Major Goals", kras: [], total: 0, include_kpis: "Y" },
+        { category_id: 2, category_name: "Prganizational Goals", kras: [], total: 0, include_kpis: "Y" },
+        { category_id: 3, category_name: "Personal Goals", kras: [], total: 0, include_kpis: "Y" },
+        { category_id: 4, category_name: "Training", kras: [], total: 0, include_kpis: "N" }
+
     ]);
 
     const [totalKPIs, settotalKPIs] = useState(0);
@@ -39,12 +42,12 @@ const ViewParticularFormNew = () => {
             if (getdata.data.status) {
                 toast.success(getdata.data.message)
                 setdata(getdata.data.data)
-               
+
             }
             else {
                 toast.info(getdata.data.message)
                 setdata([])
-                
+
             }
 
         } catch (error) {
@@ -99,6 +102,7 @@ const ViewParticularFormNew = () => {
                     existingCategory = {
                         category_id: item.category_id,
                         category_name: item.category_name,
+                        include_kpis: item.include_kpi,
                         kras: [],
                         total: 0
                     };
@@ -200,17 +204,31 @@ const ViewParticularFormNew = () => {
                 <div key={category.category_id} className="mb-5 border p-4 rounded-lg shadow-lg">
                     <div className="flex justify-between items-center">
 
-                        <h2 className="text-lg font-semibold mb-2">
-                            <span className="text-blue-600">{category.category_name}</span><br />  (Total KPIs:
+                        {
+                            categoryLimits[catIndex].max > 0
+                            &&
 
-                            {
-                                category.total >= categoryLimits[catIndex].min && category.total <= categoryLimits[catIndex].max
-                                    ? <span className="text-green-500"> {category.total}</span>
-                                    : <span className="text-red-500"> {category.total}</span>
-                            }
+                            <h2 className="text-lg font-semibold mb-2">
+                                <span className="text-blue-600">{category.category_name}</span><br />
+                                (Total KPIs:
 
-                            /{categoryLimits[catIndex].min}-{categoryLimits[catIndex].max})
-                        </h2>
+                                {
+                                    category.total >= categoryLimits[catIndex].min && category.total <= categoryLimits[catIndex].max
+                                        ? <span className="text-green-500"> {category.total}</span>
+                                        : <span className="text-red-500"> {category.total}</span>
+                                }
+
+                                /{categoryLimits[catIndex].min}-{categoryLimits[catIndex].max})
+                            </h2>
+                        }
+
+                        {
+                            categoryLimits[catIndex].max == 0 &&
+                            <h2 className="text-lg font-semibold mb-2">
+                                <span className="text-blue-600">{category.category_name}</span>
+                            </h2>
+                        }
+
                     </div>
 
                     <table className="w-full border">
@@ -230,7 +248,7 @@ const ViewParticularFormNew = () => {
                                                 {kraIndex + 1}
                                             </td>
                                             <td className="p-2 border w-full">
-                                               {kra.text}
+                                                {kra.text}
                                             </td>
 
                                         </tr>
