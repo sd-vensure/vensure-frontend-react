@@ -49,16 +49,12 @@ const ViewFormsDepartmentNew = () => {
 
             if (getdata.data.status) {
                 setdata(getdata.data.entries);
-                setnotsharedforms(getdata.data.not_shared_forms);
-                settotalforms(getdata.data.total_forms_filled);
-                settotalpersons(getdata.data.total_persons);
             }
             else {
                 setdata([]);
-                setnotsharedforms(getdata.data.not_shared_forms);
-                settotalforms(getdata.data.total_forms_filled);
-                settotalpersons(getdata.data.total_persons);
-                toast.info(getdata.data.message);
+                toast.info(getdata.data.message)
+
+
             }
 
         } catch (error) {
@@ -88,7 +84,8 @@ const ViewFormsDepartmentNew = () => {
 
             if (uploaddata.data.status) {
                 toast.success(uploaddata.data.message)
-                getFormsForUserId()
+                getTotalFormsTotalUserForFinancialYear()
+                // getFormsForUserId()
             }
             else {
                 toast.info(uploaddata.data.message)
@@ -110,22 +107,6 @@ const ViewFormsDepartmentNew = () => {
 
     }
 
-    const submitForShare = async () => {
-        try {
-            const uploaddata = await api.post(`userform/senddepartmentfinancialyear`, { "finance": financial });
-
-            if (uploaddata.data.status) {
-                toast.success(uploaddata.data.message)
-                await getTotalFormsTotalUserForFinancialYear()
-            }
-            else {
-                toast.info(uploaddata.data.message)
-            }
-
-        } catch (error) {
-            toast.error(error.message)
-        }
-    }
 
     const approveDeclineForm = async (item, val) => {
         try {
@@ -138,6 +119,23 @@ const ViewFormsDepartmentNew = () => {
             }
             else {
                 toast.info(uploaddata.data.message)
+            }
+
+        } catch (error) {
+            toast.error(error.message)
+        }
+    }
+
+
+    const sendForEditRequest=async(item)=>{
+        try {
+            const getdata = await api.post(`userform/editrequest`, { data:item })
+
+            if (getdata.data.status) {
+                toast.success(getdata.data.message)
+            }
+            else {
+                toast.info(getdata.data.message)
             }
 
         } catch (error) {
@@ -187,7 +185,8 @@ const ViewFormsDepartmentNew = () => {
                         <th className="whitespace-nowrap px-4 py-2 font-medium text-white border">View</th>
                         <th className="whitespace-nowrap px-4 py-2 font-medium text-white border">Edit</th>
                         <th className="whitespace-nowrap px-4 py-2 font-medium text-white border">Accept/Reject</th>
-                        {/* <th className="whitespace-wrap py-2 font-medium text-white border">Share</th> */}
+                        <th className="whitespace-wrap py-2 font-medium text-white border">Share</th>
+                        <th className="whitespace-wrap py-2 font-medium text-white border">Request Edit</th>
                         {/* <th className="whitespace-wrap py-2 font-medium text-white border">Verification Status</th> */}
                     </tr>
                 </thead>
@@ -211,7 +210,7 @@ const ViewFormsDepartmentNew = () => {
                                         {moment(item.created_at).format('DD-MM-YYYY')}
                                     </td>
 
-                                    <td onClick={() => { setFormValue(item, "View") }} className='border underline cursor-pointer text-blue-500' >
+                                    <td onClick={() => { setFormValue(item, "View") }} className='border hover:underline underline-offset-2 cursor-pointer text-blue-500' >
                                         View
                                     </td>
 
@@ -221,8 +220,13 @@ const ViewFormsDepartmentNew = () => {
                                                 Not Editable
                                             </td>
                                             :  */}
-                                    <td onClick={() => { setFormValue(item, "Edit") }} className='border underline cursor-pointer text-blue-500' >
-                                        Edit
+                                    <td className='border' >
+
+                                        {
+                                            item.is_verified == "Verified" || item.is_verified == "Rejected"
+                                                ? <span className=' text-red-500'>Not Editable</span>
+                                                : <span onClick={() => { setFormValue(item, "Edit") }} className='cursor-pointer text-green-500 hover:underline underline-offset-2'>Edit</span>
+                                        }
                                     </td>
                                     {/* } */}
 
@@ -233,19 +237,35 @@ const ViewFormsDepartmentNew = () => {
                                                     <button onClick={() => { approveDeclineForm(item, "Verified") }} className='block w-1/2 m-1 rounded-sm border border-green-600 bg-green-600 p-1 text-xs font-medium text-white hover:bg-transparent hover:text-green-600 focus:ring-3 focus:outline-hidden'>Approve</button>
                                                     <button onClick={() => { approveDeclineForm(item, "Rejected") }} className='block w-1/2 m-1 rounded-sm border border-red-600 bg-red-600 p-1 text-xs font-medium text-white hover:bg-transparent hover:text-red-600 focus:ring-3 focus:outline-hidden'>Reject</button>
                                                 </div>
-                                                : <span>{item.is_verified}</span>
+                                                : item.is_verified == "Verified"
+                                                    ? <span className='text-green-500'>Verified</span>
+                                                    : <span className='text-red-500'>{item.is_verified}</span>
+
+                                            // <span>{item.is_verified}</span>
                                         }
 
 
                                     </td>
 
-                                    {/* <td className='border text-blue-500 p-1' >
+                                    <td className='border text-blue-500 p-1' >
                                         {
-                                            item.is_shared === "Y"
-                                                ? <span className='text-green-500'>Shared</span>
-                                                : <button className=" bg-blue-500 whitespace-nowrap text-white px-3 py-1 rounded">Submit</button>
+                                            item.is_verified === "Verified"
+                                                ? item.is_shared == "Y"
+                                                    ? <span className='text-green-500'>Shared</span>
+                                                    :
+                                                    <button onClick={() => { sendForVerification(item) }} className=" bg-blue-500 whitespace-nowrap text-white px-3 py-1 rounded">Submit</button>
+                                                : <span className='text-green-500'>-</span>
                                         }
-                                    </td> */}
+                                    </td>
+
+                                    <td className='border text-blue-500 p-1' >
+                                        {
+                                            item.is_shared == "Y"
+                                                ? <button onClick={() => { sendForEditRequest(item) }} className=" bg-red-500 whitespace-nowrap text-white px-2 py-1 rounded text-sm">Request</button>
+                                                : <span className='text-green-500'>-</span>
+
+                                        }
+                                    </td>
 
 
                                     {/* <td className='border' >
@@ -266,14 +286,14 @@ const ViewFormsDepartmentNew = () => {
                 </tbody>
             </table>
 
-            {
+            {/* {
                 data.length > 0 &&
                 <div>
                     <p className='text-blue-500'>Total Employees: <span className='text-black'>{totalpersons}</span></p>
-                    <p className='text-blue-500'>Total Forms Recieved: <span className='text-black'>{totalforms}</span></p>
-                    {/* <p className='text-blue-500'>Total Pending for Submission: <span className='text-black'>{notsharedforms}</span></p> */}
-                </div>
-            }
+                    <p className='text-blue-500'>Total Forms Recieved: <span className='text-black'>{totalforms}</span></p> */}
+            {/* <p className='text-blue-500'>Total Pending for Submission: <span className='text-black'>{notsharedforms}</span></p> */}
+            {/* </div>
+            } */}
 
         </div>
     )

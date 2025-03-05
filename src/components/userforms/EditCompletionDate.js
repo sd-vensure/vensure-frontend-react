@@ -185,7 +185,7 @@ const EditCompletionDate = () => {
             if (getdata.data.status) {
                 toast.success(getdata.data.message)
                 setdata(getdata.data.data)
-
+                
             }
             else {
                 toast.info(getdata.data.message)
@@ -317,7 +317,7 @@ const EditCompletionDate = () => {
 
             if (uploaddata.data.status) {
                 toast.success(uploaddata.data.message)
-                // navigate("/")
+                navigate("/")
             }
             else {
                 toast.info(uploaddata.data.message)
@@ -335,7 +335,7 @@ const EditCompletionDate = () => {
 
             <div className=''>
                 <p className='text-blue-600 text-lg'>User Name: <span className="text-black">{userform?.user_first_name}</span></p>
-                <p className='text-blue-600 text-lg'>Department Name: <span className="text-black">{userform?.department_name}</span></p>
+                <p className='text-blue-600 text-lg'>Department Name: <span className="text-black">{userform?.department_user}</span></p>
                 <p className='text-blue-600 text-lg'>Financial Year: <span className="text-black">{finance}</span></p>
             </div>
 
@@ -495,6 +495,7 @@ const EditCompletionDate = () => {
                                                                     </td>
                                                                     <td className="max-w-fit border text-center">
                                                                         <input
+                                                                            disabled={(kpi.completion && kpi.obtained)?true:false}
                                                                             name="completion"
                                                                             type="date"
                                                                             value={kpi.completion ? moment(kpi.completion).format("YYYY-MM-DD") : ""}

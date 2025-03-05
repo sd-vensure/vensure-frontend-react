@@ -24,8 +24,8 @@ const UserForms = () => {
     const [tabs, settabs] = useState([
         { name: 'Add Form', number: '1', current: true },
         { name: 'View My Form', number: '2', current: false },
-        { name: 'View Department Forms', number: '3', current: false },
-        { name: 'Shared Forms', number: '4', current: false }
+        // { name: 'View Department Forms', number: '3', current: false },
+        // { name: 'Shared Forms', number: '4', current: false }
     ]);
 
     return (
@@ -54,21 +54,21 @@ const UserForms = () => {
                     : <></>
             }
 
-            {
+            {/* {
                 selectedoption == "3"
                     ? Array.isArray(roles) && roles.some(role => ["ViewDepartmentForm"].includes(role))
                         ? <ViewFormsDepartmentNew />
                         : <Unauthorised />
                     : <></>
-            }
+            } */}
 
-            {
+            {/* {
                 selectedoption == "4"
-                    ? Array.isArray(roles) && roles.some(role => ["VerifyForm"].includes(role))
+                    ? Array.isArray(roles) && roles.some(role => ["HRView"].includes(role))
                         ? <FinalVerification />
                         : <Unauthorised />
                     : <></>
-            }
+            } */}
 
 
             {/* </div> */}

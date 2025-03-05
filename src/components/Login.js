@@ -123,9 +123,10 @@ const Login = () => {
                         <p className='hidden sm:block w-full font-semibold text-center text-5xl p-6 mt-12 sm:mt-6 mb-3 tracking-wider logintext text-fix'>LOGIN</p>
 
                         <input
-                            onChange={handlechange} name="email"
-                            type="email"
-                            placeholder="Email"
+                            onChange={handlechange} name="id"
+                            type="text"
+                            placeholder="ID"
+                            required
                             className="placeholder-slate-500 font-semibold text-lg sm:text-base mt-32 sm:mt-1 w-full rounded-lg sm:rounded-full border-2 text-slate-900 border-slate-500 bg-transparent focus:border-blue-800 focus:outline-none focus:ring-0"
                         />
 
@@ -133,6 +134,7 @@ const Login = () => {
                             onChange={handlechange} name="password"
                             type="password"
                             placeholder="Password"
+                            required
                             className="placeholder-slate-500  font-semibold text-lg sm:text-base mt-7 w-full rounded-lg sm:rounded-full border-2 text-slate-900 border-slate-500 bg-transparent focus:border-blue-800 focus:outline-none focus:ring-0"
                         />
 

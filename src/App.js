@@ -1,7 +1,7 @@
 import './App.css';
 import Home from './components/Home';
 import Login from './components/Login';
-import { BrowserRouter as Router, Link, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Link, Route, Routes, Navigate } from 'react-router-dom';
 import PersistLogin from './components/PersistLogin';
 import RequireAuth from './components/RequireAuth';
 import Layout from './components/Layout';
@@ -29,9 +29,29 @@ import EditUserFormNew from './components/userforms/EditUserFormNew';
 import EditCompletionDate from './components/userforms/EditCompletionDate';
 import EditCompletionMarks from './components/userforms/EditCompletionMarks';
 import EditCompletionDateAndMarks from './components/userforms/EditCompletionDateAndMarks';
+import { useSelector } from 'react-redux';
+import Dummy from './components/Dummy';
+import FinalVerification from './components/userforms/FinalVerification';
+import ViewFormsDepartmentNew from './components/userforms/ViewFormsDepartmentNew';
+import AddForm2 from './components/userforms/AddForm2';
+import ViewMyformsNew from './components/userforms/ViewMyformsNew';
+import ViewForPendingObtained from './components/userforms/ViewForPendingObtained';
 
 
 function App() {
+
+  const currentuser = useSelector((state) => state.user.current_user);
+
+  let roles = currentuser?.roles;
+
+
+  const ProtectedRoute = ({ element, allowedRoles }) => {
+    // Check if any of the user's roles exist in allowedRoles
+    const hasAccess = currentuser.roles.some(role => allowedRoles.includes(role));
+
+    return hasAccess ? element : <Navigate to="/unauthorized" />;
+};
+
   return (
     <>
       <Router>
@@ -60,6 +80,19 @@ function App() {
                 <Route path='/editcompletiondate' element={<EditCompletionDate />} />
                 <Route path='/editcompletionmarks' element={<EditCompletionMarks />} />
                 <Route path='/editboth' element={<EditCompletionDateAndMarks />} />
+
+                <Route path='/addkra' element={<AddForm2 />} />
+                <Route path='/viewkra' element={<ViewMyformsNew />} />
+
+                <Route path='/hrview' element={<ProtectedRoute allowedRoles={["HRView"]}   element={<FinalVerification />} />} />
+                <Route path='/viewdepartmentform' element={<ProtectedRoute allowedRoles={["ViewDepartmentForm"]}   element={<ViewFormsDepartmentNew />} />} />
+                
+                <Route path='/viewformsforobtained' element={<ProtectedRoute allowedRoles={["ViewDepartmentForm"]}   element={<ViewForPendingObtained />} />} />
+
+
+
+                <Route path='/dummy' element={<ProtectedRoute allowedRoles={["Testing"]}   element={<Dummy />} />} />
+                <Route path='/unauthorized' element={<Unauthorised />} />
 
                 {/* <Route path='/dashboard/add-drug' element={<AddDrug />} />
                 <Route path='/dashboard/view-drug' element={<ViewDrug />} />

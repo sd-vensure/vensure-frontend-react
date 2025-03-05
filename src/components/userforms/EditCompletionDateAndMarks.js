@@ -317,7 +317,7 @@ const EditCompletionDateAndMarks = () => {
 
             if (uploaddata.data.status) {
                 toast.success(uploaddata.data.message)
-                // navigate("/")
+                navigate("/")
             }
             else {
                 toast.info(uploaddata.data.message)
@@ -335,7 +335,7 @@ const EditCompletionDateAndMarks = () => {
 
             <div className=''>
                 <p className='text-blue-600 text-lg'>User Name: <span className="text-black">{userform?.user_first_name}</span></p>
-                <p className='text-blue-600 text-lg'>Department Name: <span className="text-black">{userform?.department_name}</span></p>
+                <p className='text-blue-600 text-lg'>Department Name: <span className="text-black">{userform?.department_user}</span></p>
                 <p className='text-blue-600 text-lg'>Financial Year: <span className="text-black">{finance}</span></p>
             </div>
 

@@ -34,8 +34,8 @@ const RequireAuth = () => {
                         <div className='pt-20 md:pt-0 block md:flex bg-[#F5F7F8]'>
 
                             <div className=' sticky hidden md:block md:w-1/4 lg:w-1/5'>
-                                <Sidebar />
-                                {/* <TestingSideBAr /> */}
+                                {/* <Sidebar /> */}
+                                <TestingSideBAr />
                             </div>
 
                             <div className='md:border bg-[#F5F7F8] max-h-screen w-full md:block md:w-3/4 lg:w-4/5 p-2 box-border overflow-auto relative'>

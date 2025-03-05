@@ -21,7 +21,7 @@ const FinalVerification = () => {
     const getFormsForUserId = async () => {
 
         try {
-            const getdata = await api.get(`userform/getsubmittedforms`)
+            const getdata = await api.get(`userform/getsubmittedformsnew`)
 
             if (getdata.data.status) {
                 // toast.success(getdata.data.message)
@@ -44,7 +44,7 @@ const FinalVerification = () => {
 
     const setFormValue = (item) => {
         dispatch(setUserForm(item))
-        navigate('/viewparticularform')
+        navigate('/viewparticularformnew')
     };
 
 
@@ -73,9 +73,11 @@ const FinalVerification = () => {
                 <thead className="text-center bg-blue-500">
                     <tr>
                         <th className="whitespace-nowrap px-4 py-2 font-medium text-white border">No.</th>
-                        <th className="whitespace-nowrap px-4 py-2 font-medium text-white border">Department</th>
+                        <th className="whitespace-nowrap px-4 py-2 font-medium text-white border">ID</th>
                         <th className="whitespace-nowrap px-4 py-2 font-medium text-white border">User Name</th>
-                        <th className="whitespace-nowrap px-1 py-2 font-medium text-white border">Date</th>
+                        <th className="whitespace-nowrap px-4 py-2 font-medium text-white border">Department</th>
+                        <th className="whitespace-nowrap px-4 py-2 font-medium text-white border">Designated Person</th>
+                        {/* <th className="whitespace-nowrap px-1 py-2 font-medium text-white border">Date</th> */}
                         <th className="whitespace-nowrap px-4 py-2 font-medium text-white border">View</th>
                         {/* <th className="whitespace-wrap py-2 font-medium text-white border">Verification Status</th>
                         <th className="whitespace-wrap py-2 font-medium text-white border">Update Status</th> */}
@@ -89,14 +91,20 @@ const FinalVerification = () => {
                                 <tr key={index}>
                                     <td className='border'>{index + 1}</td>
                                     <td className='whitespace-wrap border'>
-                                        {item.department_name}
+                                        {item.emp_id}
                                     </td>
                                     <td className='whitespace-wrap border'>
                                         {item.user_first_name}
                                     </td>
-                                    <td className='border'>
-                                        {moment(item.created_at).format('DD-MM-YYYY')}
+                                    <td className='whitespace-wrap border'>
+                                        {item.department_name}
                                     </td>
+                                    <td className='whitespace-wrap border'>
+                                        {item.designated_user_name}
+                                    </td>
+                                    {/* <td className='border'>
+                                        {moment(item.updated_at).format('DD-MM-YYYY')}
+                                    </td> */}
                                     <td onClick={() => { setFormValue(item) }} className='border underline cursor-pointer text-blue-500' >
                                         View
                                     </td>

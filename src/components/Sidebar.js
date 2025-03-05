@@ -251,28 +251,47 @@ const Sidebar = () => {
                         </Link>
                     </li> */}
                     
-                    <li className=''>
+                    {/* <li className=''>
                         <Link
                             to="/paf"
                             className="block rounded-lg px-4 py-2 text-sm font-medium text-white hover:bg-blue-500"
                         >
                             PAF and Stakeholder
                         </Link>
-                    </li>
-                    <li>
+                    </li> */}
+                    {/* <li>
                         <Link
                             to="/department"
                             className="block rounded-lg px-4 py-2 text-sm font-medium text-white hover:bg-blue-500"
                         >
                             Departments
                         </Link>
-                    </li>
+                    </li> */}
                     <li>
                         <Link
                             to="/userforms"
                             className="block rounded-lg px-4 py-2 text-sm font-medium text-white hover:bg-blue-500"
                         >
-                            KRA/KPI
+                            KRA Form
+                        </Link>
+                    </li>
+                   
+                    <li>
+                        <Link
+                            to="/hrview"
+                            className="block rounded-lg px-4 py-2 text-sm font-medium text-white hover:bg-blue-500"
+                        >
+                            HR View
+                        </Link>
+                    </li>
+                    
+                    
+                    <li>
+                        <Link
+                            to="/viewdepartmentform"
+                            className="block rounded-lg px-4 py-2 text-sm font-medium text-white hover:bg-blue-500"
+                        >
+                            Department Forms
                         </Link>
                     </li>
 
@@ -374,7 +393,7 @@ const Sidebar = () => {
                             <strong className="block font-medium text-sm text-white">{auth?.user_first_name}</strong>
 
                             {/* <span className='text-white'> +91 {localStorage.getItem("contact")}</span> */}
-                            <span className='text-white'> +91 {auth?.user_contact}</span>
+                            {/* <span className='text-white'> +91 {auth?.user_contact}</span> */}
                         </p>
                     </div>
                 </a>

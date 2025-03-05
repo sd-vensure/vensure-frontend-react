@@ -433,8 +433,8 @@ const EditUserFormNew = () => {
                                                                 <th className="border max-w-fit">Target Date</th>
                                                                 <th className="border w-fit">Quarter</th>
                                                                 <th className="border w-fit">Weightage</th>
-                                                                <th className="border w-fit">Completion Date</th>
-                                                                <th className="border w-fit">Obtained</th>
+                                                                {/* <th className="border w-fit">Completion Date</th>
+                                                                <th className="border w-fit">Obtained</th> */}
                                                                 <th className="border w-fit">Action</th>
                                                             </tr>
                                                         </thead>
@@ -487,7 +487,7 @@ const EditUserFormNew = () => {
                                                                             className="p-2 border w-16"
                                                                         />
                                                                     </td>
-                                                                    <td className="max-w-fit border text-center">
+                                                                    {/* <td className="max-w-fit border text-center">
                                                                         <input
                                                                             name="completion"
                                                                             type="date"
@@ -495,8 +495,8 @@ const EditUserFormNew = () => {
                                                                             onChange={(e) => handleKPIChange(catIndex, kraIndex, kpiIndex, "completion", e.target.value)}
                                                                             className="p-1 m-0 border w-fit"
                                                                         />
-                                                                    </td>
-                                                                    <td className="w-fit border text-center">
+                                                                    </td> */}
+                                                                    {/* <td className="w-fit border text-center">
                                                                         <input
                                                                             onWheel={(e) => e.target.blur()}
                                                                             type="number"
@@ -506,7 +506,7 @@ const EditUserFormNew = () => {
                                                                             placeholder="0"
                                                                             className="p-2 border w-16"
                                                                         />
-                                                                    </td>
+                                                                    </td> */}
                                                                     <td className="w-fit border text-center">
                                                                         <button
                                                                             className="bg-red-500 text-white w-fit px-3 py-1 rounded"

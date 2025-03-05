@@ -317,7 +317,7 @@ const EditCompletionMarks = () => {
 
             if (uploaddata.data.status) {
                 toast.success(uploaddata.data.message)
-                // navigate("/")
+                navigate("/")
             }
             else {
                 toast.info(uploaddata.data.message)
@@ -335,7 +335,7 @@ const EditCompletionMarks = () => {
 
             <div className=''>
                 <p className='text-blue-600 text-lg'>User Name: <span className="text-black">{userform?.user_first_name}</span></p>
-                <p className='text-blue-600 text-lg'>Department Name: <span className="text-black">{userform?.department_name}</span></p>
+                <p className='text-blue-600 text-lg'>Department Name: <span className="text-black">{userform?.department_user}</span></p>
                 <p className='text-blue-600 text-lg'>Financial Year: <span className="text-black">{finance}</span></p>
             </div>
 
@@ -505,7 +505,7 @@ const EditCompletionMarks = () => {
                                                                     </td>
                                                                     <td className="w-fit border text-center">
                                                                         <input
-                                                                            
+                                                                            disabled={kpi.completion?false:true}
                                                                             onWheel={(e) => e.target.blur()}
                                                                             type="number"
                                                                             min="0" max="10" step="1"

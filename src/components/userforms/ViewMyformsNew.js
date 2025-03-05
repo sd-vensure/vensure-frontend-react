@@ -54,7 +54,7 @@ const ViewMyformsNew = () => {
         if (val == "EditDate") {
             navigate('/editcompletiondate')
         }
-       
+
         if (val == "EditMarks") {
             navigate('/editcompletionmarks')
         }
@@ -93,14 +93,13 @@ const ViewMyformsNew = () => {
                     <tr>
                         <th className="whitespace-nowrap px-4 py-2 font-medium text-white border">No.</th>
                         <th className="whitespace-nowrap px-4 py-2 font-medium text-white border">Financial Year</th>
-                        <th className="whitespace-nowrap px-1 py-2 font-medium text-white border">Date</th>
+                        <th className="whitespace-nowrap px-1 py-2 font-medium text-white border">Created On</th>
                         <th className="whitespace-nowrap px-4 py-2 font-medium text-white border">View</th>
-                        <th className="whitespace-nowrap px-4 py-2 font-medium text-white border">Edit</th>
-                        <th className="whitespace-nowrap px-4 py-2 font-medium text-white border">Edit Date</th>
-                        <th className="whitespace-nowrap px-4 py-2 font-medium text-white border">Edit Obtained</th>
-                        <th className="whitespace-nowrap px-4 py-2 font-medium text-white border">Edit Both</th>
+                        <th className="whitespace-nowrap px-4 py-2 font-medium text-white border">Edit Form</th>
+                        <th className="whitespace-wrap px-4 py-2 font-medium text-white border">Update Target Date</th>
                         <th className="whitespace-nowrap px-4 py-2 font-medium text-white border">Status</th>
                         <th className="whitespace-nowrap px-4 py-2 font-medium text-white border">Share</th>
+                        <th className="whitespace-nowrap px-4 py-2 font-medium text-white border">HR Status</th>
                     </tr>
                 </thead>
 
@@ -116,37 +115,25 @@ const ViewMyformsNew = () => {
                                     <td className='border'>
                                         {moment(item.created_at).format('DD-MM-YYYY')}
                                     </td>
-                                    <td onClick={() => { setFormValue(item, "View") }} className='border cursor-pointer text-blue-500' >
-                                        View
+                                    <td className='border' >
+                                        <span onClick={() => { setFormValue(item, "View") }} className='text-blue-500 hover:underline underline-offset-2 cursor-pointer'>View</span>
                                     </td>
-                                    <td className='border cursor-pointer' >
+                                    <td className='border' >
                                         {
                                             item.is_verified == "Pending" || item.is_verified == "Rejected"
-                                                ? <button onClick={() => { setFormValue(item, "Edit") }} className='bg-blue-500 text-white px-3 py-1 rounded ml-2 m-2'>Edit</button>
+                                                ? <span onClick={() => { setFormValue(item, "Edit") }} className='text-blue-500 hover:underline underline-offset-2 cursor-pointer'>Edit</span>
                                                 : <span className='text-red-500'>Not Editable</span>
                                         }
                                     </td>
-                                    <td className='border cursor-pointer' >
+
+                                    <td className='border' >
                                         {
-                                            item.is_verified == "Pending" || item.is_verified == "Rejected"
-                                                ? <button onClick={() => { setFormValue(item, "EditDate") }} className='bg-blue-500 text-white px-3 py-1 rounded ml-2 m-2'>Edit</button>
+                                            item.is_verified == "Verified" && item.is_shared == "Y"
+                                                ? <span onClick={() => { setFormValue(item, "EditDate") }} className='text-blue-500 hover:underline underline-offset-2 cursor-pointer'>Update</span>
                                                 : <span className='text-red-500'>Not Editable</span>
                                         }
                                     </td>
-                                    <td className='border cursor-pointer' >
-                                        {
-                                            item.is_verified == "Pending" || item.is_verified == "Rejected"
-                                                ? <button onClick={() => { setFormValue(item, "EditMarks") }} className='bg-blue-500 text-white px-3 py-1 rounded ml-2 m-2'>Edit</button>
-                                                : <span className='text-red-500'>Not Editable</span>
-                                        }
-                                    </td>
-                                    <td className='border cursor-pointer' >
-                                        {
-                                            item.is_verified == "Pending" || item.is_verified == "Rejected"
-                                                ? <button onClick={() => { setFormValue(item, "EditBoth") }} className='bg-blue-500 text-white px-3 py-1 rounded ml-2 m-2'>Edit</button>
-                                                : <span className='text-red-500'>Not Editable</span>
-                                        }
-                                    </td>
+
                                     <td className='border cursor-pointer ' >
                                         {item.is_verified == "In Progress" && <span className='text-blue-500'>In Progress</span>}
                                         {item.is_verified == "Verified" && <span className='text-green-500'>Verified</span>}
@@ -160,6 +147,16 @@ const ViewMyformsNew = () => {
                                             item.is_verified == "Pending" || item.is_verified == "Rejected"
                                                 ? <button onClick={() => { setFormValue(item, "Share") }} className='bg-blue-500 text-white px-3 py-1 rounded ml-2 m-2'>Share</button>
                                                 : <span className='text-green-500'>Shared</span>
+                                        }
+                                    </td>
+
+                                    <td className='border cursor-pointer text-blue-500' >
+                                        {
+                                            item.is_verified == "Verified"
+                                                ? item.is_shared == "Y"
+                                                    ? <span className='text-green-500'>Shared</span>
+                                                    : <span className='text-red-500'>Pending</span>
+                                                : <span className='text-blue-500'>-</span>
                                         }
                                     </td>
                                 </tr>
