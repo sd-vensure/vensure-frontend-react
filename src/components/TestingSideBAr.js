@@ -26,7 +26,7 @@ const TestingSideBAr = () => {
 
     const nav = useNavigate()
 
-    const logoutuser =async () => {
+    const logoutuser = async () => {
 
         try {
             await api.post('user/logout').then(function (response) {
@@ -46,13 +46,13 @@ const TestingSideBAr = () => {
             // });
         }
 
-       
-        
+
+
     }
 
 
     return (
-        <div className="max-h-screen min-h-screen bg-gray-800 text-white flex flex-col">
+        <div className="max-h-screen font-open-sans min-h-screen bg-gray-800 text-white flex flex-col">
             {/* Logo Section */}
             <div className="p-4 text-xl font-bold text-center">
                 <Link to="/">
@@ -63,7 +63,7 @@ const TestingSideBAr = () => {
 
             </div>
 
-            
+
             {/* Menu Buttons */}
             <div className="flex flex-col space-y-2 px-4 overflow-y-auto overflow-scroll scrollbar-hide">
 
@@ -116,7 +116,7 @@ const TestingSideBAr = () => {
                         Department Forms
                     </Link>
                 </li>
-               
+
                 <li className='list-none'>
                     <Link
                         to="/viewformsforobtained"
@@ -128,13 +128,33 @@ const TestingSideBAr = () => {
 
                 <li className='list-none'>
                     <Link
+                        to="/myeditrequests"
+                        className="transition-all hover:pl-5 block rounded-lg hover:bg-blue-500 hover:shadow-lg hover:shadow-blue-500/40 px-4 py-2 text-base font-medium text-white drop-shadow-sm"
+                    >
+                        My Edit Requests
+                    </Link>
+                </li>
+
+                <li className='list-none'>
+                    <Link
                         to="/hrview"
                         className="transition-all hover:pl-5 block rounded-lg hover:bg-blue-500 hover:shadow-lg hover:shadow-blue-500/40 px-4 py-2 text-base font-medium text-white drop-shadow-sm"
                     >
                         HR View
                     </Link>
                 </li>
-                
+
+                <li className='list-none'>
+                    <Link
+                        to="/hreditrequests"
+                        className="transition-all hover:pl-5 block rounded-lg hover:bg-blue-500 hover:shadow-lg hover:shadow-blue-500/40 px-4 py-2 text-base font-medium text-white drop-shadow-sm"
+                    >
+                        Edit Requests
+                    </Link>
+                </li>
+
+
+
                 {/* <li className='list-none'>
                     <Link
                         to="/userforms"
@@ -152,7 +172,7 @@ const TestingSideBAr = () => {
                         Logout
                     </button>
                 </li>
-               
+
             </div>
 
             {/* User Information Section */}

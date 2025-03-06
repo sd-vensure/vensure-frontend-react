@@ -10,6 +10,8 @@ import { setUserForm } from '../../store/user/userHelper';
 
 const FinalVerification = () => {
 
+    const [financial, setfinancial] = useState("");
+
     const [data, setdata] = useState([]);
 
     const dispatch = useDispatch();
@@ -47,8 +49,37 @@ const FinalVerification = () => {
         navigate('/viewparticularformnew')
     };
 
+    const getrequests = async () => {
+        try {
+            const getdata = await api.get(`userform/getsubmittedformsnew?financial=${financial}`)
 
-    const approveDecline = async (item,val) => {
+            if (getdata.data.status) {
+                // toast.success(getdata.data.message)
+                setdata(getdata.data.data)
+            }
+            else {
+                toast.info(getdata.data.message)
+                setdata([])
+            }
+
+        } catch (error) {
+            toast.error(error.message)
+        }
+    }
+
+    const getData = async () => {
+
+        if (financial == "") {
+            toast.info("Please select the financial year")
+        }
+        else {
+            getrequests();
+        }
+
+    }
+
+
+    const approveDecline = async (item, val) => {
         try {
             const uploaddata = await api.get(`userform/approvedecline/${item.form_id}/${val}`);
 
@@ -68,6 +99,28 @@ const FinalVerification = () => {
 
     return (
         <div className="overflow-x-auto ">
+
+            <p className='text-xl md:text-2xl text-center w-full text-white p-3 md:p-5 mb-4 bg-blue-500 rounded-lg shadow-lg shadow-blue-500/40'>All KRA Forms</p>
+
+            <div className='flex items-center mb-1'>
+                <p className='text-blue-500 mr-2'>Financial Year:</p>
+                <select
+                    name="financial"
+                    value={financial}
+                    onChange={(e) => { setfinancial(e.target.value); setdata([]) }}
+                    className="border mx-2"
+                    required
+                >
+                    <option value=''>Select</option>
+                    <option>2024-25</option>
+                    <option>2025-26</option>
+                    <option>2026-27</option>
+
+                </select>
+
+                <button onClick={() => getData()} className='bg-blue-500 text-white px-3 py-1 rounded ml-2 m-2'>Search</button>
+
+            </div>
 
             <table className="min-w-full text-center divide-y-2 divide-gray-200 bg-white">
                 <thead className="text-center bg-blue-500">

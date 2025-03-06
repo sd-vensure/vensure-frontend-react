@@ -127,9 +127,9 @@ const ViewFormsDepartmentNew = () => {
     }
 
 
-    const sendForEditRequest=async(item)=>{
+    const sendForEditRequest = async (item) => {
         try {
-            const getdata = await api.post(`userform/editrequest`, { data:item })
+            const getdata = await api.post(`userform/editrequest`, { data: item })
 
             if (getdata.data.status) {
                 toast.success(getdata.data.message)
@@ -148,7 +148,10 @@ const ViewFormsDepartmentNew = () => {
     return (
         <div className="overflow-x-auto ">
 
-            <div className='flex items-center'>
+            <p className='text-xl md:text-2xl text-center w-full text-white p-3 md:p-5 mb-4 bg-blue-500 rounded-lg shadow-lg shadow-blue-500/40'>Department Head Forms</p>
+
+
+            <div className='flex items-center mb-1'>
                 <p className='text-blue-500 mr-2'>Financial Year:</p>
                 <select
                     name="financial"

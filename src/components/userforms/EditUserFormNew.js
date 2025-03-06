@@ -309,8 +309,6 @@ const EditUserFormNew = () => {
 
     const submitForm = async () => {
 
-        // console.log(data)
-
         try {
             const uploaddata = await api.put(`userform/updatenew/${userform.form_id}`, { "data": categories })
 
@@ -332,20 +330,46 @@ const EditUserFormNew = () => {
     return (
         <div className="">
 
-            <div className=''>
-                <p className='text-blue-600 text-lg'>User Name: <span className="text-black">{userform?.user_first_name}</span></p>
-                <p className='text-blue-600 text-lg'>Department Name: <span className="text-black">{userform?.department_name}</span></p>
-                <p className='text-blue-600 text-lg'>Financial Year: <span className="text-black">{finance}</span></p>
+            <p className='text-xl md:text-2xl text-center w-full text-white p-3 md:p-5 mb-4 bg-blue-500 rounded-lg shadow-lg shadow-blue-500/40'>Edit KRA Form</p>
+
+
+            <div class="flow-root mb-5 border p-4 rounded-lg shadow-lg">
+                <dl class="-my-3 divide-y divide-gray-100 text-base">
+                    <div class="grid grid-cols-1 gap-1 py-1.5 sm:grid-cols-4 sm:gap-4">
+                        <dt class="font-medium text-blue-600">User Name</dt>
+                        <dd class="text-gray-900 sm:col-span-2">{userform?.user_first_name}</dd>
+                    </div>
+                    <div class="grid grid-cols-1 gap-1 py-1.5 sm:grid-cols-4 sm:gap-4">
+                        <dt class="font-medium text-blue-600">Employee ID</dt>
+                        <dd class="text-gray-900 sm:col-span-2">{userform?.emp_id}</dd>
+                    </div>
+                    <div class="grid grid-cols-1 gap-1 py-1.5 sm:grid-cols-4 sm:gap-4">
+                        <dt class="font-medium text-blue-600">Department</dt>
+                        <dd class="text-gray-900 sm:col-span-2">{userform?.department_name}</dd>
+                    </div>
+                    <div class="grid grid-cols-1 gap-1 py-1.5 sm:grid-cols-4 sm:gap-4">
+                        <dt class="font-medium text-blue-600">Designation</dt>
+                        <dd class="text-gray-900 sm:col-span-2">{userform?.designation}</dd>
+                    </div>
+                    <div class="grid grid-cols-1 gap-1 py-1.5 sm:grid-cols-4 sm:gap-4">
+                        <dt class="font-medium text-blue-600">Financial</dt>
+                        <dd class="text-gray-900 sm:col-span-2">{userform?.financial_year}</dd>
+                    </div>
+                </dl>
             </div>
 
             {categories.map((category, catIndex) => (
                 <div key={category.category_id} className="mb-5 border p-4 rounded-lg shadow-lg">
-                    <div className="flex justify-between items-center border">
+                    <div className="flex justify-between items-center">
+
+                       
                         {
                             categoryLimits[catIndex].max > 0
                             &&
-                            <h2 className="text-lg font-semibold mb-2">
-                                {category.category_name}<br />  (Total KPIs:
+
+                            <h2 className="font-semibold mb-2 text-base">
+                                <span className="text-blue-700 ">{category.category_name}</span><br />
+                                (Total KPIs:
 
                                 {
                                     category.total >= categoryLimits[catIndex].min && category.total <= categoryLimits[catIndex].max
@@ -358,16 +382,15 @@ const EditUserFormNew = () => {
                         }
 
                         {
-                            categoryLimits[catIndex].max == 0
-                            &&
-                            <h2 className="text-lg font-semibold mb-2">
-                                {category.category_name}<br />
+                            categoryLimits[catIndex].max == 0 &&
+                            <h2 className="text-base font-semibold mb-2">
+                                <span className="text-blue-600">{category.category_name}</span>
                             </h2>
                         }
 
 
                         <button
-                            className="whitespace-nowrap bg-blue-500 text-white px-4 py-2 rounded"
+                            className="whitespace-nowrap bg-blue-500 text-white px-4 py-2 rounded mb-2 button-ani"
                             onClick={() => addKRA(catIndex, category.include_kpis)}
                         >
                             Add KRA
@@ -376,11 +399,10 @@ const EditUserFormNew = () => {
 
                     <table className="w-full border">
                         <thead>
-                            <tr className="bg-gray-200">
-                                <th className="p-2 border">No.</th>
-                                <th className="p-2 border">KRA</th>
-                                <th className="p-2 border">Actions</th>
-
+                            <tr className="bg-gray-200 font-open-sans">
+                                <th className="p-1.5 border">No.</th>
+                                <th className="p-1.5 border">KRA</th>
+                                <th className="p-1.5 border">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -397,27 +419,29 @@ const EditUserFormNew = () => {
                                                     value={kra.text}
                                                     onChange={(e) => handleKRAChange(catIndex, kraIndex, "text", e.target.value)}
                                                     placeholder="KRA Description"
-                                                    className="p-2 h-12 border w-full"
+                                                    className="p-2 h-14 border border-gray-400 w-full rounded"
                                                 />
                                             </td>
-                                            <td className="p-2 flex items-center gap-1 h-fit w-fit">
-                                                {
-                                                    category.include_kpis == "Y"
-                                                    &&
+                                            <td className=" gap-1 w-fit h-full mx-auto">
+                                                <div className=" flex gap-2 justify-center items-center">
+                                                    {
+                                                        category.include_kpis == "Y"
+                                                        &&
 
+                                                        <button
+                                                            className=" bg-green-500 whitespace-nowrap text-white px-3 py-2 text-sm rounded w-fit hover:drop-shadow-lg hover:scale-95"
+                                                            onClick={() => addKPI(catIndex, kraIndex)}
+                                                        >
+                                                            Add KPI
+                                                        </button>
+                                                    }
                                                     <button
-                                                        className=" bg-green-500 whitespace-nowrap text-white px-3 py-1 rounded"
-                                                        onClick={() => addKPI(catIndex, kraIndex)}
+                                                        className="bg-red-500 whitespace-nowrap text-white px-3 py-1 rounded w-fit button-ani"
+                                                        onClick={() => removeKRA(catIndex, kraIndex)}
                                                     >
-                                                        Add KPI
+                                                        Remove KRA
                                                     </button>
-                                                }
-                                                <button
-                                                    className="bg-red-500 whitespace-nowrap text-white px-3 py-1 rounded w-fit"
-                                                    onClick={() => removeKRA(catIndex, kraIndex)}
-                                                >
-                                                    Remove KRA
-                                                </button>
+                                                </div>
 
                                             </td>
 
@@ -428,47 +452,44 @@ const EditUserFormNew = () => {
                                                 <td colSpan="3">
                                                     <table className="w-full border mt-2">
                                                         <thead>
-                                                            <tr className="bg-gray-200">
-                                                                <th className="border p-2">KPI</th>
-                                                                <th className="border max-w-fit">Target Date</th>
-                                                                <th className="border w-fit">Quarter</th>
-                                                                <th className="border w-fit">Weightage</th>
-                                                                {/* <th className="border w-fit">Completion Date</th>
-                                                                <th className="border w-fit">Obtained</th> */}
-                                                                <th className="border w-fit">Action</th>
+                                                            <tr className="bg-gray-200 text-base font-open-sans">
+                                                                <th className="px-2 border p-1.5">KPI</th>
+                                                                <th className="px-2 border">Target Date</th>
+                                                                <th className="px-2 border">Quarter</th>
+                                                                <th className="px-2 border">Weightage</th>
+                                                                <th className="px-2 border">Action</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
 
                                                             {kra.kpis.map((kpi, kpiIndex) => (
                                                                 <tr>
-                                                                    <td className="p-2 border">
+                                                                    <td className="p-1.5 w-full border">
                                                                         <textarea
                                                                             value={kpi.name}
                                                                             onChange={(e) => handleKPIChange(catIndex, kraIndex, kpiIndex, "name", e.target.value)}
                                                                             placeholder="KPI Name"
-                                                                            className="h-12 border w-full"
+                                                                            className="p-2 h-11 border rounded border-gray-400 w-full text-sm"
                                                                         />
                                                                     </td>
 
-                                                                    <td className="max-w-fit border text-center">
+                                                                    <td className="px-2 border text-center">
                                                                         <input
                                                                             name="target"
                                                                             type="date"
                                                                             value={kpi.target ? moment(kpi.target).format("YYYY-MM-DD") : ""}
                                                                             onChange={(e) => handleKPIChange(catIndex, kraIndex, kpiIndex, "target", e.target.value)}
-                                                                            className="p-1 m-0 border w-fit"
+                                                                            className="p-1 m-0 border border-gray-400 rounded py-2 w-fit text-sm"
                                                                         />
 
                                                                     </td>
 
-                                                                    <td className="max-w-fit border text-center">
+                                                                    <td className="p-2 border text-center">
                                                                         <select
                                                                             name="dropdown"
                                                                             value={kpi.quarter}
                                                                             onChange={(e) => handleKPIChange(catIndex, kraIndex, kpiIndex, "quarter", e.target.value)}
-                                                                            className="border p-2 w-fit my-2"
-                                                                            required
+                                                                            className="border border-gray-400 rounded p-2 w-fit text-sm"
                                                                         >
                                                                             <option value="Q1">Q1</option>
                                                                             <option value="Q2">Q2</option>
@@ -477,14 +498,14 @@ const EditUserFormNew = () => {
                                                                         </select>
                                                                     </td>
 
-                                                                    <td className="w-fit border text-center">
+                                                                    <td className="px-2 border text-center">
                                                                         <input
                                                                             onWheel={(e) => e.target.blur()}
                                                                             type="number"
                                                                             value={kpi.number || ""}
                                                                             onChange={(e) => handleKPIChange(catIndex, kraIndex, kpiIndex, "number", e.target.value)}
                                                                             placeholder="0"
-                                                                            className="p-2 border w-16"
+                                                                            className="p-2 text-sm border w-16 rounded border-gray-400"
                                                                         />
                                                                     </td>
                                                                     {/* <td className="max-w-fit border text-center">
@@ -509,7 +530,7 @@ const EditUserFormNew = () => {
                                                                     </td> */}
                                                                     <td className="w-fit border text-center">
                                                                         <button
-                                                                            className="bg-red-500 text-white w-fit px-3 py-1 rounded"
+                                                                            className="bg-red-500 text-white w-fit px-3 py-1 rounded hover:drop-shadow-lg hover:scale-95 "
                                                                             onClick={() => removeKPI(catIndex, kraIndex, kpiIndex)}
                                                                         >
                                                                             -

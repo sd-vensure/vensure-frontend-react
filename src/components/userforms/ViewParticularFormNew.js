@@ -194,10 +194,31 @@ const ViewParticularFormNew = () => {
     return (
         <div className="">
 
-            <div className=''>
-                <p className='text-blue-600 text-lg'>User Name: <span className="text-black">{userform?.user_first_name}</span></p>
-                <p className='text-blue-600 text-lg'>Department Name: <span className="text-black">{userform?.department_name}</span></p>
-                <p className='text-blue-600 text-lg'>Financial Year: <span className="text-black">{finance}</span></p>
+            <p className='text-xl md:text-2xl text-center w-full text-white p-3 md:p-5 mb-4 bg-blue-500 rounded-lg shadow-lg shadow-blue-500/40'>KRA Form</p>
+
+            <div class="flow-root mb-5 border p-4 rounded-lg shadow-lg">
+                <dl class="-my-3 divide-y divide-gray-100 text-base">
+                    <div class="grid grid-cols-1 gap-1 py-1.5 sm:grid-cols-4 sm:gap-4">
+                        <dt class="font-medium text-blue-600">User Name</dt>
+                        <dd class="text-gray-900 sm:col-span-2">{userform?.user_first_name}</dd>
+                    </div>
+                    <div class="grid grid-cols-1 gap-1 py-1.5 sm:grid-cols-4 sm:gap-4">
+                        <dt class="font-medium text-blue-600">Employee ID</dt>
+                        <dd class="text-gray-900 sm:col-span-2">{userform?.emp_id}</dd>
+                    </div>
+                    <div class="grid grid-cols-1 gap-1 py-1.5 sm:grid-cols-4 sm:gap-4">
+                        <dt class="font-medium text-blue-600">Department</dt>
+                        <dd class="text-gray-900 sm:col-span-2">{userform?.department_name}</dd>
+                    </div>
+                    <div class="grid grid-cols-1 gap-1 py-1.5 sm:grid-cols-4 sm:gap-4">
+                        <dt class="font-medium text-blue-600">Designation</dt>
+                        <dd class="text-gray-900 sm:col-span-2">{userform?.designation}</dd>
+                    </div> 
+                    <div class="grid grid-cols-1 gap-1 py-1.5 sm:grid-cols-4 sm:gap-4">
+                        <dt class="font-medium text-blue-600">Financial</dt>
+                        <dd class="text-gray-900 sm:col-span-2">{userform?.financial_year}</dd>
+                    </div> 
+                </dl>
             </div>
 
             {categories.map((category, catIndex) => (
@@ -260,11 +281,11 @@ const ViewParticularFormNew = () => {
                                                         <thead>
                                                             <tr className="bg-gray-200">
                                                                 <th className="border p-2">KPI</th>
-                                                                <th className="border max-w-fit">Target Date</th>
-                                                                <th className="border w-fit">Quarter</th>
-                                                                <th className="border w-fit">Weightage</th>
-                                                                <th className="border w-fit">Completion Date</th>
-                                                                <th className="border w-fit">Obtained</th>
+                                                                <th className="border p-2 whitespace-nowrap max-w-fit">Target Date</th>
+                                                                <th className="border p-2 w-fit">Quarter</th>
+                                                                <th className="border p-2 w-fit">Weightage</th>
+                                                                <th className="border whitespace-nowrap p-2 w-fit">Completion Date</th>
+                                                                <th className="border p-2 w-fit">Obtained</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>

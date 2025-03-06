@@ -161,13 +161,16 @@ const AddForm2 = () => {
     return (
         <div className="">
 
+            <p className='text-xl md:text-2xl text-center w-full text-white p-3 md:p-5 mb-4 bg-blue-500 rounded-lg shadow-lg shadow-blue-500/40'>Add New KRA</p>
+
+
             <div className='flex items-center my-2'>
                 <p className='text-blue-600 text-lg'>Financial Year:</p>
                 <select
                     name="finance"
                     value={finance}
                     onChange={(e) => { setfinance(e.target.value) }}
-                    className="border mx-2 rounded shadow"
+                    className="border mx-2 rounded shadow font-open-sans"
                     required
                 >
                     <option value="">Select</option>
@@ -178,15 +181,15 @@ const AddForm2 = () => {
             </div>
 
             {categories.map((category, catIndex) => (
-                <div key={category.id} className="mb-5 border p-4 rounded-lg shadow-lg">
+                <div key={category.id} className="mb-5 border p-4 rounded-lg shadow-lg font-open-sans">
                     <div className="flex justify-between items-center">
 
                         {
                             categoryLimits[catIndex].max > 0
                             &&
 
-                            <h2 className="text-lg font-semibold mb-2">
-                                <span className="text-blue-600">{category.name}</span><br />
+                            <h2 className="font-semibold mb-2 text-base">
+                                <span className="text-blue-700 ">{category.name}</span><br />
                                 (Total KPIs:
 
                                 {
@@ -201,14 +204,13 @@ const AddForm2 = () => {
 
                         {
                             categoryLimits[catIndex].max == 0 &&
-                            <h2 className="text-lg font-semibold mb-2">
+                            <h2 className="text-base font-semibold mb-2">
                                 <span className="text-blue-600">{category.name}</span>
                             </h2>
                         }
 
-
                         <button
-                            className="whitespace-nowrap bg-blue-500 text-white px-4 py-2 rounded"
+                            className="mb-2 whitespace-nowrap bg-blue-500 text-white px-3 py-2 rounded-md hover:drop-shadow-lg hover:scale-95"
                             onClick={() => addKRA(catIndex, category.include_kpis)}
                         >
                             Add KRA
@@ -218,10 +220,10 @@ const AddForm2 = () => {
 
                     <table className="w-full border">
                         <thead>
-                            <tr className="bg-gray-200">
-                                <th className="p-2 border">No.</th>
-                                <th className="p-2 border">KRA</th>
-                                <th className="p-2 border">Actions</th>
+                            <tr className="bg-gray-200 font-open-sans">
+                                <th className="p-1.5 border">No.</th>
+                                <th className="p-1.5 border">KRA</th>
+                                <th className="p-1.5 border">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -232,24 +234,24 @@ const AddForm2 = () => {
                                             <td className="text-center font-bold">
                                                 {kraIndex + 1}
                                             </td>
-                                            <td className="p-2 border w-full">
+                                            <td className="p-2 w-full">
                                                 <textarea
                                                     type="text"
                                                     value={kra.text}
                                                     onChange={(e) => handleKRAChange(catIndex, kraIndex, "text", e.target.value)}
                                                     placeholder="KRA Description"
-                                                    className="p-2 h-12 border w-full"
+                                                    className="p-2 h-14 border border-gray-400 w-full rounded"
                                                 />
                                             </td>
 
 
-                                            <td className="p-2 flex items-center gap-1 h-fit w-fit">
-
+                                            <td className=" gap-1 w-fit h-full mx-auto">
+                                                    <div className=" flex gap-2 justify-center items-center">
                                                 {
                                                     category.include_kpis == "Y"
                                                     &&
                                                     <button
-                                                        className=" bg-green-500 whitespace-nowrap text-white px-3 py-1 rounded"
+                                                        className=" bg-green-500 whitespace-nowrap text-white px-3 py-2 text-sm rounded w-fit hover:drop-shadow-lg hover:scale-95"
                                                         onClick={() => addKPI(catIndex, kraIndex)}
                                                     >
                                                         Add KPI
@@ -257,12 +259,12 @@ const AddForm2 = () => {
                                                 }
 
                                                 <button
-                                                    className="bg-red-500 whitespace-nowrap text-white px-3 py-1 rounded w-fit"
+                                                    className="bg-red-500 whitespace-nowrap text-white  px-3 py-2 text-sm rounded w-fit hover:drop-shadow-lg hover:scale-95"
                                                     onClick={() => removeKRA(catIndex, kraIndex)}
                                                 >
                                                     Remove KRA
                                                 </button>
-
+                                                </div>
                                             </td>
 
 
@@ -274,40 +276,40 @@ const AddForm2 = () => {
                                                 <td colSpan="3">
                                                     <table className="w-full border mt-2">
                                                         <thead>
-                                                            <tr className="bg-gray-200">
-                                                                <th className="border p-2">KPI</th>
-                                                                <th className="border max-w-fit">Target Date</th>
-                                                                <th className="border w-fit">Quarter</th>
-                                                                <th className="border w-fit">Weightage</th>
-                                                                <th className="border w-fit">Action</th>
+                                                            <tr className="bg-gray-200 text-base font-open-sans">
+                                                                <th className="px-2 border p-1.5">KPI</th>
+                                                                <th className="px-2 border">Target Date</th>
+                                                                <th className="px-2 border">Quarter</th>
+                                                                <th className="px-2 border">Weightage</th>
+                                                                <th className="px-2 border">Action</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
                                                             {kra.kpis.map((kpi, kpiIndex) => (
-                                                                <tr>
-                                                                    <td className="p-2 border">
+                                                                <tr className="">
+                                                                    <td className="p-1.5 w-full border">
 
                                                                         <textarea
                                                                             value={kpi.name}
                                                                             onChange={(e) => handleKPIChange(catIndex, kraIndex, kpiIndex, "name", e.target.value)}
-                                                                            placeholder="KPI Name"
-                                                                            className="h-12 border w-full"
+                                                                            placeholder="KPI Description"
+                                                                            className="p-2 h-11 border rounded border-gray-400 w-full text-sm"
                                                                         />
                                                                     </td>
-                                                                    <td className="max-w-fit border text-center">
+                                                                    <td className="px-2 border text-center">
                                                                         <input
                                                                             type="date"
                                                                             value={kpi.date || ""}
                                                                             onChange={(e) => handleKPIChange(catIndex, kraIndex, kpiIndex, "date", e.target.value)}
-                                                                            className="p-1 m-0 border w-fit"
+                                                                            className="p-1 m-0 border border-gray-400 rounded py-2 w-fit text-sm"
                                                                         />
                                                                     </td>
-                                                                    <td className="max-w-fit border text-center">
+                                                                    <td className="px-2 border text-center">
                                                                         <select
                                                                             name="dropdown"
                                                                             value={kpi.quarter}
                                                                             onChange={(e) => handleKPIChange(catIndex, kraIndex, kpiIndex, "quarter", e.target.value)}
-                                                                            className="border p-2 w-fit my-2"
+                                                                            className="border border-gray-400 rounded p-2 w-fit text-sm"
                                                                             required
                                                                         >
                                                                             <option value="Q1">Q1</option>
@@ -316,19 +318,19 @@ const AddForm2 = () => {
                                                                             <option value="Q4">Q4</option>
                                                                         </select>
                                                                     </td>
-                                                                    <td className="w-fit border text-center">
+                                                                    <td className="px-2 border text-center">
                                                                         <input
                                                                             onWheel={(e) => e.target.blur()}
                                                                             type="number"
                                                                             value={kpi.number || ""}
                                                                             onChange={(e) => handleKPIChange(catIndex, kraIndex, kpiIndex, "number", e.target.value)}
                                                                             placeholder="0"
-                                                                            className="p-2 border w-16"
+                                                                            className="p-2 text-sm border w-16 rounded border-gray-400"
                                                                         />
                                                                     </td>
                                                                     <td className="w-fit border text-center">
                                                                         <button
-                                                                            className="bg-red-500 text-white w-fit px-3 py-1 rounded"
+                                                                            className="bg-red-500 text-white w-fit px-3 py-1 rounded hover:drop-shadow-lg hover:scale-95 "
                                                                             onClick={() => removeKPI(catIndex, kraIndex, kpiIndex)}
                                                                         >
                                                                             -
@@ -375,12 +377,12 @@ const AddForm2 = () => {
                         totalKPIs == 100
 
                         ? <button onClick={() => submitForm()}
-                            className=" bg-green-500 whitespace-nowrap text-white px-3 py-1 rounded"
+                            className=" bg-green-500 whitespace-nowrap text-white px-3 py-1 rounded button-ani"
                         >
                             Submit
                         </button>
                         : <button
-                            className=" bg-red-500 whitespace-nowrap text-white px-3 py-1 rounded"
+                            className=" bg-red-500 whitespace-nowrap text-white px-3 py-1 rounded button-ani"
                         >
                             Submit
                         </button>

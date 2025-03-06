@@ -3,6 +3,7 @@ import ModalContext from "./ModalContext";
 
 const ModalState = (props) => {
 
+  const [loader, setloader] = useState(false);
   const [modal, setmodal] = useState(false);
   const [modalmessage,setmodalmessage]=useState({
     "text1":"",
@@ -10,7 +11,7 @@ const ModalState = (props) => {
   });
 
   return (
-    <ModalContext.Provider value={{modal,setmodal,modalmessage,setmodalmessage}}>
+    <ModalContext.Provider value={{loader, setloader,modal,setmodal,modalmessage,setmodalmessage}}>
       {props.children}
     </ModalContext.Provider>
   )

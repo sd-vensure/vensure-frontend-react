@@ -4,6 +4,7 @@
 
 .App {
   text-align: center;
+  font-family: 'Quicksand', sans-serif;
 }
 
 .App-logo {
@@ -268,4 +269,8 @@
 									   color-stop(0.44, rgb(122,153,217)),
 									   color-stop(0.72, rgb(73,125,189)),
 									   color-stop(0.86, rgb(28,58,148)));
+}
+
+.button-ani {
+  @apply hover:drop-shadow-lg hover:scale-95 transition duration-200;
 }

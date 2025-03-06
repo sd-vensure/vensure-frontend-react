@@ -88,7 +88,9 @@ const ViewMyformsNew = () => {
     return (
         <div className="overflow-x-auto ">
 
-            <table className="min-w-full text-center divide-y-2 divide-gray-200 bg-white">
+            <p className='text-xl md:text-2xl text-center w-full text-white p-3 md:p-5 mb-4 bg-blue-500 rounded-lg shadow-lg shadow-blue-500/40'>View KRA</p>
+
+            <table className="min-w-full text-center divide-y-2 divide-gray-200 bg-white mt-3">
                 <thead className="text-center bg-blue-500">
                     <tr>
                         <th className="whitespace-nowrap px-4 py-2 font-medium text-white border">No.</th>
@@ -162,7 +164,7 @@ const ViewMyformsNew = () => {
                                 </tr>
                             )) :
                             <tr>
-                                <td colSpan={4} className='border'>No form found.</td>
+                                <td colSpan={9} className='border'>No form found.</td>
                             </tr>
 
 

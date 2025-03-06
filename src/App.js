@@ -36,6 +36,10 @@ import ViewFormsDepartmentNew from './components/userforms/ViewFormsDepartmentNe
 import AddForm2 from './components/userforms/AddForm2';
 import ViewMyformsNew from './components/userforms/ViewMyformsNew';
 import ViewForPendingObtained from './components/userforms/ViewForPendingObtained';
+import HREditRequests from './components/userforms/HREditRequests';
+import MyEditRequests from './components/userforms/MyEditRequests';
+import EditCompleteFormAfter from './components/userforms/EditCompleteFormAfter';
+import Loader from './components/Loader';
 
 
 function App() {
@@ -62,7 +66,7 @@ function App() {
 
             <Route element={<PersistLogin />}>
               <Route element={<RequireAuth />}>
-                <Route path='/' element={<Home />} />
+                <Route path='/' element={<ViewMyformsNew />} />
                 <Route path='/drug' element={<Drugs />} />
                 <Route path='/paf' element={<PAF />} />
                 <Route path='/department' element={<Department />} />
@@ -80,11 +84,15 @@ function App() {
                 <Route path='/editcompletiondate' element={<EditCompletionDate />} />
                 <Route path='/editcompletionmarks' element={<EditCompletionMarks />} />
                 <Route path='/editboth' element={<EditCompletionDateAndMarks />} />
+                <Route path='/editspecial' element={<EditCompleteFormAfter />} />
 
                 <Route path='/addkra' element={<AddForm2 />} />
                 <Route path='/viewkra' element={<ViewMyformsNew />} />
 
-                <Route path='/hrview' element={<ProtectedRoute allowedRoles={["HRView"]}   element={<FinalVerification />} />} />
+                <Route path='/hrview' element={<ProtectedRoute allowedRoles={["HRView"]} element={<FinalVerification />} />} />
+                <Route path='/hreditrequests' element={<ProtectedRoute allowedRoles={["HREdit"]} element={<HREditRequests />} />} />
+                <Route path='/myeditrequests' element={<ProtectedRoute allowedRoles={["MyEdit"]} element={<MyEditRequests />} />} />
+                
                 <Route path='/viewdepartmentform' element={<ProtectedRoute allowedRoles={["ViewDepartmentForm"]}   element={<ViewFormsDepartmentNew />} />} />
                 
                 <Route path='/viewformsforobtained' element={<ProtectedRoute allowedRoles={["ViewDepartmentForm"]}   element={<ViewForPendingObtained />} />} />
