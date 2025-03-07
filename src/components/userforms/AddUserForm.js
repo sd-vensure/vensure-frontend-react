@@ -73,7 +73,7 @@ const AddUserForm = () => {
                     required
                 >
                     <option value="">Select</option>
-                    <option>2024-25</option>
+                    {/* <option>2024-25</option> */}
                     <option>2025-26</option>
 
                 </select>

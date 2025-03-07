@@ -8,6 +8,9 @@ import useAuth from "../hooks/useAuth";
 import PAFInformationModal from "../modals/PAFInformationModal";
 import { useSelector } from "react-redux";
 import TestingSideBAr from "./TestingSideBAr";
+import PasswordUpdate from "../modals/PasswordUpdate";
+import UserInformationModal from "../modals/UserInformationModal";
+import useModal from "../hooks/useModal";
 
 
 const RequireAuth = () => {
@@ -16,7 +19,16 @@ const RequireAuth = () => {
     // const [try1, settry1] = useState(true);
     const { auth, setauth, token } = useAuth();
 
+    const {userinformation, setuserinformation}=useModal()
+
     const showPAFModal = useSelector((state) => state.user.paf_modal);
+
+    const currentuser = useSelector((state) => state.user.current_user);
+    
+
+    let allowpasswordupdate="Y"
+
+    const [openpasswordchange, setopenpasswordchange] = useState(true)
 
     //  const [auth, setauth] = useState(useAuth());
 
@@ -46,6 +58,14 @@ const RequireAuth = () => {
 
                         {
                             showPAFModal && <PAFInformationModal />
+                        }
+                        
+                        {
+                            userinformation && <UserInformationModal />
+                        }
+                      
+                        {
+                            (openpasswordchange && currentuser && currentuser?.change_password=="Y") && <PasswordUpdate openpasswordchange={openpasswordchange} setopenpasswordchange={setopenpasswordchange}/>
                         }
 
 

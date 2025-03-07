@@ -5,12 +5,18 @@ import { Link, useNavigate } from 'react-router-dom';
 import logo from '../provision.gif'
 import useAuth from '../hooks/useAuth';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
+import { useSelector } from 'react-redux';
+import useModal from '../hooks/useModal';
 
 const TestingSideBAr = () => {
 
     const api = useAxiosPrivate()
 
     const { setauth, adminname, setadminname, token, settoken, auth } = useAuth();
+
+    const currentuser = useSelector((state) => state.user.current_user);
+
+    const {userinformation, setuserinformation}=useModal()
 
 
     const [openIndex, setOpenIndex] = useState(null);
@@ -107,17 +113,23 @@ const TestingSideBAr = () => {
                     </details>
                 </li>
 
+                {
 
-                <li className='list-none'>
-                    <Link
-                        to="/viewdepartmentform"
-                        className="transition-all hover:pl-5 block rounded-lg hover:bg-blue-500 hover:shadow-lg hover:shadow-blue-500/40 px-4 py-2 text-base font-medium text-white drop-shadow-sm"
-                    >
-                        Department Forms
-                    </Link>
-                </li>
+                    currentuser && currentuser.roles.includes("ViewDepartmentForm") &&
 
-                <li className='list-none'>
+                    <li className='list-none'>
+                        <Link
+                            to="/viewdepartmentform"
+                            className="transition-all hover:pl-5 block rounded-lg hover:bg-blue-500 hover:shadow-lg hover:shadow-blue-500/40 px-4 py-2 text-base font-medium text-white drop-shadow-sm"
+                        >
+                            Department Forms
+                        </Link>
+                    </li>
+                }
+
+                {
+                    currentuser && currentuser.roles.includes("ViewDepartmentForm") &&
+                    <li className='list-none'>
                     <Link
                         to="/viewformsforobtained"
                         className="transition-all hover:pl-5 block rounded-lg hover:bg-blue-500 hover:shadow-lg hover:shadow-blue-500/40 px-4 py-2 text-base font-medium text-white drop-shadow-sm"
@@ -125,8 +137,12 @@ const TestingSideBAr = () => {
                         Pending Assignmemt
                     </Link>
                 </li>
+                }
 
-                <li className='list-none'>
+               
+                {
+                    currentuser && currentuser.roles.includes("MyEdit") &&
+                    <li className='list-none'>
                     <Link
                         to="/myeditrequests"
                         className="transition-all hover:pl-5 block rounded-lg hover:bg-blue-500 hover:shadow-lg hover:shadow-blue-500/40 px-4 py-2 text-base font-medium text-white drop-shadow-sm"
@@ -134,8 +150,12 @@ const TestingSideBAr = () => {
                         My Edit Requests
                     </Link>
                 </li>
-
-                <li className='list-none'>
+                    
+                }
+                
+                {
+                    currentuser && currentuser.roles.includes("HRView") &&
+                    <li className='list-none'>
                     <Link
                         to="/hrview"
                         className="transition-all hover:pl-5 block rounded-lg hover:bg-blue-500 hover:shadow-lg hover:shadow-blue-500/40 px-4 py-2 text-base font-medium text-white drop-shadow-sm"
@@ -143,8 +163,11 @@ const TestingSideBAr = () => {
                         HR View
                     </Link>
                 </li>
-
-                <li className='list-none'>
+                }
+                
+                {
+                    currentuser && currentuser.roles.includes("HREdit") &&
+                    <li className='list-none'>
                     <Link
                         to="/hreditrequests"
                         className="transition-all hover:pl-5 block rounded-lg hover:bg-blue-500 hover:shadow-lg hover:shadow-blue-500/40 px-4 py-2 text-base font-medium text-white drop-shadow-sm"
@@ -152,6 +175,8 @@ const TestingSideBAr = () => {
                         Edit Requests
                     </Link>
                 </li>
+                }
+                
 
 
 
@@ -176,7 +201,7 @@ const TestingSideBAr = () => {
             </div>
 
             {/* User Information Section */}
-            <div className="mt-auto p-4 bg-gray-700">
+            <div onClick={()=>{setuserinformation(!userinformation)}} className="cursor-pointer mt-auto p-4 bg-gray-700">
                 <div className="flex items-center space-x-3">
                     <img
                         alt="Man"

@@ -51,7 +51,7 @@ function App() {
 
   const ProtectedRoute = ({ element, allowedRoles }) => {
     // Check if any of the user's roles exist in allowedRoles
-    const hasAccess = currentuser.roles.some(role => allowedRoles.includes(role));
+    const hasAccess = currentuser.roles && Array.isArray(currentuser.roles) && currentuser.roles.some(role => allowedRoles.includes(role));
 
     return hasAccess ? element : <Navigate to="/unauthorized" />;
 };
@@ -96,7 +96,6 @@ function App() {
                 <Route path='/viewdepartmentform' element={<ProtectedRoute allowedRoles={["ViewDepartmentForm"]}   element={<ViewFormsDepartmentNew />} />} />
                 
                 <Route path='/viewformsforobtained' element={<ProtectedRoute allowedRoles={["ViewDepartmentForm"]}   element={<ViewForPendingObtained />} />} />
-
 
 
                 <Route path='/dummy' element={<ProtectedRoute allowedRoles={["Testing"]}   element={<Dummy />} />} />
