@@ -120,7 +120,9 @@ const ViewParticularFormNew = () => {
                         date: "",
                         kpis: [] // Initialize an empty kpis array
                     };
-                    existingCategory.kras.push(existingKra);
+                    if (!(existingKra.id == null || existingKra.id == "")) {
+                        existingCategory.kras.push(existingKra);
+                    }
                 }
 
                 // Now check for KPIs related to this KRA and add them to the kpis array
@@ -152,6 +154,8 @@ const ViewParticularFormNew = () => {
             let tempkra = 0
 
             let categorytotals = [0, 0, 0]
+
+            // console.log(distinctCategories, "this is distinctcat")
 
             distinctCategories.map((ele, index) => {
                 if (ele.kras.length > 0) {
@@ -213,15 +217,15 @@ const ViewParticularFormNew = () => {
                     <div class="grid grid-cols-1 gap-1 py-1.5 sm:grid-cols-4 sm:gap-4">
                         <dt class="font-medium text-blue-600">Designation</dt>
                         <dd class="text-gray-900 sm:col-span-2">{userform?.designation}</dd>
-                    </div> 
+                    </div>
                     <div class="grid grid-cols-1 gap-1 py-1.5 sm:grid-cols-4 sm:gap-4">
                         <dt class="font-medium text-blue-600">Date of Joining</dt>
                         <dd class="text-gray-900 sm:col-span-2">{moment(userform?.doj).format("DD-MM-YYYY")}</dd>
-                    </div> 
+                    </div>
                     <div class="grid grid-cols-1 gap-1 py-1.5 sm:grid-cols-4 sm:gap-4">
                         <dt class="font-medium text-blue-600">Financial</dt>
                         <dd class="text-gray-900 sm:col-span-2">{userform?.financial_year}</dd>
-                    </div> 
+                    </div>
                 </dl>
             </div>
 

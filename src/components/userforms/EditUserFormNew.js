@@ -4,6 +4,7 @@ import api from "../axiosapi";
 import { useSelector } from "react-redux";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
+import { getFinancialQuarter } from "../../helper";
 
 const EditUserFormNew = () => {
 
@@ -13,6 +14,12 @@ const EditUserFormNew = () => {
     const userform = useSelector((state) => state.user.user_form);
 
     const [finance, setfinance] = useState(userform.financial_year);
+
+    const [startYear, endYear] = finance.split("-").map(Number);
+
+    // Define min and max dates dynamically
+    const minDate = `${startYear}-04-01`;
+    const maxDate = `20${endYear}-03-31`;
 
     const navigate = useNavigate();
 
@@ -119,6 +126,27 @@ const EditUserFormNew = () => {
 
             settotalKPIs(allotalKPIs);
         }
+        else if (field == "target") {
+            if (value == "" || value == null) {
+                updatedCategories[catIndex].kras[kraIndex].kpis[kpiIndex]["target"] = null;
+                updatedCategories[catIndex].kras[kraIndex].kpis[kpiIndex]["quarter"] = "-";
+            }
+            else {
+
+                if (value >= minDate && value <= maxDate) {
+                    let resp = getFinancialQuarter(value);
+                    updatedCategories[catIndex].kras[kraIndex].kpis[kpiIndex]["target"] = value;
+                    updatedCategories[catIndex].kras[kraIndex].kpis[kpiIndex]["quarter"] = resp.quarter;
+                } else {
+                    toast.info(`Please select a date between ${minDate} and ${maxDate}`);
+                    updatedCategories[catIndex].kras[kraIndex].kpis[kpiIndex]["target"] = null;
+                    updatedCategories[catIndex].kras[kraIndex].kpis[kpiIndex]["quarter"] = "-";
+                }
+
+
+            }
+        }
+
         else {
 
             updatedCategories[catIndex].kras[kraIndex].kpis[kpiIndex][field] = value;
@@ -136,7 +164,7 @@ const EditUserFormNew = () => {
             text: "",
             date: "",
             // kpis: [{ id: Date.now(), name: "", number: 0, quarter: "Q1", target: null, obtained: null, completion: null }],
-            kpis: includeKpis == "Y" ? [{ id: Date.now(), name: "", number: 0, quarter: "Q1", target: null, obtained: null, completion: null }] : [],
+            kpis: includeKpis == "Y" ? [{ id: Date.now(), name: "", number: 0, quarter: "-", target: null, obtained: null, completion: null }] : [],
         });
         setCategories(updatedCategories);
     };
@@ -156,7 +184,7 @@ const EditUserFormNew = () => {
     const addKPI = (catIndex, kraIndex) => {
         const updatedCategories = [...categories];
         updatedCategories[catIndex].kras[kraIndex].kpis.push({
-            id: Date.now(), name: "", number: 0, quarter: "Q1", target: null, obtained: null, completion: null
+            id: Date.now(), name: "", number: 0, quarter: "-", target: null, obtained: null, completion: null
         });
         setCategories(updatedCategories);
     };
@@ -165,6 +193,45 @@ const EditUserFormNew = () => {
     const removeKPI = (catIndex, kraIndex, kpiIndex) => {
         const updatedCategories = [...categories];
         updatedCategories[catIndex].kras[kraIndex].kpis.splice(kpiIndex, 1);
+
+        if (updatedCategories[catIndex].kras[kraIndex].kpis.length == 0) {
+            updatedCategories[catIndex].kras.splice(kraIndex, 1);
+            
+            let allotalKPIs = 0;
+            let tempkra = 0
+
+            let categorytotals = [0, 0, 0]
+
+            updatedCategories.map((ele, index) => {
+                if (ele.kras.length > 0) {
+
+                    tempkra = 0
+                    ele.kras.map((kra) => {
+                        if (kra.kpis.length > 0) {
+                            kra.kpis.map((kpi) => {
+                                allotalKPIs += kpi.number;
+                                tempkra += kpi.number;
+                            })
+                        }
+                        else {
+                            tempkra = 0;
+                        }
+                    })
+                    categorytotals[index] = tempkra;
+                }
+                else {
+                    categorytotals[index] = 0
+                }
+            })
+
+            updatedCategories[0].total = categorytotals[0];
+            updatedCategories[1].total = categorytotals[1];
+            updatedCategories[2].total = categorytotals[2];
+
+            settotalKPIs(allotalKPIs);
+
+        }
+
         updatedCategories[catIndex].total = updatedCategories[catIndex].kras.reduce(
             (sum, kra) => sum + kra.kpis.reduce((s, kpi) => s + kpi.number, 0),
             0
@@ -218,6 +285,7 @@ const EditUserFormNew = () => {
                         total: 0,
                         include_kpis: item.include_kpi
                     };
+
                     unique.push(existingCategory); // Add new category to unique array
                 }
 
@@ -232,7 +300,11 @@ const EditUserFormNew = () => {
                         date: "",
                         kpis: [] // Initialize an empty kpis array
                     };
-                    existingCategory.kras.push(existingKra);
+
+                    if (!(existingKra.id == null || existingKra.id == "")) {
+                        existingCategory.kras.push(existingKra);
+                    }
+                    // existingCategory.kras.push(existingKra);
                 }
 
                 // Now check for KPIs related to this KRA and add them to the kpis array
@@ -362,7 +434,7 @@ const EditUserFormNew = () => {
                 <div key={category.category_id} className="mb-5 border p-4 rounded-lg shadow-lg">
                     <div className="flex justify-between items-center">
 
-                       
+
                         {
                             categoryLimits[catIndex].max > 0
                             &&
@@ -477,6 +549,7 @@ const EditUserFormNew = () => {
                                                                         <input
                                                                             name="target"
                                                                             type="date"
+                                                                            min={minDate} max={maxDate}
                                                                             value={kpi.target ? moment(kpi.target).format("YYYY-MM-DD") : ""}
                                                                             onChange={(e) => handleKPIChange(catIndex, kraIndex, kpiIndex, "target", e.target.value)}
                                                                             className="p-1 m-0 border border-gray-400 rounded py-2 w-fit text-sm"
@@ -485,7 +558,7 @@ const EditUserFormNew = () => {
                                                                     </td>
 
                                                                     <td className="p-2 border text-center">
-                                                                        <select
+                                                                        {/* <select
                                                                             name="dropdown"
                                                                             value={kpi.quarter}
                                                                             onChange={(e) => handleKPIChange(catIndex, kraIndex, kpiIndex, "quarter", e.target.value)}
@@ -495,7 +568,8 @@ const EditUserFormNew = () => {
                                                                             <option value="Q2">Q2</option>
                                                                             <option value="Q3">Q3</option>
                                                                             <option value="Q4">Q4</option>
-                                                                        </select>
+                                                                        </select> */}
+                                                                        <p className=" text-center rounded p-2 w-full text-sm">{kpi.quarter}</p>
                                                                     </td>
 
                                                                     <td className="px-2 border text-center">
@@ -570,7 +644,8 @@ const EditUserFormNew = () => {
                     /100
                 </h2>
 
-                {
+
+                {/* {
                     ((categories[0].total >= categoryLimits[0].min && categories[0].total <= categoryLimits[0].max) &&
                         (categories[1].total >= categoryLimits[1].min && categories[1].total <= categoryLimits[1].max) &&
                         (categories[2].total >= categoryLimits[2].min && categories[2].total <= categoryLimits[2].max)) &&
@@ -587,7 +662,13 @@ const EditUserFormNew = () => {
                             Submit
                         </button>
 
-                }
+                } */}
+
+                <button onClick={() => submitForm()}
+                    className=" bg-green-500 whitespace-nowrap text-white px-3 py-1 rounded button-ani"
+                >
+                    Submit
+                </button>
 
 
 

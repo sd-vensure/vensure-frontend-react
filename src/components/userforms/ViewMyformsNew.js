@@ -10,6 +10,7 @@ import { setUserForm } from '../../store/user/userHelper';
 
 const ViewMyformsNew = () => {
 
+    const [tempdata, settempdata] = useState([]);
     const [data, setdata] = useState([]);
 
     const dispatch = useDispatch();
@@ -25,11 +26,11 @@ const ViewMyformsNew = () => {
 
             if (getdata.data.status) {
                 // toast.success(getdata.data.message)
-                setdata(getdata.data.data)
+                settempdata(getdata.data.data)
             }
             else {
                 toast.info(getdata.data.message)
-                setdata([])
+                settempdata([])
             }
 
         } catch (error) {
@@ -82,6 +83,50 @@ const ViewMyformsNew = () => {
             }
         }
     };
+
+    useEffect(() => {
+        let finaldata = [];
+
+        if (tempdata.length > 0) {
+            tempdata.map((form) => {
+
+                let categoryLimits = [
+                    { min: 50, max: 80 },
+                    { min: 5, max: 25 },
+                    { min: 10, max: 20 },
+                    { min: 0, max: 0 }
+                ];
+
+                let categoriesdata = form.categoriesdata;
+
+                let tempcategories = []
+
+                let kpitotal = 0;
+
+                categoryLimits.map((ele, index) => {
+                    let maincategorytotal = categoriesdata.find((v) => v.category_id == index + 1)
+                    kpitotal = kpitotal + parseInt(maincategorytotal.total)
+                    tempcategories.push({ ...ele, ...maincategorytotal })
+                })
+
+                let is_categories_matching = (((tempcategories[0].total >= categoryLimits[0].min && tempcategories[0].total <= categoryLimits[0].max) &&
+                    (tempcategories[1].total >= categoryLimits[1].min && tempcategories[1].total <= categoryLimits[1].max) &&
+                    (tempcategories[2].total >= categoryLimits[2].min && tempcategories[2].total <= categoryLimits[2].max)) &&
+                    kpitotal == 100)
+
+                finaldata.push({ ...form, "categories_main": tempcategories, "kpitotal": kpitotal, is_categories_matching })
+
+            })
+        }
+
+        setdata(finaldata)
+    }, [tempdata])
+
+    useEffect(() => {
+        console.log(data, "this is data")
+    }, [data])
+
+
 
 
 
@@ -145,10 +190,13 @@ const ViewMyformsNew = () => {
 
 
                                     <td className='border cursor-pointer text-blue-500' >
-                                        {
+                                        {item.is_categories_matching
+
+                                            ?
                                             item.is_verified == "Pending" || item.is_verified == "Rejected"
                                                 ? <button onClick={() => { setFormValue(item, "Share") }} className='bg-blue-500 text-white px-3 py-1 rounded ml-2 m-2'>Share</button>
                                                 : <span className='text-green-500'>Shared</span>
+                                            : <span className='text-green-500'>Categories Total not satisfactory</span>
                                         }
                                     </td>
 

@@ -1,10 +1,17 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import api from "../axiosapi";
+import { getFinancialQuarter } from "../../helper";
 
 const AddForm2 = () => {
 
     const [finance, setfinance] = useState('')
+
+    const [startYear, endYear] = finance.split("-").map(Number);
+
+    // Define min and max dates dynamically
+    const minDate = `${startYear}-04-01`;
+    const maxDate = `20${endYear}-03-31`;
 
 
     const categoryLimits = [
@@ -38,7 +45,7 @@ const AddForm2 = () => {
             id: Date.now(),
             text: "",
             date: "",
-            kpis: includeKpis == "Y" ? [{ id: Date.now(), name: "", number: 0, quarter: "Q1", date: null }] : [],
+            kpis: includeKpis == "Y" ? [{ id: Date.now(), name: "", number: 0, quarter: "-", date: null }] : [],
         });
         setCategories(updatedCategories);
     };
@@ -62,7 +69,7 @@ const AddForm2 = () => {
             name: "",
             number: 0,
             date: null,
-            quarter: "Q1"
+            quarter: "-"
         });
         setCategories(updatedCategories);
     };
@@ -71,6 +78,44 @@ const AddForm2 = () => {
     const removeKPI = (catIndex, kraIndex, kpiIndex) => {
         const updatedCategories = [...categories];
         updatedCategories[catIndex].kras[kraIndex].kpis.splice(kpiIndex, 1);
+
+        if (updatedCategories[catIndex].kras[kraIndex].kpis.length == 0) {
+            updatedCategories[catIndex].kras.splice(kraIndex, 1);
+
+            let allotalKPIs = 0;
+            let tempkra = 0
+
+            let categorytotals = [0, 0, 0]
+
+            updatedCategories.map((ele, index) => {
+                if (ele.kras.length > 0) {
+
+                    tempkra = 0
+                    ele.kras.map((kra) => {
+                        if (kra.kpis.length > 0) {
+                            kra.kpis.map((kpi) => {
+                                allotalKPIs += kpi.number;
+                                tempkra += kpi.number;
+                            })
+                        }
+                        else {
+                            tempkra = 0;
+                        }
+                    })
+                    categorytotals[index] = tempkra;
+                }
+                else {
+                    categorytotals[index] = 0
+                }
+            })
+
+            updatedCategories[0].total = categorytotals[0];
+            updatedCategories[1].total = categorytotals[1];
+            updatedCategories[2].total = categorytotals[2];
+
+            settotalKPIs(allotalKPIs);
+        }
+
         updatedCategories[catIndex].total = updatedCategories[catIndex].kras.reduce(
             (sum, kra) => sum + kra.kpis.reduce((s, kpi) => s + kpi.number, 0),
             0
@@ -120,6 +165,26 @@ const AddForm2 = () => {
             updatedCategories[2].total = categorytotals[2];
 
             settotalKPIs(allotalKPIs);
+        }
+        else if (field == "date") {
+            if (value == "" || value == null) {
+                updatedCategories[catIndex].kras[kraIndex].kpis[kpiIndex]["date"] = null;
+                updatedCategories[catIndex].kras[kraIndex].kpis[kpiIndex]["quarter"] = "-";
+            }
+            else {
+
+                if (value >= minDate && value <= maxDate) {
+                    let resp = getFinancialQuarter(value);
+                    updatedCategories[catIndex].kras[kraIndex].kpis[kpiIndex]["date"] = value;
+                    updatedCategories[catIndex].kras[kraIndex].kpis[kpiIndex]["quarter"] = resp.quarter;
+                } else {
+                    toast.info(`Please select a date between ${minDate} and ${maxDate}`);
+                    updatedCategories[catIndex].kras[kraIndex].kpis[kpiIndex]["date"] = null;
+                    updatedCategories[catIndex].kras[kraIndex].kpis[kpiIndex]["quarter"] = "-";
+                }
+
+
+            }
         }
         else {
             updatedCategories[catIndex].kras[kraIndex].kpis[kpiIndex][field] = value;
@@ -246,24 +311,24 @@ const AddForm2 = () => {
 
 
                                             <td className=" gap-1 w-fit h-full mx-auto">
-                                                    <div className=" flex gap-2 justify-center items-center">
-                                                {
-                                                    category.include_kpis == "Y"
-                                                    &&
-                                                    <button
-                                                        className=" bg-green-500 whitespace-nowrap text-white px-3 py-2 text-sm rounded w-fit hover:drop-shadow-lg hover:scale-95"
-                                                        onClick={() => addKPI(catIndex, kraIndex)}
-                                                    >
-                                                        Add KPI
-                                                    </button>
-                                                }
+                                                <div className=" flex gap-2 justify-center items-center">
+                                                    {
+                                                        category.include_kpis == "Y"
+                                                        &&
+                                                        <button
+                                                            className=" bg-green-500 whitespace-nowrap text-white px-3 py-2 text-sm rounded w-fit hover:drop-shadow-lg hover:scale-95"
+                                                            onClick={() => addKPI(catIndex, kraIndex)}
+                                                        >
+                                                            Add KPI
+                                                        </button>
+                                                    }
 
-                                                <button
-                                                    className="bg-red-500 whitespace-nowrap text-white  px-3 py-2 text-sm rounded w-fit hover:drop-shadow-lg hover:scale-95"
-                                                    onClick={() => removeKRA(catIndex, kraIndex)}
-                                                >
-                                                    Remove KRA
-                                                </button>
+                                                    <button
+                                                        className="bg-red-500 whitespace-nowrap text-white  px-3 py-2 text-sm rounded w-fit hover:drop-shadow-lg hover:scale-95"
+                                                        onClick={() => removeKRA(catIndex, kraIndex)}
+                                                    >
+                                                        Remove KRA
+                                                    </button>
                                                 </div>
                                             </td>
 
@@ -298,14 +363,16 @@ const AddForm2 = () => {
                                                                     </td>
                                                                     <td className="px-2 border text-center">
                                                                         <input
+                                                                            disabled={finance == "" || finance == null}
                                                                             type="date"
+                                                                            min={minDate} max={maxDate}
                                                                             value={kpi.date || ""}
                                                                             onChange={(e) => handleKPIChange(catIndex, kraIndex, kpiIndex, "date", e.target.value)}
                                                                             className="p-1 m-0 border border-gray-400 rounded py-2 w-fit text-sm"
                                                                         />
                                                                     </td>
                                                                     <td className="px-2 border text-center">
-                                                                        <select
+                                                                        {/* <select
                                                                             name="dropdown"
                                                                             value={kpi.quarter}
                                                                             onChange={(e) => handleKPIChange(catIndex, kraIndex, kpiIndex, "quarter", e.target.value)}
@@ -316,7 +383,8 @@ const AddForm2 = () => {
                                                                             <option value="Q2">Q2</option>
                                                                             <option value="Q3">Q3</option>
                                                                             <option value="Q4">Q4</option>
-                                                                        </select>
+                                                                        </select> */}
+                                                                        <p className=" text-center rounded p-2 w-full text-sm">{kpi.quarter}</p>
                                                                     </td>
                                                                     <td className="px-2 border text-center">
                                                                         <input
@@ -370,7 +438,7 @@ const AddForm2 = () => {
                     /100
                 </h2>
 
-                {
+                {/* {
                     ((categories[0].total >= categoryLimits[0].min && categories[0].total <= categoryLimits[0].max) &&
                         (categories[1].total >= categoryLimits[1].min && categories[1].total <= categoryLimits[1].max) &&
                         (categories[2].total >= categoryLimits[2].min && categories[2].total <= categoryLimits[2].max)) &&
@@ -387,7 +455,13 @@ const AddForm2 = () => {
                             Submit
                         </button>
 
-                }
+                } */}
+
+                <button onClick={() => submitForm()}
+                    className=" bg-green-500 whitespace-nowrap text-white px-3 py-1 rounded button-ani"
+                >
+                    Submit
+                </button>
 
             </div>
         </div>
