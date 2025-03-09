@@ -4,6 +4,7 @@ import api from "../axiosapi";
 import { useSelector } from "react-redux";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
+import { getFinancialQuarter, isValidNumber } from "../../helper";
 
 const EditCompleteFormAfter = () => {
 
@@ -13,6 +14,13 @@ const EditCompleteFormAfter = () => {
     const userform = useSelector((state) => state.user.user_form);
 
     const [finance, setfinance] = useState(userform.financial_year);
+
+    const [startYear, endYear] = finance.split("-").map(Number);
+
+    // Define min and max dates dynamically
+    const minDate = `${startYear}-04-01`;
+    const maxDate = `20${endYear}-03-31`;
+
 
     const navigate = useNavigate();
 
@@ -41,7 +49,21 @@ const EditCompleteFormAfter = () => {
         const updatedCategories = [...categories];
 
         if (field === "number") {
-            value = parseInt(value) || 0;
+            if (isValidNumber(value)) {
+
+                if (value < 0 || value > 100) {
+                    value = 0;
+                    toast.info("Please select between 0 and 100")
+                }
+                else {
+                    value = parseInt(value) || 0;
+                }
+            }
+            else {
+                value = 0;
+                toast.info("No characters or special symbols allowed");
+            }
+            // value = parseInt(value) || 0;
             updatedCategories[catIndex].kras[kraIndex].kpis[kpiIndex][field] = value;
 
 
@@ -81,7 +103,7 @@ const EditCompleteFormAfter = () => {
         else if (field === "obtained") {
             if (value < 0 || value > 10) {
                 value = 0;
-                toast.info("Please provide between 0 and 10");
+                toast.info("Please provide between 1 and 10");
             }
             value = parseInt(value) || null;
             updatedCategories[catIndex].kras[kraIndex].kpis[kpiIndex][field] = value;
@@ -119,6 +141,46 @@ const EditCompleteFormAfter = () => {
 
             settotalKPIs(allotalKPIs);
         }
+        else if (field == "target") {
+            if (value == "" || value == null) {
+                updatedCategories[catIndex].kras[kraIndex].kpis[kpiIndex]["target"] = null;
+                updatedCategories[catIndex].kras[kraIndex].kpis[kpiIndex]["quarter"] = "-";
+            }
+            else {
+
+                if (value >= minDate && value <= maxDate) {
+                    let resp = getFinancialQuarter(value);
+                    updatedCategories[catIndex].kras[kraIndex].kpis[kpiIndex]["target"] = value;
+                    updatedCategories[catIndex].kras[kraIndex].kpis[kpiIndex]["quarter"] = resp.quarter;
+                } else {
+                    toast.info(`Please select a date between ${minDate} and ${maxDate}`);
+                    updatedCategories[catIndex].kras[kraIndex].kpis[kpiIndex]["target"] = null;
+                    updatedCategories[catIndex].kras[kraIndex].kpis[kpiIndex]["quarter"] = "-";
+                }
+
+
+            }
+        }
+        else if (field == "completion") {
+            if (value == "" || value == null) {
+                updatedCategories[catIndex].kras[kraIndex].kpis[kpiIndex]["completion"] = null;
+                updatedCategories[catIndex].kras[kraIndex].kpis[kpiIndex]["quarter"] = "-";
+            }
+            else {
+
+                if (value >= minDate && value <= maxDate) {
+                    let resp = getFinancialQuarter(value);
+                    updatedCategories[catIndex].kras[kraIndex].kpis[kpiIndex]["completion"] = value;
+                    updatedCategories[catIndex].kras[kraIndex].kpis[kpiIndex]["quarter"] = resp.quarter;
+                } else {
+                    toast.info(`Please select a date between ${minDate} and ${maxDate}`);
+                    updatedCategories[catIndex].kras[kraIndex].kpis[kpiIndex]["completion"] = null;
+                    updatedCategories[catIndex].kras[kraIndex].kpis[kpiIndex]["quarter"] = "-";
+                }
+
+
+            }
+        }
         else {
 
             updatedCategories[catIndex].kras[kraIndex].kpis[kpiIndex][field] = value;
@@ -136,7 +198,7 @@ const EditCompleteFormAfter = () => {
             text: "",
             date: "",
             // kpis: [{ id: Date.now(), name: "", number: 0, quarter: "Q1", target: null, obtained: null, completion: null }],
-            kpis: includeKpis == "Y" ? [{ id: Date.now(), name: "", number: 0, quarter: "Q1", target: null, obtained: null, completion: null }] : [],
+            kpis: includeKpis == "Y" ? [{ id: Date.now(), name: "", number: 0, quarter: "-", target: null, obtained: null, completion: null }] : [],
         });
         setCategories(updatedCategories);
     };
@@ -156,7 +218,7 @@ const EditCompleteFormAfter = () => {
     const addKPI = (catIndex, kraIndex) => {
         const updatedCategories = [...categories];
         updatedCategories[catIndex].kras[kraIndex].kpis.push({
-            id: Date.now(), name: "", number: 0, quarter: "Q1", target: null, obtained: null, completion: null
+            id: Date.now(), name: "", number: 0, quarter: "-", target: null, obtained: null, completion: null
         });
         setCategories(updatedCategories);
     };
@@ -165,6 +227,45 @@ const EditCompleteFormAfter = () => {
     const removeKPI = (catIndex, kraIndex, kpiIndex) => {
         const updatedCategories = [...categories];
         updatedCategories[catIndex].kras[kraIndex].kpis.splice(kpiIndex, 1);
+
+        if (updatedCategories[catIndex].kras[kraIndex].kpis.length == 0) {
+            updatedCategories[catIndex].kras.splice(kraIndex, 1);
+
+            let allotalKPIs = 0;
+            let tempkra = 0
+
+            let categorytotals = [0, 0, 0]
+
+            updatedCategories.map((ele, index) => {
+                if (ele.kras.length > 0) {
+
+                    tempkra = 0
+                    ele.kras.map((kra) => {
+                        if (kra.kpis.length > 0) {
+                            kra.kpis.map((kpi) => {
+                                allotalKPIs += kpi.number;
+                                tempkra += kpi.number;
+                            })
+                        }
+                        else {
+                            tempkra = 0;
+                        }
+                    })
+                    categorytotals[index] = tempkra;
+                }
+                else {
+                    categorytotals[index] = 0
+                }
+            })
+
+            updatedCategories[0].total = categorytotals[0];
+            updatedCategories[1].total = categorytotals[1];
+            updatedCategories[2].total = categorytotals[2];
+
+            settotalKPIs(allotalKPIs);
+
+        }
+
         updatedCategories[catIndex].total = updatedCategories[catIndex].kras.reduce(
             (sum, kra) => sum + kra.kpis.reduce((s, kpi) => s + kpi.number, 0),
             0
@@ -294,7 +395,7 @@ const EditCompleteFormAfter = () => {
             settotalKPIs(allotalKPIs);
 
             if (distinctCategories.length == 3) {
-                distinctCategories.push({ category_id: 4, category_name: "Training", kras: [], total: 0, include_kpis: "N" })
+                distinctCategories.push({ category_id: 4, category_name: "Expectations", kras: [], total: 0, include_kpis: "N" })
             }
 
 
@@ -388,12 +489,12 @@ const EditCompleteFormAfter = () => {
                             className="whitespace-nowrap bg-blue-500 text-white px-4 py-2 rounded mb-2 button-ani"
                             onClick={() => addKRA(catIndex, category.include_kpis)}
                         >
-                            Add KRA
+                            {category.include_kpis == "Y" ? "Add KRA" : "Add Expectations"}
                         </button>
                     </div>
 
                     <table className="w-full border">
-                    <thead>
+                        <thead>
                             <tr className="bg-gray-200 font-open-sans">
                                 <th className="p-1.5 border">No.</th>
                                 <th className="p-1.5 border">KRA</th>
@@ -413,7 +514,7 @@ const EditCompleteFormAfter = () => {
                                                     type="text"
                                                     value={kra.text}
                                                     onChange={(e) => handleKRAChange(catIndex, kraIndex, "text", e.target.value)}
-                                                    placeholder="KRA Description"
+                                                    placeholder={category.include_kpis == "Y" ? "KRA Description" : "Expectations Description"}
                                                     className="p-2 h-14 border border-gray-400 w-full rounded"
                                                 />
                                             </td>
@@ -423,8 +524,8 @@ const EditCompleteFormAfter = () => {
                                                     &&
 
                                                     <button
-                                                    className=" bg-green-500 whitespace-nowrap text-white px-3 py-2 text-sm rounded w-fit hover:drop-shadow-lg hover:scale-95"
-                                                    onClick={() => addKPI(catIndex, kraIndex)}
+                                                        className=" bg-green-500 whitespace-nowrap text-white px-3 py-2 text-sm rounded w-fit hover:drop-shadow-lg hover:scale-95"
+                                                        onClick={() => addKPI(catIndex, kraIndex)}
                                                     >
                                                         Add KPI
                                                     </button>
@@ -433,7 +534,7 @@ const EditCompleteFormAfter = () => {
                                                     className="bg-red-500 whitespace-nowrap text-white px-3 py-1 rounded w-fit button-ani"
                                                     onClick={() => removeKRA(catIndex, kraIndex)}
                                                 >
-                                                    Remove KRA
+                                                    {category.include_kpis == "Y" ? "Remove KRA" : "Remove"}
                                                 </button>
 
                                             </td>
@@ -465,22 +566,23 @@ const EditCompleteFormAfter = () => {
                                                                             onChange={(e) => handleKPIChange(catIndex, kraIndex, kpiIndex, "name", e.target.value)}
                                                                             placeholder="KPI Name"
                                                                             className="p-2 h-11 border rounded border-gray-400 w-full text-sm"
-                                                                            />
+                                                                        />
                                                                     </td>
 
                                                                     <td className="px-2 border text-center">
                                                                         <input
                                                                             name="target"
                                                                             type="date"
+                                                                            min={minDate} max={maxDate}
                                                                             value={kpi.target ? moment(kpi.target).format("YYYY-MM-DD") : ""}
                                                                             onChange={(e) => handleKPIChange(catIndex, kraIndex, kpiIndex, "target", e.target.value)}
                                                                             className="p-1 m-0 border border-gray-400 rounded py-2 w-fit text-sm"
-                                                                            />
+                                                                        />
 
                                                                     </td>
 
                                                                     <td className="px-2 border text-center">
-                                                                        <select
+                                                                        {/* <select
                                                                             name="dropdown"
                                                                             value={kpi.quarter}
                                                                             onChange={(e) => handleKPIChange(catIndex, kraIndex, kpiIndex, "quarter", e.target.value)}
@@ -491,7 +593,8 @@ const EditCompleteFormAfter = () => {
                                                                             <option value="Q2">Q2</option>
                                                                             <option value="Q3">Q3</option>
                                                                             <option value="Q4">Q4</option>
-                                                                        </select>
+                                                                        </select> */}
+                                                                        <p className=" text-center rounded p-2 w-full text-sm">{kpi.quarter}</p>
                                                                     </td>
 
                                                                     <td className="px-2 border text-center">
@@ -502,16 +605,17 @@ const EditCompleteFormAfter = () => {
                                                                             onChange={(e) => handleKPIChange(catIndex, kraIndex, kpiIndex, "number", e.target.value)}
                                                                             placeholder="0"
                                                                             className="p-2 text-sm border w-16 rounded border-gray-400"
-                                                                            />
+                                                                        />
                                                                     </td>
                                                                     <td className="px-2 border text-center">
                                                                         <input
                                                                             name="completion"
+                                                                            min={minDate} max={maxDate}
                                                                             type="date"
                                                                             value={kpi.completion ? moment(kpi.completion).format("YYYY-MM-DD") : ""}
                                                                             onChange={(e) => handleKPIChange(catIndex, kraIndex, kpiIndex, "completion", e.target.value)}
                                                                             className="p-1 m-0 border border-gray-400 rounded py-2 w-fit text-sm"
-                                                                            />
+                                                                        />
                                                                     </td>
                                                                     <td className="w-fit border text-center">
                                                                         <input
@@ -522,13 +626,13 @@ const EditCompleteFormAfter = () => {
                                                                             onChange={(e) => handleKPIChange(catIndex, kraIndex, kpiIndex, "obtained", e.target.value)}
                                                                             placeholder="0"
                                                                             className="p-2 text-sm border w-16 rounded border-gray-400"
-                                                                        
-                                                                             />
+
+                                                                        />
                                                                     </td>
                                                                     <td className="w-fit border text-center">
                                                                         <button
-                                                                          className="bg-red-500 text-white w-fit px-3 py-1 rounded hover:drop-shadow-lg hover:scale-95 "
-                                                                          onClick={() => removeKPI(catIndex, kraIndex, kpiIndex)}
+                                                                            className="bg-red-500 text-white w-fit px-3 py-1 rounded hover:drop-shadow-lg hover:scale-95 "
+                                                                            onClick={() => removeKPI(catIndex, kraIndex, kpiIndex)}
                                                                         >
                                                                             -
                                                                         </button>

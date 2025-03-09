@@ -81,7 +81,7 @@ const EditCompletionDateAndMarks = () => {
         else if (field === "obtained") {
             if (value < 0 || value > 10) {
                 value = 0;
-                toast.info("Please provide between 0 and 10");
+                toast.info("Please provide between 1 and 10");
             }
             value = parseInt(value) || null;
             updatedCategories[catIndex].kras[kraIndex].kpis[kpiIndex][field] = value;

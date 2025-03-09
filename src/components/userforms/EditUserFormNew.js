@@ -4,7 +4,7 @@ import api from "../axiosapi";
 import { useSelector } from "react-redux";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
-import { getFinancialQuarter } from "../../helper";
+import { getFinancialQuarter, isValidNumber } from "../../helper";
 
 const EditUserFormNew = () => {
 
@@ -34,7 +34,7 @@ const EditUserFormNew = () => {
         { category_id: 1, category_name: "Major Goals", kras: [], total: 0, include_kpis: "Y" },
         { category_id: 2, category_name: "Prganizational Goals", kras: [], total: 0, include_kpis: "Y" },
         { category_id: 3, category_name: "Personal Goals", kras: [], total: 0, include_kpis: "Y" },
-        { category_id: 4, category_name: "Training", kras: [], total: 0, include_kpis: "N" }
+        { category_id: 4, category_name: "Expectations", kras: [], total: 0, include_kpis: "N" }
     ]);
 
     const handleKRAChange = (catIndex, kraIndex, field, value) => {
@@ -48,7 +48,23 @@ const EditUserFormNew = () => {
         const updatedCategories = [...categories];
 
         if (field === "number") {
-            value = parseInt(value) || 0;
+            // value = parseInt(value) || 0;
+
+            if (isValidNumber(value)) {
+           
+                           if (value < 0 || value > 100) {
+                               value = 0;
+                               toast.info("Please select between 0 and 100")
+                           }
+                           else {
+                               value = parseInt(value) || 0;
+                           }
+                       }
+                       else {
+                           value = 0;
+                           toast.info("No characters or special symbols allowed");
+                       }
+
             updatedCategories[catIndex].kras[kraIndex].kpis[kpiIndex][field] = value;
 
 
@@ -88,8 +104,9 @@ const EditUserFormNew = () => {
         else if (field === "obtained") {
             if (value < 0 || value > 10) {
                 value = 0;
-                toast.info("Please provide between 0 and 10");
+                toast.info("Please provide between 1 and 10");
             }
+
             value = parseInt(value) || null;
             updatedCategories[catIndex].kras[kraIndex].kpis[kpiIndex][field] = value;
 
@@ -196,7 +213,7 @@ const EditUserFormNew = () => {
 
         if (updatedCategories[catIndex].kras[kraIndex].kpis.length == 0) {
             updatedCategories[catIndex].kras.splice(kraIndex, 1);
-            
+
             let allotalKPIs = 0;
             let tempkra = 0
 
@@ -465,7 +482,7 @@ const EditUserFormNew = () => {
                             className="whitespace-nowrap bg-blue-500 text-white px-4 py-2 rounded mb-2 button-ani"
                             onClick={() => addKRA(catIndex, category.include_kpis)}
                         >
-                            Add KRA
+                            {category.include_kpis == "Y" ? "Add KRA" : "Add Expectations"}
                         </button>
                     </div>
 
@@ -473,7 +490,7 @@ const EditUserFormNew = () => {
                         <thead>
                             <tr className="bg-gray-200 font-open-sans">
                                 <th className="p-1.5 border">No.</th>
-                                <th className="p-1.5 border">KRA</th>
+                                <th className="p-1.5 border"> {category.include_kpis == "Y" ? "KRA" : "Expectations"}</th>
                                 <th className="p-1.5 border">Actions</th>
                             </tr>
                         </thead>
@@ -490,7 +507,7 @@ const EditUserFormNew = () => {
                                                     type="text"
                                                     value={kra.text}
                                                     onChange={(e) => handleKRAChange(catIndex, kraIndex, "text", e.target.value)}
-                                                    placeholder="KRA Description"
+                                                    placeholder={category.include_kpis == "Y" ? "KRA Description" : "Expectations Description"}
                                                     className="p-2 h-14 border border-gray-400 w-full rounded"
                                                 />
                                             </td>
@@ -511,7 +528,7 @@ const EditUserFormNew = () => {
                                                         className="bg-red-500 whitespace-nowrap text-white px-3 py-1 rounded w-fit button-ani"
                                                         onClick={() => removeKRA(catIndex, kraIndex)}
                                                     >
-                                                        Remove KRA
+                                                         {category.include_kpis == "Y" ? "Remove KRA" : "Remove"}
                                                     </button>
                                                 </div>
 
@@ -667,7 +684,7 @@ const EditUserFormNew = () => {
                 <button onClick={() => submitForm()}
                     className=" bg-green-500 whitespace-nowrap text-white px-3 py-1 rounded button-ani"
                 >
-                    Submit
+                    Save
                 </button>
 
 

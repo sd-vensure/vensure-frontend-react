@@ -26,11 +26,10 @@ const ViewForPendingObtained = () => {
 
             if (getdata.data.status) {
                 setdata(getdata.data.data);
-                toast.success(getdata.data.message);
+                // toast.success(getdata.data.message);
             }
             else {
                 setdata([]);
-                
                 toast.info(getdata.data.message);
             }
 
@@ -68,16 +67,16 @@ const ViewForPendingObtained = () => {
     return (
         <div className="overflow-x-auto ">
 
-<p className='text-xl md:text-2xl text-center w-full text-white p-3 md:p-5 mb-4 bg-blue-500 rounded-lg shadow-lg shadow-blue-500/40'>Assign Obtained Points</p>
+            <p className='text-xl md:text-2xl text-center w-full text-white p-3 md:p-5 mb-4 bg-blue-500 rounded-lg shadow-lg shadow-blue-500/40'>Assign Obtained Points</p>
 
 
             <div className='flex items-center mb-1'>
-                <p className='text-blue-500 mr-2'>Financial Year:</p>
+                <p className='text-blue-500 mr-2 font-semibold'>Financial Year:</p>
                 <select
                     name="financial"
                     value={financial}
                     onChange={(e) => { setfinancial(e.target.value); setdata([]) }}
-                    className="border mx-2"
+                    className="border mx-2 rounded drop-shadow"
                     required
                 >
                     <option value=''>Select</option>
@@ -87,7 +86,7 @@ const ViewForPendingObtained = () => {
 
                 </select>
 
-                <button onClick={() => getData()} className='bg-blue-500 text-white px-3 py-1 rounded ml-2 m-2'>Search</button>
+                <button onClick={() => getData()} className='bg-blue-500 text-white px-3 py-2 rounded ml-2 m-2 button-ani'>Search</button>
                 {/* {
                     data.length > 0 &&
                     parseInt(totalforms) === parseInt(totalpersons) && !data.some(item => item.is_shared === "Y") &&
@@ -104,6 +103,8 @@ const ViewForPendingObtained = () => {
                         <th className="whitespace-nowrap px-4 py-2 font-medium text-white border">Name</th>
                         <th className="whitespace-nowrap px-4 py-2 font-medium text-white border">Financial Year</th>
                         <th className="whitespace-nowrap px-1 py-2 font-medium text-white border">Department</th>
+                        <th className="whitespace-nowrap px-1 py-2 font-medium text-white border">Created On</th>
+                        <th className="whitespace-nowrap px-1 py-2 font-medium text-white border">Shared HR on</th>
                         <th className="whitespace-nowrap px-4 py-2 font-medium text-white border">View</th>
                         <th className="whitespace-nowrap px-4 py-2 font-medium text-white border">Assign</th>
                         {/* <th className="whitespace-wrap py-2 font-medium text-white border">Verification Status</th> */}
@@ -123,17 +124,23 @@ const ViewForPendingObtained = () => {
                                         {item.financial_year}
                                     </td>
                                     <td className='border'>
-                                        {item.department_user}
+                                        {item.department_name}
+                                    </td>
+                                    <td className='border'>
+                                        {moment(item.created_at).format('DD-MM-YYYY')}
+                                    </td>
+                                    <td className='border'>
+                                        {item.shared_datetime ? moment(item.shared_datetime).format('DD-MM-YYYY') : "-"}
                                     </td>
 
                                     <td onClick={() => { setFormValue(item, "View") }} className='border hover:underline underline-offset-2 cursor-pointer text-blue-500' >
                                         View
                                     </td>
-                                   
+
                                     <td onClick={() => { setFormValue(item, "Assign") }} className='border hover:underline underline-offset-2 cursor-pointer text-blue-500' >
                                         Assign
                                     </td>
-      
+
                                 </tr>
                             )) :
                             <tr>

@@ -18,3 +18,5 @@ export const getFinancialQuarter=(dateString)=> {
 
     return { quarter, financialYear };
 }
+
+export const isValidNumber = (val) =>/^[0-9]+$/.test(val);

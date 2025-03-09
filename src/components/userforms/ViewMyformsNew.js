@@ -145,7 +145,7 @@ const ViewMyformsNew = () => {
                         <th className="whitespace-nowrap px-4 py-2 font-medium text-white border">Edit Form</th>
                         <th className="whitespace-wrap px-4 py-2 font-medium text-white border">Update Target Date</th>
                         <th className="whitespace-nowrap px-4 py-2 font-medium text-white border">Status</th>
-                        <th className="whitespace-nowrap px-4 py-2 font-medium text-white border">Share</th>
+                        <th className="whitespace-wrap px-4 py-2 font-medium text-white border">Share to Designated Person</th>
                         <th className="whitespace-nowrap px-4 py-2 font-medium text-white border">HR Status</th>
                     </tr>
                 </thead>

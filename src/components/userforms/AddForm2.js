@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import api from "../axiosapi";
-import { getFinancialQuarter } from "../../helper";
+import { getFinancialQuarter, isValidNumber } from "../../helper";
 
 const AddForm2 = () => {
 
@@ -25,7 +25,7 @@ const AddForm2 = () => {
         { id: 1, name: "Major Goals", kras: [], total: 0, include_kpis: "Y" },
         { id: 2, name: "Organizational Goals", kras: [], total: 0, include_kpis: "Y" },
         { id: 3, name: "Personal Goals", kras: [], total: 0, include_kpis: "Y" },
-        { id: 4, name: "Training", kras: [], total: 0, include_kpis: "N" }
+        { id: 4, name: "Expectations", kras: [], total: 0, include_kpis: "N" }
     ]);
 
     const [totalKPIs, settotalKPIs] = useState(0);
@@ -129,7 +129,22 @@ const AddForm2 = () => {
         const updatedCategories = [...categories];
 
         if (field === "number") {
-            value = parseInt(value) || 0;
+            
+            if (isValidNumber(value)) {
+
+                if (value < 0 || value > 100) {
+                    value = 0;
+                    toast.info("Please select between 0 and 100")
+                }
+                else {
+                    value = parseInt(value) || 0;
+                }
+            }
+            else {
+                value = 0;
+                toast.info("No characters or special symbols allowed");
+            }
+
             updatedCategories[catIndex].kras[kraIndex].kpis[kpiIndex][field] = value;
 
 
@@ -236,6 +251,7 @@ const AddForm2 = () => {
                     value={finance}
                     onChange={(e) => { setfinance(e.target.value) }}
                     className="border mx-2 rounded shadow font-open-sans"
+                    disabled={finance == "" ? false : true}
                     required
                 >
                     <option value="">Select</option>
@@ -278,7 +294,7 @@ const AddForm2 = () => {
                             className="mb-2 whitespace-nowrap bg-blue-500 text-white px-3 py-2 rounded-md hover:drop-shadow-lg hover:scale-95"
                             onClick={() => addKRA(catIndex, category.include_kpis)}
                         >
-                            Add KRA
+                            {category.include_kpis == "Y" ? "Add KRA" : "Add Expectations"}
                         </button>
                     </div>
 
@@ -287,7 +303,7 @@ const AddForm2 = () => {
                         <thead>
                             <tr className="bg-gray-200 font-open-sans">
                                 <th className="p-1.5 border">No.</th>
-                                <th className="p-1.5 border">KRA</th>
+                                <th className="p-1.5 border"> {category.include_kpis == "Y" ? "KRA" : "Expectations"}</th>
                                 <th className="p-1.5 border">Actions</th>
                             </tr>
                         </thead>
@@ -304,7 +320,8 @@ const AddForm2 = () => {
                                                     type="text"
                                                     value={kra.text}
                                                     onChange={(e) => handleKRAChange(catIndex, kraIndex, "text", e.target.value)}
-                                                    placeholder="KRA Description"
+                                                    placeholder={category.include_kpis == "Y" ? "KRA Description" : "Expectations Description"}
+
                                                     className="p-2 h-14 border border-gray-400 w-full rounded"
                                                 />
                                             </td>
@@ -327,7 +344,7 @@ const AddForm2 = () => {
                                                         className="bg-red-500 whitespace-nowrap text-white  px-3 py-2 text-sm rounded w-fit hover:drop-shadow-lg hover:scale-95"
                                                         onClick={() => removeKRA(catIndex, kraIndex)}
                                                     >
-                                                        Remove KRA
+                                                        {category.include_kpis == "Y" ? "Remove KRA" : "Remove"}
                                                     </button>
                                                 </div>
                                             </td>
@@ -388,6 +405,7 @@ const AddForm2 = () => {
                                                                     </td>
                                                                     <td className="px-2 border text-center">
                                                                         <input
+
                                                                             onWheel={(e) => e.target.blur()}
                                                                             type="number"
                                                                             value={kpi.number || ""}
@@ -460,7 +478,7 @@ const AddForm2 = () => {
                 <button onClick={() => submitForm()}
                     className=" bg-green-500 whitespace-nowrap text-white px-3 py-1 rounded button-ani"
                 >
-                    Submit
+                    Save Form
                 </button>
 
             </div>

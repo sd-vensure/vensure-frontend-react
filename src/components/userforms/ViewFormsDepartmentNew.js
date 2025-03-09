@@ -45,7 +45,7 @@ const ViewFormsDepartmentNew = () => {
 
     const getTotalFormsTotalUserForFinancialYear = async () => {
         try {
-            const getdata = await api.post(`userform/totalformstotalusersnew`, { "financial_year": financial })
+            const getdata = await api.post(`userform/getassignedformstome`, { "financial_year": financial })
 
             if (getdata.data.status) {
                 setdata(getdata.data.entries);
@@ -188,7 +188,7 @@ const ViewFormsDepartmentNew = () => {
                         <th className="whitespace-nowrap px-4 py-2 font-medium text-white border">View</th>
                         <th className="whitespace-nowrap px-4 py-2 font-medium text-white border">Edit</th>
                         <th className="whitespace-nowrap px-4 py-2 font-medium text-white border">Accept/Reject</th>
-                        <th className="whitespace-wrap py-2 font-medium text-white border">Share</th>
+                        <th className="whitespace-wrap py-2 font-medium text-white border">Share to HR</th>
                         <th className="whitespace-wrap py-2 font-medium text-white border">Request Edit</th>
                         {/* <th className="whitespace-wrap py-2 font-medium text-white border">Verification Status</th> */}
                     </tr>
@@ -256,7 +256,7 @@ const ViewFormsDepartmentNew = () => {
                                                 ? item.is_shared == "Y"
                                                     ? <span className='text-green-500'>Shared</span>
                                                     :
-                                                    <button onClick={() => { sendForVerification(item) }} className=" bg-blue-500 whitespace-nowrap text-white px-3 py-1 rounded">Submit</button>
+                                                    <button onClick={() => { sendForVerification(item) }} className=" bg-blue-500 whitespace-nowrap text-white px-3 py-1 rounded">Share</button>
                                                 : <span className='text-green-500'>-</span>
                                         }
                                     </td>

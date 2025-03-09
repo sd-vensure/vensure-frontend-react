@@ -27,7 +27,7 @@ const EditCompletionMarks = () => {
         { category_id: 1, category_name: "Major Goals", kras: [], total: 0, include_kpis: "Y" },
         { category_id: 2, category_name: "Prganizational Goals", kras: [], total: 0, include_kpis: "Y" },
         { category_id: 3, category_name: "Personal Goals", kras: [], total: 0, include_kpis: "Y" },
-        { category_id: 4, category_name: "Training", kras: [], total: 0, include_kpis: "N" }
+        { category_id: 4, category_name: "Expectations", kras: [], total: 0, include_kpis: "N" }
     ]);
 
     const handleKRAChange = (catIndex, kraIndex, field, value) => {
@@ -81,7 +81,7 @@ const EditCompletionMarks = () => {
         else if (field === "obtained") {
             if (value < 0 || value > 10) {
                 value = 0;
-                toast.info("Please provide between 0 and 10");
+                toast.info("Please provide between 1 and 10");
             }
             value = parseInt(value) || null;
             updatedCategories[catIndex].kras[kraIndex].kpis[kpiIndex][field] = value;
@@ -333,37 +333,37 @@ const EditCompletionMarks = () => {
     return (
         <div className="">
 
-<p className='text-xl md:text-2xl text-center w-full text-white p-3 md:p-5 mb-4 bg-blue-500 rounded-lg shadow-lg shadow-blue-500/40'>Update Completion Marks</p>
+            <p className='text-xl md:text-2xl text-center w-full text-white p-3 md:p-5 mb-4 bg-blue-500 rounded-lg shadow-lg shadow-blue-500/40'>Update Completion Marks</p>
 
-<div class="flow-root mb-5 border p-4 rounded-lg shadow-lg">
-    <dl class="-my-3 divide-y divide-gray-100 text-base">
-        <div class="grid grid-cols-1 gap-1 py-1.5 sm:grid-cols-4 sm:gap-4">
-            <dt class="font-medium text-blue-600">User Name</dt>
-            <dd class="text-gray-900 sm:col-span-2">{userform?.user_first_name}</dd>
-        </div>
-        <div class="grid grid-cols-1 gap-1 py-1.5 sm:grid-cols-4 sm:gap-4">
-            <dt class="font-medium text-blue-600">Employee ID</dt>
-            <dd class="text-gray-900 sm:col-span-2">{userform?.emp_id}</dd>
-        </div>
-        {/* <div class="grid grid-cols-1 gap-1 py-1.5 sm:grid-cols-4 sm:gap-4">
+            <div class="flow-root mb-5 border p-4 rounded-lg shadow-lg">
+                <dl class="-my-3 divide-y divide-gray-100 text-base">
+                    <div class="grid grid-cols-1 gap-1 py-1.5 sm:grid-cols-4 sm:gap-4">
+                        <dt class="font-medium text-blue-600">User Name</dt>
+                        <dd class="text-gray-900 sm:col-span-2">{userform?.user_first_name}</dd>
+                    </div>
+                    <div class="grid grid-cols-1 gap-1 py-1.5 sm:grid-cols-4 sm:gap-4">
+                        <dt class="font-medium text-blue-600">Employee ID</dt>
+                        <dd class="text-gray-900 sm:col-span-2">{userform?.emp_id}</dd>
+                    </div>
+                    {/* <div class="grid grid-cols-1 gap-1 py-1.5 sm:grid-cols-4 sm:gap-4">
             <dt class="font-medium text-blue-600">Department</dt>
             <dd class="text-gray-900 sm:col-span-2">{userform?.department_name}</dd>
         </div> */}
-        <div class="grid grid-cols-1 gap-1 py-1.5 sm:grid-cols-4 sm:gap-4">
-            <dt class="font-medium text-blue-600">Designation</dt>
-            <dd class="text-gray-900 sm:col-span-2">{userform?.designation}</dd>
-        </div>
-        <div class="grid grid-cols-1 gap-1 py-1.5 sm:grid-cols-4 sm:gap-4">
-            <dt class="font-medium text-blue-600">Financial</dt>
-            <dd class="text-gray-900 sm:col-span-2">{userform?.financial_year}</dd>
-        </div>
-    </dl>
-</div>
+                    <div class="grid grid-cols-1 gap-1 py-1.5 sm:grid-cols-4 sm:gap-4">
+                        <dt class="font-medium text-blue-600">Designation</dt>
+                        <dd class="text-gray-900 sm:col-span-2">{userform?.designation}</dd>
+                    </div>
+                    <div class="grid grid-cols-1 gap-1 py-1.5 sm:grid-cols-4 sm:gap-4">
+                        <dt class="font-medium text-blue-600">Financial</dt>
+                        <dd class="text-gray-900 sm:col-span-2">{userform?.financial_year}</dd>
+                    </div>
+                </dl>
+            </div>
 
             {categories.map((category, catIndex) => (
                 <div key={category.category_id} className="mb-5 border p-4 rounded-lg shadow-lg">
                     <div className="flex justify-between items-center">
-                    {
+                        {
                             categoryLimits[catIndex].max > 0
                             &&
 
@@ -398,10 +398,10 @@ const EditCompletionMarks = () => {
                     </div>
 
                     <table className="w-full border">
-                    <thead>
+                        <thead>
                             <tr className="bg-gray-200 font-open-sans">
                                 <th className="p-1.5 border">No.</th>
-                                <th className="p-1.5 border">KRA</th>
+                                <th className="p-1.5 border"> {category.include_kpis == "Y" ? "KRA" : "Expectations"}</th>
                                 {/* <th className="p-1.5 border">Actions</th> */}
                             </tr>
                         </thead>
@@ -419,12 +419,13 @@ const EditCompletionMarks = () => {
                                                     type="text"
                                                     value={kra.text}
                                                     onChange={(e) => handleKRAChange(catIndex, kraIndex, "text", e.target.value)}
-                                                    placeholder="KRA Description"
+                                                    placeholder={category.include_kpis == "Y" ? "KRA Description" : "Expectations Description"}
+
                                                     className="p-2 h-14 border border-gray-400 w-full rounded"
-                                              />
+                                                />
                                             </td>
                                             {/* <td className="p-2 flex items-center gap-1 h-fit w-fit"> */}
-                                                {/* {
+                                            {/* {
                                                     category.include_kpis == "Y"
                                                     &&
 
@@ -451,7 +452,7 @@ const EditCompletionMarks = () => {
                                                 <td colSpan="2">
                                                     <table className="w-full border mt-2">
                                                         <thead>
-                                                        <tr className="bg-gray-200 text-base font-open-sans">
+                                                            <tr className="bg-gray-200 text-base font-open-sans">
                                                                 <th className="px-2 border p-1.5">KPI</th>
                                                                 <th className="px-2 whitespace-nowrap border">Target Date</th>
                                                                 <th className="px-2 border">Quarter</th>
@@ -471,7 +472,7 @@ const EditCompletionMarks = () => {
                                                                             onChange={(e) => handleKPIChange(catIndex, kraIndex, kpiIndex, "name", e.target.value)}
                                                                             placeholder="KPI Description"
                                                                             className="p-2 h-11 border rounded border-gray-400 w-full text-sm"
-                                                                            />
+                                                                        />
                                                                     </td>
 
                                                                     <td className="p-2 border text-center">
@@ -482,7 +483,7 @@ const EditCompletionMarks = () => {
                                                                             value={kpi.target ? moment(kpi.target).format("YYYY-MM-DD") : ""}
                                                                             onChange={(e) => handleKPIChange(catIndex, kraIndex, kpiIndex, "target", e.target.value)}
                                                                             className="p-1 m-0 border border-gray-400 rounded py-2 w-fit text-sm"
-                                                                            />
+                                                                        />
 
                                                                     </td>
 
@@ -494,7 +495,7 @@ const EditCompletionMarks = () => {
                                                                             onChange={(e) => handleKPIChange(catIndex, kraIndex, kpiIndex, "quarter", e.target.value)}
                                                                             className="border border-gray-400 rounded p-2 w-fit text-sm"
                                                                             required
-                                                                          >
+                                                                        >
                                                                             <option value="Q1">Q1</option>
                                                                             <option value="Q2">Q2</option>
                                                                             <option value="Q3">Q3</option>
@@ -511,7 +512,7 @@ const EditCompletionMarks = () => {
                                                                             onChange={(e) => handleKPIChange(catIndex, kraIndex, kpiIndex, "number", e.target.value)}
                                                                             placeholder="0"
                                                                             className="p-2 text-sm border w-16 rounded border-gray-400"
-                                                                            />
+                                                                        />
                                                                     </td>
                                                                     <td className="p-2 border text-center">
                                                                         <input
@@ -521,11 +522,20 @@ const EditCompletionMarks = () => {
                                                                             value={kpi.completion ? moment(kpi.completion).format("YYYY-MM-DD") : ""}
                                                                             onChange={(e) => handleKPIChange(catIndex, kraIndex, kpiIndex, "completion", e.target.value)}
                                                                             className="p-1 m-0 border border-gray-400 rounded py-2 w-fit text-sm"
-                                                                            />
+                                                                        />
                                                                     </td>
-                                                                    <td className="w-fit border text-center">
+                                                                    {/* <td className={`w-fit border text-center ${kpi.completion && kpi.obtained && kpi.obtained!="" && kpi.obtained!=0 ? "bg-current" :"bg-red-300"}`}> */}
+                                                                    <td
+                                                                        className={`w-fit border text-center ${kpi.completion && kpi.completion !== "" // Check if completion is present and not empty
+                                                                                ? kpi.obtained && kpi.obtained !== "" && kpi.obtained !== 0 // Check if obtained is present
+                                                                                    ? "bg-transparent"
+                                                                                    : "bg-red-300" // If obtained is missing, set background to red
+                                                                                : ""
+                                                                            }`}
+                                                                    >
+
                                                                         <input
-                                                                            disabled={kpi.completion?false:true}
+                                                                            disabled={kpi.completion ? false : true}
                                                                             onWheel={(e) => e.target.blur()}
                                                                             type="number"
                                                                             min="0" max="10" step="1"
@@ -533,7 +543,7 @@ const EditCompletionMarks = () => {
                                                                             onChange={(e) => handleKPIChange(catIndex, kraIndex, kpiIndex, "obtained", e.target.value)}
                                                                             placeholder="0"
                                                                             className="p-2 text-sm border w-16 rounded border-gray-400"
-                                                                            />
+                                                                        />
                                                                     </td>
                                                                     {/* <td className="w-fit border text-center">
                                                                         <button

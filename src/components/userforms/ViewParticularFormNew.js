@@ -226,6 +226,14 @@ const ViewParticularFormNew = () => {
                         <dt class="font-medium text-blue-600">Financial</dt>
                         <dd class="text-gray-900 sm:col-span-2">{userform?.financial_year}</dd>
                     </div>
+                    <div class="grid grid-cols-1 gap-1 py-1.5 sm:grid-cols-4 sm:gap-4">
+                        <dt class="font-medium text-blue-600">Designated Person</dt>
+                        <dd class="text-gray-900 sm:col-span-2">{userform?.department_head_name}</dd>
+                    </div>
+                    <div class="grid grid-cols-1 gap-1 py-1.5 sm:grid-cols-4 sm:gap-4">
+                        <dt class="font-medium text-blue-600">Designated Person ID</dt>
+                        <dd class="text-gray-900 sm:col-span-2">{userform?.department_head_empid}</dd>
+                    </div>
                 </dl>
             </div>
 
@@ -264,7 +272,8 @@ const ViewParticularFormNew = () => {
                         <thead>
                             <tr className="bg-gray-200">
                                 <th className="p-2 border">No.</th>
-                                <th className="p-2 border">KRA</th>
+                                <th className="p-1.5 border"> {category.include_kpis == "Y" ? "KRA" : "Expectations"}</th>
+                                
 
                             </tr>
                         </thead>

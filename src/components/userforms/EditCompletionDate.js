@@ -14,6 +14,12 @@ const EditCompletionDate = () => {
 
     const [finance, setfinance] = useState(userform.financial_year);
 
+    const [startYear, endYear] = finance.split("-").map(Number);
+
+    // Define min and max dates dynamically
+    const minDate = `${startYear}-04-01`;
+    const maxDate = `20${endYear}-03-31`;
+
     const navigate = useNavigate();
 
     const categoryLimits = [
@@ -27,7 +33,7 @@ const EditCompletionDate = () => {
         { category_id: 1, category_name: "Major Goals", kras: [], total: 0, include_kpis: "Y" },
         { category_id: 2, category_name: "Prganizational Goals", kras: [], total: 0, include_kpis: "Y" },
         { category_id: 3, category_name: "Personal Goals", kras: [], total: 0, include_kpis: "Y" },
-        { category_id: 4, category_name: "Training", kras: [], total: 0, include_kpis: "N" }
+        { category_id: 4, category_name: "Expectations", kras: [], total: 0, include_kpis: "N" }
     ]);
 
     const handleKRAChange = (catIndex, kraIndex, field, value) => {
@@ -81,7 +87,7 @@ const EditCompletionDate = () => {
         else if (field === "obtained") {
             if (value < 0 || value > 10) {
                 value = 0;
-                toast.info("Please provide between 0 and 10");
+                toast.info("Please provide between 1 and 10");
             }
             value = parseInt(value) || null;
             updatedCategories[catIndex].kras[kraIndex].kpis[kpiIndex][field] = value;
@@ -335,7 +341,7 @@ const EditCompletionDate = () => {
 
             <p className='text-xl md:text-2xl text-center w-full text-white p-3 md:p-5 mb-4 bg-blue-500 rounded-lg shadow-lg shadow-blue-500/40'>Update Completion Date</p>
 
-            <div class="flow-root mb-5 border p-4 rounded-lg shadow-lg">
+            {/* <div class="flow-root mb-5 border p-4 rounded-lg shadow-lg">
                 <dl class="-my-3 divide-y divide-gray-100 text-base">
                     <div class="grid grid-cols-1 gap-1 py-1.5 sm:grid-cols-4 sm:gap-4">
                         <dt class="font-medium text-blue-600">User Name</dt>
@@ -358,7 +364,7 @@ const EditCompletionDate = () => {
                         <dd class="text-gray-900 sm:col-span-2">{userform?.financial_year}</dd>
                     </div>
                 </dl>
-            </div>
+            </div> */}
 
             {categories.map((category, catIndex) => (
                 <div key={category.category_id} className="mb-5 border p-4 rounded-lg shadow-lg">
@@ -402,7 +408,8 @@ const EditCompletionDate = () => {
                         <thead>
                             <tr className="bg-gray-200 font-open-sans">
                                 <th className="p-1.5 border">No.</th>
-                                <th className="p-1.5 border">KRA</th>
+                                <th className="p-1.5 border"> {category.include_kpis == "Y" ? "KRA" : "Expectations"}</th>
+                                
                                 {/* <th className="p-1.5 border">Actions</th> */}
                             </tr>
                         </thead>
@@ -420,7 +427,8 @@ const EditCompletionDate = () => {
                                                     type="text"
                                                     value={kra.text}
                                                     onChange={(e) => handleKRAChange(catIndex, kraIndex, "text", e.target.value)}
-                                                    placeholder="KRA Description"
+                                                    placeholder={category.include_kpis == "Y" ? "KRA Description" : "Expectations Description"}
+
                                                     className="p-2 h-14 border border-gray-400 w-full rounded"
                                                 />
                                             </td>
@@ -517,6 +525,8 @@ const EditCompletionDate = () => {
                                                                     </td>
                                                                     <td className="p-2 border text-center">
                                                                         <input
+                                                                            
+                                                                            min={minDate} max={maxDate}
                                                                             disabled={(kpi.completion && kpi.obtained) ? true : false}
                                                                             name="completion"
                                                                             type="date"

@@ -39,9 +39,9 @@ const FinalVerification = () => {
         }
     }
 
-    useEffect(() => {
-        getFormsForUserId()
-    }, []);
+    // useEffect(() => {
+    //     getFormsForUserId()
+    // }, []);
 
 
     const setFormValue = (item) => {
@@ -50,6 +50,12 @@ const FinalVerification = () => {
     };
 
     const getrequests = async () => {
+
+        if(financial=="" || financial==null)
+        {
+            return;
+        }
+
         try {
             const getdata = await api.get(`userform/getsubmittedformsnew?financial=${financial}`)
 
@@ -130,6 +136,8 @@ const FinalVerification = () => {
                         <th className="whitespace-nowrap px-4 py-2 font-medium text-white border">User Name</th>
                         <th className="whitespace-nowrap px-4 py-2 font-medium text-white border">Department</th>
                         <th className="whitespace-nowrap px-4 py-2 font-medium text-white border">Designated Person</th>
+                        <th className="whitespace-nowrap px-4 py-2 font-medium text-white border">Created On</th>
+                        <th className="whitespace-nowrap px-4 py-2 font-medium text-white border">Shared on</th>
                         {/* <th className="whitespace-nowrap px-1 py-2 font-medium text-white border">Date</th> */}
                         <th className="whitespace-nowrap px-4 py-2 font-medium text-white border">View</th>
                         {/* <th className="whitespace-wrap py-2 font-medium text-white border">Verification Status</th>
@@ -153,11 +161,14 @@ const FinalVerification = () => {
                                         {item.department_name}
                                     </td>
                                     <td className='whitespace-wrap border'>
-                                        {item.designated_user_name}
+                                        {item.department_head_name}
                                     </td>
-                                    {/* <td className='border'>
-                                        {moment(item.updated_at).format('DD-MM-YYYY')}
-                                    </td> */}
+                                    <td className='border'>
+                                        {moment(item.created_at).format('DD-MM-YYYY')}
+                                    </td>
+                                    <td className='border'>
+                                        {item.shared_datetime ?moment(item.shared_datetime).format('DD-MM-YYYY'):"-"}
+                                    </td>
                                     <td onClick={() => { setFormValue(item) }} className='border underline cursor-pointer text-blue-500' >
                                         View
                                     </td>

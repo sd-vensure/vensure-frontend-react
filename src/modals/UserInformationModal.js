@@ -55,6 +55,10 @@ export default function UserInformationModal() {
                                     <dd className="text-gray-700 sm:col-span-2">{currentuser?.departmenthead?.user_first_name}</dd>
                                 </div>
                                 <div className="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
+                                    <dt className="font-medium text-gray-900">Reporting ID</dt>
+                                    <dd className="text-gray-700 sm:col-span-2">{currentuser?.departmenthead?.emp_id}</dd>
+                                </div>
+                                <div className="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
                                     <dt className="font-medium text-gray-900">Date of Joining</dt>
                                     <dd className="text-gray-700 sm:col-span-2">{moment(currentuser?.doj).format("DD-MM-YYYY")}</dd>
                                 </div>
