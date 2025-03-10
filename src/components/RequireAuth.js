@@ -11,6 +11,7 @@ import TestingSideBAr from "./TestingSideBAr";
 import PasswordUpdate from "../modals/PasswordUpdate";
 import UserInformationModal from "../modals/UserInformationModal";
 import useModal from "../hooks/useModal";
+import QueryAnswerModal from "../modals/QueryAnswerModal";
 
 
 const RequireAuth = () => {
@@ -24,6 +25,8 @@ const RequireAuth = () => {
     const showPAFModal = useSelector((state) => state.user.paf_modal);
 
     const currentuser = useSelector((state) => state.user.current_user);
+
+    const showquestionmodal = useSelector((state) => state.user.query_answer);
     
 
     let allowpasswordupdate="Y"
@@ -62,6 +65,10 @@ const RequireAuth = () => {
                         
                         {
                             userinformation && <UserInformationModal />
+                        }
+                       
+                        {
+                            showquestionmodal && <QueryAnswerModal />
                         }
                       
                         {

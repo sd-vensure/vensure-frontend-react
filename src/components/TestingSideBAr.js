@@ -16,7 +16,7 @@ const TestingSideBAr = () => {
 
     const currentuser = useSelector((state) => state.user.current_user);
 
-    const {userinformation, setuserinformation}=useModal()
+    const { userinformation, setuserinformation } = useModal()
 
 
     const [openIndex, setOpenIndex] = useState(null);
@@ -130,53 +130,75 @@ const TestingSideBAr = () => {
                 {
                     currentuser && currentuser.roles.includes("ViewDepartmentForm") &&
                     <li className='list-none'>
-                    <Link
-                        to="/viewformsforobtained"
-                        className="transition-all hover:pl-5 block rounded-lg hover:bg-blue-500 hover:shadow-lg hover:shadow-blue-500/40 px-4 py-2 text-base font-medium text-white drop-shadow-sm"
-                    >
-                        Pending Assignmemt
-                    </Link>
-                </li>
+                        <Link
+                            to="/viewformsforobtained"
+                            className="transition-all hover:pl-5 block rounded-lg hover:bg-blue-500 hover:shadow-lg hover:shadow-blue-500/40 px-4 py-2 text-base font-medium text-white drop-shadow-sm"
+                        >
+                            Pending Assignmemt
+                        </Link>
+                    </li>
                 }
 
-               
+
                 {
                     currentuser && currentuser.roles.includes("MyEdit") &&
                     <li className='list-none'>
-                    <Link
-                        to="/myeditrequests"
-                        className="transition-all hover:pl-5 block rounded-lg hover:bg-blue-500 hover:shadow-lg hover:shadow-blue-500/40 px-4 py-2 text-base font-medium text-white drop-shadow-sm"
-                    >
-                        My Edit Requests
-                    </Link>
-                </li>
-                    
+                        <Link
+                            to="/myeditrequests"
+                            className="transition-all hover:pl-5 block rounded-lg hover:bg-blue-500 hover:shadow-lg hover:shadow-blue-500/40 px-4 py-2 text-base font-medium text-white drop-shadow-sm"
+                        >
+                            My Edit Requests
+                        </Link>
+                    </li>
+
                 }
-                
+
                 {
                     currentuser && currentuser.roles.includes("HRView") &&
                     <li className='list-none'>
-                    <Link
-                        to="/hrview"
-                        className="transition-all hover:pl-5 block rounded-lg hover:bg-blue-500 hover:shadow-lg hover:shadow-blue-500/40 px-4 py-2 text-base font-medium text-white drop-shadow-sm"
-                    >
-                        HR View
-                    </Link>
-                </li>
+                        <Link
+                            to="/hrview"
+                            className="transition-all hover:pl-5 block rounded-lg hover:bg-blue-500 hover:shadow-lg hover:shadow-blue-500/40 px-4 py-2 text-base font-medium text-white drop-shadow-sm"
+                        >
+                            HR View
+                        </Link>
+                    </li>
                 }
-                
+
                 {
                     currentuser && currentuser.roles.includes("HREdit") &&
                     <li className='list-none'>
+                        <Link
+                            to="/hreditrequests"
+                            className="transition-all hover:pl-5 block rounded-lg hover:bg-blue-500 hover:shadow-lg hover:shadow-blue-500/40 px-4 py-2 text-base font-medium text-white drop-shadow-sm"
+                        >
+                            Edit Requests
+                        </Link>
+                    </li>
+                }
+
+                <li className='list-none'>
                     <Link
-                        to="/hreditrequests"
+                        to="/question"
                         className="transition-all hover:pl-5 block rounded-lg hover:bg-blue-500 hover:shadow-lg hover:shadow-blue-500/40 px-4 py-2 text-base font-medium text-white drop-shadow-sm"
                     >
-                        Edit Requests
+                        Ask Query
                     </Link>
                 </li>
+
+                {
+                    currentuser && currentuser.roles.includes("HRView") &&
+                    <li className='list-none'>
+                        <Link
+                            to="/allquestion"
+                            className="transition-all hover:pl-5 block rounded-lg hover:bg-blue-500 hover:shadow-lg hover:shadow-blue-500/40 px-4 py-2 text-base font-medium text-white drop-shadow-sm"
+                        >
+                            All Queries
+                        </Link>
+                    </li>
                 }
-                
+
+
 
 
 
@@ -201,7 +223,7 @@ const TestingSideBAr = () => {
             </div>
 
             {/* User Information Section */}
-            <div onClick={()=>{setuserinformation(!userinformation)}} className="cursor-pointer mt-auto p-4 bg-gray-700">
+            <div onClick={() => { setuserinformation(!userinformation) }} className="cursor-pointer mt-auto p-4 bg-gray-700">
                 <div className="flex items-center space-x-3">
                     <img
                         alt="Man"

@@ -40,6 +40,8 @@ import HREditRequests from './components/userforms/HREditRequests';
 import MyEditRequests from './components/userforms/MyEditRequests';
 import EditCompleteFormAfter from './components/userforms/EditCompleteFormAfter';
 import Loader from './components/Loader';
+import UserQuestionForm from './components/userforms/UserQuestionForm';
+import ViewAllQueries from './components/userforms/ViewAllQueries';
 
 
 function App() {
@@ -54,7 +56,7 @@ function App() {
     const hasAccess = currentuser.roles && Array.isArray(currentuser.roles) && currentuser.roles.some(role => allowedRoles.includes(role));
 
     return hasAccess ? element : <Navigate to="/unauthorized" />;
-};
+  };
 
   return (
     <>
@@ -92,13 +94,16 @@ function App() {
                 <Route path='/hrview' element={<ProtectedRoute allowedRoles={["HRView"]} element={<FinalVerification />} />} />
                 <Route path='/hreditrequests' element={<ProtectedRoute allowedRoles={["HREdit"]} element={<HREditRequests />} />} />
                 <Route path='/myeditrequests' element={<ProtectedRoute allowedRoles={["MyEdit"]} element={<MyEditRequests />} />} />
-                
-                <Route path='/viewdepartmentform' element={<ProtectedRoute allowedRoles={["ViewDepartmentForm"]}   element={<ViewFormsDepartmentNew />} />} />
-                
-                <Route path='/viewformsforobtained' element={<ProtectedRoute allowedRoles={["ViewDepartmentForm"]}   element={<ViewForPendingObtained />} />} />
+
+                <Route path='/viewdepartmentform' element={<ProtectedRoute allowedRoles={["ViewDepartmentForm"]} element={<ViewFormsDepartmentNew />} />} />
+
+                <Route path='/viewformsforobtained' element={<ProtectedRoute allowedRoles={["ViewDepartmentForm"]} element={<ViewForPendingObtained />} />} />
+
+                <Route path='/question' element={<UserQuestionForm />} />
+                <Route path='/allquestion' element={<ProtectedRoute allowedRoles={["HRView"]} element={<ViewAllQueries />} />} />
 
 
-                <Route path='/dummy' element={<ProtectedRoute allowedRoles={["Testing"]}   element={<Dummy />} />} />
+                <Route path='/dummy' element={<ProtectedRoute allowedRoles={["Testing"]} element={<Dummy />} />} />
                 <Route path='/unauthorized' element={<Unauthorised />} />
 
                 {/* <Route path='/dashboard/add-drug' element={<AddDrug />} />
@@ -109,7 +114,7 @@ function App() {
                 <Route path='/dashboard/view-paf' element={<ViewPaf />} />
                 <Route path='/dashboard/add-stakeholder' element={<AddStakeholder />} />
                 <Route path='/dashboard/view-stakeholder' element={<ViewStakeholder />} /> */}
-               
+
                 {/* <Route path='logout' element={<Logout />} /> */}
 
 
