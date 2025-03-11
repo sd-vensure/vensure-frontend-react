@@ -64,8 +64,15 @@ const ViewMyformsNew = () => {
         }
 
         if (val == "Share") {
+
+            if(!(currentuser.user_id && currentuser.departmenthead.user_id))
+            {
+                toast.info("Designated Person not found");
+                return;
+            }
+
             try {
-                const getdata = await api.get(`userform/sendtodepartmenthead/${item.form_id}`)
+                const getdata = await api.get(`userform/sendtodepartmenthead/${item.form_id}/${currentuser.user_id}/${currentuser.departmenthead.user_id}`)
 
                 if (getdata.data.status) {
                     toast.success(getdata.data.message)

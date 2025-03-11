@@ -220,7 +220,7 @@ const ViewParticularFormNew = () => {
                     </div>
                     <div class="grid grid-cols-1 gap-1 py-1.5 sm:grid-cols-4 sm:gap-4">
                         <dt class="font-medium text-blue-600">Date of Joining</dt>
-                        <dd class="text-gray-900 sm:col-span-2">{moment(userform?.doj).format("DD-MM-YYYY")}</dd>
+                        <dd class="text-gray-900 sm:col-span-2">{userform.doj ? moment(userform.doj).format("DD-MM-YYYY") : "-"}</dd>
                     </div>
                     <div class="grid grid-cols-1 gap-1 py-1.5 sm:grid-cols-4 sm:gap-4">
                         <dt class="font-medium text-blue-600">Financial</dt>
