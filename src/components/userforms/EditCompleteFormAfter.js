@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
 import { getFinancialQuarter, isValidNumber } from "../../helper";
+import RemarksModal from "../../modals/RemarksModal";
 
 const EditCompleteFormAfter = () => {
 
@@ -347,7 +348,10 @@ const EditCompleteFormAfter = () => {
                         quarter: item.kpi_quarter, // KPI Quarter
                         target: item.kpi_target ? moment(item.kpi_target).format("YYYY-MM-DD") : null, // KPI Target
                         obtained: item.kpi_obtained, // KPI Obtained Value
-                        completion: item.kpi_complete ? moment(item.kpi_complete).format("YYYY-MM-DD") : null // KPI Completion Status
+                        completion: item.kpi_complete ? moment(item.kpi_complete).format("YYYY-MM-DD") : null, // KPI Completion Status
+                        user_remarks: item?.user_remarks || null,
+                        designated_remarks: item?.designated_remarks || null
+
                     };
 
                     // Add the KPI object to the kpis array of the existing KRA
@@ -431,158 +435,187 @@ const EditCompleteFormAfter = () => {
     }
 
 
+    const [valuestopass, setvaluestopass] = useState({
+        "catindex": null,
+        "kraindex": null,
+        "kpiindex": null,
+        "modalstate": false
+    })
+
+    const openRemarksModal = async (catIndex, kraIndex, kpiIndex, usertext, designatedtext) => {
+        let temp = { ...valuestopass };
+        let modalstatenew = !(temp.modalstate);
+        setvaluestopass({
+            "catindex": catIndex,
+            "kraindex": kraIndex,
+            "kpiindex": kpiIndex,
+            "modalstate": modalstatenew,
+            "usertext": usertext,
+            "designatedtext": designatedtext
+        })
+    }
+
+
 
     return (
-        <div className="">
+        <>
+            {
+                valuestopass.modalstate
+                    ? <RemarksModal valuestopass={valuestopass} setvaluestopass={setvaluestopass} categories={categories} setCategories={setCategories} />
+                    : <></>
+            }
 
-            <p className='text-xl md:text-2xl text-center w-full text-white p-3 md:p-5 mb-4 bg-blue-500 rounded-lg shadow-lg shadow-blue-500/40'>Edit KRA Form</p>
+            <div className="">
 
-
-            <div class="flow-root mb-5 border p-4 rounded-lg shadow-lg">
-                <dl class="-my-3 divide-y divide-gray-100 text-base">
-                    <div class="grid grid-cols-1 gap-1 py-1.5 sm:grid-cols-4 sm:gap-4">
-                        <dt class="font-medium text-blue-600">User Name</dt>
-                        <dd class="text-gray-900 sm:col-span-2">{userform?.request_for_name}</dd>
-                    </div>
-                    <div class="grid grid-cols-1 gap-1 py-1.5 sm:grid-cols-4 sm:gap-4">
-                        <dt class="font-medium text-blue-600">Employee ID</dt>
-                        <dd class="text-gray-900 sm:col-span-2">{userform?.request_for_empid}</dd>
-                    </div>
-
-                    <div class="grid grid-cols-1 gap-1 py-1.5 sm:grid-cols-4 sm:gap-4">
-                        <dt class="font-medium text-blue-600">Financial</dt>
-                        <dd class="text-gray-900 sm:col-span-2">{userform?.financial_year}</dd>
-                    </div>
-                </dl>
-            </div>
-
-            {categories.map((category, catIndex) => (
-                <div key={category.category_id} className="mb-5 border p-4 rounded-lg shadow-lg">
-                    <div className="flex justify-between items-center">
-                        {
-                            categoryLimits[catIndex].max > 0
-                            &&
-
-                            <h2 className="font-semibold mb-2 text-base">
-                                <span className="text-blue-700 ">{category.category_name}</span><br />
-                                (Total KPIs:
-
-                                {
-                                    category.total >= categoryLimits[catIndex].min && category.total <= categoryLimits[catIndex].max
-                                        ? <span className="text-green-500"> {category.total}</span>
-                                        : <span className="text-red-500"> {category.total}</span>
-                                }
-
-                                /{categoryLimits[catIndex].min}-{categoryLimits[catIndex].max})
-                            </h2>
-                        }
-
-                        {
-                            categoryLimits[catIndex].max == 0 &&
-                            <h2 className="text-base font-semibold mb-2">
-                                <span className="text-blue-600">{category.category_name}</span>
-                            </h2>
-                        }
+                <p className='text-xl md:text-2xl text-center w-full text-white p-3 md:p-5 mb-4 bg-blue-500 rounded-lg shadow-lg shadow-blue-500/40'>Edit KRA Form</p>
 
 
-                        <button
-                            className="whitespace-nowrap bg-blue-500 text-white px-4 py-2 rounded mb-2 button-ani"
-                            onClick={() => addKRA(catIndex, category.include_kpis)}
-                        >
-                            {category.include_kpis == "Y" ? "Add KRA" : "Add Expectations"}
-                        </button>
-                    </div>
+                <div class="flow-root mb-5 border p-4 rounded-lg shadow-lg">
+                    <dl class="-my-3 divide-y divide-gray-100 text-base">
+                        <div class="grid grid-cols-1 gap-1 py-1.5 sm:grid-cols-4 sm:gap-4">
+                            <dt class="font-medium text-blue-600">User Name</dt>
+                            <dd class="text-gray-900 sm:col-span-2">{userform?.request_for_name}</dd>
+                        </div>
+                        <div class="grid grid-cols-1 gap-1 py-1.5 sm:grid-cols-4 sm:gap-4">
+                            <dt class="font-medium text-blue-600">Employee ID</dt>
+                            <dd class="text-gray-900 sm:col-span-2">{userform?.request_for_empid}</dd>
+                        </div>
 
-                    <table className="w-full border">
-                        <thead>
-                            <tr className="bg-gray-200 font-open-sans">
-                                <th className="p-1.5 border">No.</th>
-                                <th className="p-1.5 border">KRA</th>
-                                <th className="p-1.5 border">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
+                        <div class="grid grid-cols-1 gap-1 py-1.5 sm:grid-cols-4 sm:gap-4">
+                            <dt class="font-medium text-blue-600">Financial</dt>
+                            <dd class="text-gray-900 sm:col-span-2">{userform?.financial_year}</dd>
+                        </div>
+                    </dl>
+                </div>
+
+                {categories.map((category, catIndex) => (
+                    <div key={category.category_id} className="mb-5 border p-4 rounded-lg shadow-lg">
+                        <div className="flex justify-between items-center">
                             {
-                                category.kras.map((kra, kraIndex) =>
-                                    <>
-                                        <tr key={kra.id} className="border">
-                                            <td className="text-center font-bold">
-                                                {kraIndex + 1}
-                                            </td>
-                                            <td className="p-2 border w-full">
-                                                <textarea
-                                                    type="text"
-                                                    value={kra.text}
-                                                    onChange={(e) => handleKRAChange(catIndex, kraIndex, "text", e.target.value)}
-                                                    placeholder={category.include_kpis == "Y" ? "KRA Description" : "Expectations Description"}
-                                                    className="p-2 h-14 border border-gray-400 w-full rounded"
-                                                />
-                                            </td>
-                                            <td className="p-2 flex items-center gap-1 h-fit w-fit">
-                                                {
-                                                    category.include_kpis == "Y"
-                                                    &&
+                                categoryLimits[catIndex].max > 0
+                                &&
 
+                                <h2 className="font-semibold mb-2 text-base">
+                                    <span className="text-blue-700 ">{category.category_name}</span><br />
+                                    (Total KPIs:
+
+                                    {
+                                        category.total >= categoryLimits[catIndex].min && category.total <= categoryLimits[catIndex].max
+                                            ? <span className="text-green-500"> {category.total}</span>
+                                            : <span className="text-red-500"> {category.total}</span>
+                                    }
+
+                                    /{categoryLimits[catIndex].min}-{categoryLimits[catIndex].max})
+                                </h2>
+                            }
+
+                            {
+                                categoryLimits[catIndex].max == 0 &&
+                                <h2 className="text-base font-semibold mb-2">
+                                    <span className="text-blue-600">{category.category_name}</span>
+                                </h2>
+                            }
+
+
+                            <button
+                                className="whitespace-nowrap bg-blue-500 text-white px-4 py-2 rounded mb-2 button-ani"
+                                onClick={() => addKRA(catIndex, category.include_kpis)}
+                            >
+                                {category.include_kpis == "Y" ? "Add KRA" : "Add Expectations"}
+                            </button>
+                        </div>
+
+                        <table className="w-full border">
+                            <thead>
+                                <tr className="bg-gray-200 font-open-sans">
+                                    <th className="p-1.5 border">No.</th>
+                                    <th className="p-1.5 border">KRA</th>
+                                    <th className="p-1.5 border">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {
+                                    category.kras.map((kra, kraIndex) =>
+                                        <>
+                                            <tr key={kra.id} className="border">
+                                                <td className="text-center font-bold">
+                                                    {kraIndex + 1}
+                                                </td>
+                                                <td className="p-2 border w-full">
+                                                    <textarea
+                                                        type="text"
+                                                        value={kra.text}
+                                                        onChange={(e) => handleKRAChange(catIndex, kraIndex, "text", e.target.value)}
+                                                        placeholder={category.include_kpis == "Y" ? "KRA Description" : "Expectations Description"}
+                                                        className="p-2 h-14 border border-gray-400 w-full rounded"
+                                                    />
+                                                </td>
+                                                <td className="p-2 flex items-center gap-1 h-fit w-fit">
+                                                    {
+                                                        category.include_kpis == "Y"
+                                                        &&
+
+                                                        <button
+                                                            className=" bg-green-500 whitespace-nowrap text-white px-3 py-2 text-sm rounded w-fit hover:drop-shadow-lg hover:scale-95"
+                                                            onClick={() => addKPI(catIndex, kraIndex)}
+                                                        >
+                                                            Add KPI
+                                                        </button>
+                                                    }
                                                     <button
-                                                        className=" bg-green-500 whitespace-nowrap text-white px-3 py-2 text-sm rounded w-fit hover:drop-shadow-lg hover:scale-95"
-                                                        onClick={() => addKPI(catIndex, kraIndex)}
+                                                        className="bg-red-500 whitespace-nowrap text-white px-3 py-1 rounded w-fit button-ani"
+                                                        onClick={() => removeKRA(catIndex, kraIndex)}
                                                     >
-                                                        Add KPI
+                                                        {category.include_kpis == "Y" ? "Remove KRA" : "Remove"}
                                                     </button>
-                                                }
-                                                <button
-                                                    className="bg-red-500 whitespace-nowrap text-white px-3 py-1 rounded w-fit button-ani"
-                                                    onClick={() => removeKRA(catIndex, kraIndex)}
-                                                >
-                                                    {category.include_kpis == "Y" ? "Remove KRA" : "Remove"}
-                                                </button>
 
-                                            </td>
+                                                </td>
 
-                                        </tr>
+                                            </tr>
 
-                                        {kra.kpis.length > 0 && (
-                                            <tr>
-                                                <td colSpan="3">
-                                                    <table className="w-full border mt-2">
-                                                        <thead>
-                                                            <tr className="bg-gray-200">
-                                                                <th className="border px-2">KPI</th>
-                                                                <th className="whitespace-nowrap border px-2">Target Date</th>
-                                                                <th className="border px-2">Quarter</th>
-                                                                <th className="border px-2">Weightage</th>
-                                                                <th className="whitespace-nowrap border px-2">Completion Date</th>
-                                                                <th className="border px-2">Obtained</th>
-                                                                <th className="border px-2">Action</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
+                                            {kra.kpis.length > 0 && (
+                                                <tr>
+                                                    <td colSpan="3">
+                                                        <table className="w-full border mt-2">
+                                                            <thead>
+                                                                <tr className="bg-gray-200">
+                                                                    <th className="border px-2">KPI</th>
+                                                                    <th className="whitespace-nowrap border px-2">Target Date</th>
+                                                                    <th className="border px-2">Quarter</th>
+                                                                    <th className="border px-2">Weightage</th>
+                                                                    <th className="whitespace-nowrap border px-2">Completion Date</th>
+                                                                    <th className="border px-2">Obtained</th>
+                                                                    <th className="border px-2">Remarks</th>
+                                                                    <th className="border px-2">Action</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
 
-                                                            {kra.kpis.map((kpi, kpiIndex) => (
-                                                                <tr>
-                                                                    <td className="p-1.5 w-full border">
-                                                                        <textarea
-                                                                            value={kpi.name}
-                                                                            onChange={(e) => handleKPIChange(catIndex, kraIndex, kpiIndex, "name", e.target.value)}
-                                                                            placeholder="KPI Name"
-                                                                            className="p-2 h-11 border rounded border-gray-400 w-full text-sm"
-                                                                        />
-                                                                    </td>
+                                                                {kra.kpis.map((kpi, kpiIndex) => (
+                                                                    <tr>
+                                                                        <td className="p-1.5 w-full border">
+                                                                            <textarea
+                                                                                value={kpi.name}
+                                                                                onChange={(e) => handleKPIChange(catIndex, kraIndex, kpiIndex, "name", e.target.value)}
+                                                                                placeholder="KPI Name"
+                                                                                className="p-2 h-11 border rounded border-gray-400 w-full text-sm"
+                                                                            />
+                                                                        </td>
 
-                                                                    <td className="px-2 border text-center">
-                                                                        <input
-                                                                            name="target"
-                                                                            type="date"
-                                                                            min={minDate} max={maxDate}
-                                                                            value={kpi.target ? moment(kpi.target).format("YYYY-MM-DD") : ""}
-                                                                            onChange={(e) => handleKPIChange(catIndex, kraIndex, kpiIndex, "target", e.target.value)}
-                                                                            className="p-1 m-0 border border-gray-400 rounded py-2 w-fit text-sm"
-                                                                        />
+                                                                        <td className="px-2 border text-center">
+                                                                            <input
+                                                                                name="target"
+                                                                                type="date"
+                                                                                min={minDate} max={maxDate}
+                                                                                value={kpi.target ? moment(kpi.target).format("YYYY-MM-DD") : ""}
+                                                                                onChange={(e) => handleKPIChange(catIndex, kraIndex, kpiIndex, "target", e.target.value)}
+                                                                                className="p-1 m-0 border border-gray-400 rounded py-2 w-fit text-sm"
+                                                                            />
 
-                                                                    </td>
+                                                                        </td>
 
-                                                                    <td className="px-2 border text-center">
-                                                                        {/* <select
+                                                                        <td className="px-2 border text-center">
+                                                                            {/* <select
                                                                             name="dropdown"
                                                                             value={kpi.quarter}
                                                                             onChange={(e) => handleKPIChange(catIndex, kraIndex, kpiIndex, "quarter", e.target.value)}
@@ -594,105 +627,115 @@ const EditCompleteFormAfter = () => {
                                                                             <option value="Q3">Q3</option>
                                                                             <option value="Q4">Q4</option>
                                                                         </select> */}
-                                                                        <p className=" text-center rounded p-2 w-full text-sm">{kpi.quarter}</p>
-                                                                    </td>
+                                                                            <p className=" text-center rounded p-2 w-full text-sm">{kpi.quarter}</p>
+                                                                        </td>
 
-                                                                    <td className="px-2 border text-center">
-                                                                        <input
-                                                                            onWheel={(e) => e.target.blur()}
-                                                                            type="number"
-                                                                            value={kpi.number || ""}
-                                                                            onChange={(e) => handleKPIChange(catIndex, kraIndex, kpiIndex, "number", e.target.value)}
-                                                                            placeholder="0"
-                                                                            className="p-2 text-sm border w-16 rounded border-gray-400"
-                                                                        />
-                                                                    </td>
-                                                                    <td className="px-2 border text-center">
-                                                                        <input
-                                                                            name="completion"
-                                                                            min={minDate} max={maxDate}
-                                                                            type="date"
-                                                                            value={kpi.completion ? moment(kpi.completion).format("YYYY-MM-DD") : ""}
-                                                                            onChange={(e) => handleKPIChange(catIndex, kraIndex, kpiIndex, "completion", e.target.value)}
-                                                                            className="p-1 m-0 border border-gray-400 rounded py-2 w-fit text-sm"
-                                                                        />
-                                                                    </td>
-                                                                    <td className="w-fit border text-center">
-                                                                        <input
-                                                                            onWheel={(e) => e.target.blur()}
-                                                                            type="number"
-                                                                            min="0" max="10" step="1"
-                                                                            value={kpi.obtained || ""}
-                                                                            onChange={(e) => handleKPIChange(catIndex, kraIndex, kpiIndex, "obtained", e.target.value)}
-                                                                            placeholder="0"
-                                                                            className="p-2 text-sm border w-16 rounded border-gray-400"
+                                                                        <td className="px-2 border text-center">
+                                                                            <input
+                                                                                onWheel={(e) => e.target.blur()}
+                                                                                type="number"
+                                                                                value={kpi.number || ""}
+                                                                                onChange={(e) => handleKPIChange(catIndex, kraIndex, kpiIndex, "number", e.target.value)}
+                                                                                placeholder="0"
+                                                                                className="p-2 text-sm border w-16 rounded border-gray-400"
+                                                                            />
+                                                                        </td>
+                                                                        <td className="px-2 border text-center">
+                                                                            <input
+                                                                                name="completion"
+                                                                                min={minDate} max={maxDate}
+                                                                                type="date"
+                                                                                value={kpi.completion ? moment(kpi.completion).format("YYYY-MM-DD") : ""}
+                                                                                onChange={(e) => handleKPIChange(catIndex, kraIndex, kpiIndex, "completion", e.target.value)}
+                                                                                className="p-1 m-0 border border-gray-400 rounded py-2 w-fit text-sm"
+                                                                            />
+                                                                        </td>
+                                                                        <td className="w-fit border text-center">
+                                                                            <input
+                                                                                onWheel={(e) => e.target.blur()}
+                                                                                type="number"
+                                                                                min="0" max="10" step="1"
+                                                                                value={kpi.obtained || ""}
+                                                                                onChange={(e) => handleKPIChange(catIndex, kraIndex, kpiIndex, "obtained", e.target.value)}
+                                                                                placeholder="0"
+                                                                                className="p-2 text-sm border w-16 rounded border-gray-400"
 
-                                                                        />
-                                                                    </td>
-                                                                    <td className="w-fit border text-center">
-                                                                        <button
-                                                                            className="bg-red-500 text-white w-fit px-3 py-1 rounded hover:drop-shadow-lg hover:scale-95 "
-                                                                            onClick={() => removeKPI(catIndex, kraIndex, kpiIndex)}
-                                                                        >
-                                                                            -
-                                                                        </button>
+                                                                            />
+                                                                        </td>
+                                                                        <td className="w-fit border text-center">
+                                                                            <button
+                                                                                className="bg-blue-500 text-white w-fit px-3 py-1 rounded"
+                                                                                onClick={() => { openRemarksModal(catIndex, kraIndex, kpiIndex,true,true); }}
+                                                                            >
+                                                                                Remarks
+                                                                            </button>
 
-                                                                    </td>
+                                                                        </td>
+                                                                        <td className="w-fit border text-center">
+                                                                            <button
+                                                                                className="bg-red-500 text-white w-fit px-3 py-1 rounded hover:drop-shadow-lg hover:scale-95 "
+                                                                                onClick={() => removeKPI(catIndex, kraIndex, kpiIndex)}
+                                                                            >
+                                                                                -
+                                                                            </button>
 
-                                                                </tr>
-                                                            ))}
-                                                        </tbody>
-                                                    </table>
-                                                </td>
-                                            </tr>
-                                        )}
+                                                                        </td>
 
-                                    </>
+                                                                    </tr>
+                                                                ))}
+                                                            </tbody>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                            )}
 
-                                )}
-                        </tbody>
+                                        </>
 
-                    </table>
+                                    )}
+                            </tbody>
+
+                        </table>
+
+
+                    </div>
+                ))}
+
+                <div className="flex gap-2">
+
+                    <h2 className="text-xl font-semibold">
+                        Total KPIs across categories:
+                        {
+                            totalKPIs == 100
+                                ? <span className="text-green-500"> {totalKPIs}</span>
+                                : <span className="text-red-500"> {totalKPIs}</span>
+                        }
+                        /100
+                    </h2>
+
+                    {
+                        ((categories[0].total >= categoryLimits[0].min && categories[0].total <= categoryLimits[0].max) &&
+                            (categories[1].total >= categoryLimits[1].min && categories[1].total <= categoryLimits[1].max) &&
+                            (categories[2].total >= categoryLimits[2].min && categories[2].total <= categoryLimits[2].max)) &&
+                            totalKPIs == 100
+
+                            ? <button onClick={() => submitForm()}
+                                className=" bg-green-500 whitespace-nowrap text-white px-3 py-1 rounded"
+                            >
+                                Submit
+                            </button>
+                            : <button
+                                className=" bg-red-500 whitespace-nowrap text-white px-3 py-1 rounded"
+                            >
+                                Submit
+                            </button>
+
+                    }
+
 
 
                 </div>
-            ))}
-
-            <div className="flex gap-2">
-
-                <h2 className="text-xl font-semibold">
-                    Total KPIs across categories:
-                    {
-                        totalKPIs == 100
-                            ? <span className="text-green-500"> {totalKPIs}</span>
-                            : <span className="text-red-500"> {totalKPIs}</span>
-                    }
-                    /100
-                </h2>
-
-                {
-                    ((categories[0].total >= categoryLimits[0].min && categories[0].total <= categoryLimits[0].max) &&
-                        (categories[1].total >= categoryLimits[1].min && categories[1].total <= categoryLimits[1].max) &&
-                        (categories[2].total >= categoryLimits[2].min && categories[2].total <= categoryLimits[2].max)) &&
-                        totalKPIs == 100
-
-                        ? <button onClick={() => submitForm()}
-                            className=" bg-green-500 whitespace-nowrap text-white px-3 py-1 rounded"
-                        >
-                            Submit
-                        </button>
-                        : <button
-                            className=" bg-red-500 whitespace-nowrap text-white px-3 py-1 rounded"
-                        >
-                            Submit
-                        </button>
-
-                }
-
-
-
             </div>
-        </div>
+        </>
     );
 };
 
