@@ -177,26 +177,62 @@ const TestingSideBAr = () => {
                     </li>
                 }
 
-                <li className='list-none'>
-                    <Link
-                        to="/question"
-                        className="transition-all hover:pl-5 block rounded-lg hover:bg-blue-500 hover:shadow-lg hover:shadow-blue-500/40 px-4 py-2 text-base font-medium text-white drop-shadow-sm"
-                    >
-                        Ask Query
-                    </Link>
-                </li>
 
-                {
-                    currentuser && currentuser.roles.includes("HRView") &&
-                    <li className='list-none'>
-                        <Link
-                            to="/allquestion"
-                            className="transition-all hover:pl-5 block rounded-lg hover:bg-blue-500 hover:shadow-lg hover:shadow-blue-500/40 px-4 py-2 text-base font-medium text-white drop-shadow-sm"
+
+
+
+
+                <li key={1} className='list-none'>
+                    <details
+                        className="group"
+                        open={openIndex === 1} // Open only if this dropdown is selected
+                        onToggle={(e) => toggleDropdown(1, e.target.open)} // Ensure only one stays open
+
+                    >
+                        <summary
+                            className="flex cursor-pointer items-center justify-between transition-all hover:pl-5 rounded-lg hover:bg-blue-500 hover:shadow-lg hover:shadow-blue-500/40 px-4 py-2 text-base font-medium text-white drop-shadow-sm"
                         >
-                            All Queries
-                        </Link>
-                    </li>
-                }
+                            <span>Help</span>
+                            <ChevronDown className={`h-4 w-5 transition-transform ${openIndex === 1 ? '-rotate-180' : 'rotate-0'}`} />
+                        </summary>
+
+                        <ul className="mt-2 space-y-1 px-4">
+
+                            <li className='list-none'>
+                                <Link
+                                    to="/question"
+                                    className="transition-all hover:pl-5 block rounded-lg hover:bg-blue-500 hover:shadow-lg hover:shadow-blue-500/40 px-4 py-2 text-base font-medium text-white drop-shadow-sm"
+                                >
+                                    Ask Query
+                                </Link>
+                            </li>
+
+                            {
+                                currentuser && currentuser.roles.includes("HRView") &&
+                                <li className='list-none'>
+                                    <Link
+                                        to="/allquestion"
+                                        className="transition-all hover:pl-5 block rounded-lg hover:bg-blue-500 hover:shadow-lg hover:shadow-blue-500/40 px-4 py-2 text-base font-medium text-white drop-shadow-sm"
+                                    >
+                                        All Queries
+                                    </Link>
+                                </li>
+                            }
+
+<li className='list-none'>
+                                <a
+                                    target="blank"
+                                    href={process.env.NODE_ENV=="production"?"http://192.168.1.200:8080/KRA-KPI-Instructions.pdf":"http://localhost:3000/KRA-KPI-Instructions.pdf"}
+                                    className="transition-all hover:pl-5 block rounded-lg hover:bg-blue-500 hover:shadow-lg hover:shadow-blue-500/40 px-4 py-2 text-base font-medium text-white drop-shadow-sm"
+                                >
+                                    User Manual
+                                </a>
+                            </li>
+
+
+                        </ul>
+                    </details>
+                </li>
 
 
 
