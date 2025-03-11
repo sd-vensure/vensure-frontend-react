@@ -225,7 +225,7 @@ const TestingSideBAr = () => {
                                     href={process.env.NODE_ENV=="production"?"http://192.168.1.200:8080/KRA-KPI-Instructions.pdf":"http://localhost:3000/KRA-KPI-Instructions.pdf"}
                                     className="transition-all hover:pl-5 block rounded-lg hover:bg-blue-500 hover:shadow-lg hover:shadow-blue-500/40 px-4 py-2 text-base font-medium text-white drop-shadow-sm"
                                 >
-                                    User Manual
+                                    About
                                 </a>
                             </li>
 
