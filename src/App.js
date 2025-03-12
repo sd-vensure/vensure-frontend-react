@@ -42,6 +42,8 @@ import EditCompleteFormAfter from './components/userforms/EditCompleteFormAfter'
 import Loader from './components/Loader';
 import UserQuestionForm from './components/userforms/UserQuestionForm';
 import ViewAllQueries from './components/userforms/ViewAllQueries';
+import DashboardUser from './components/userforms/DashboardUser';
+import ViewParticularFormByID from './components/userforms/ViewParticularFormByID';
 
 
 function App() {
@@ -68,7 +70,7 @@ function App() {
 
             <Route element={<PersistLogin />}>
               <Route element={<RequireAuth />}>
-                <Route path='/' element={<ViewMyformsNew />} />
+                <Route path='/' element={<DashboardUser />} />
                 <Route path='/drug' element={<Drugs />} />
                 <Route path='/paf' element={<PAF />} />
                 <Route path='/department' element={<Department />} />
@@ -80,6 +82,7 @@ function App() {
                 <Route path='/userforms' element={<UserForms />} />
                 <Route path='/viewparticularform' element={<ViewParticularForm />} />
                 <Route path='/viewparticularformnew' element={<ViewParticularFormNew />} />
+                <Route path='/viewformbyid/:formid' element={<ViewParticularFormByID />} />
                 <Route path='/editparticularform' element={<EditUserForm />} />
                 <Route path='/editparticularformnew' element={<EditUserFormNew />} />
 

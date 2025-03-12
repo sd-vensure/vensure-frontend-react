@@ -1,6 +1,6 @@
 // src/store/admin/adminHelper.js
 
-import { USER_LOGIN, USER_LOGOUT, SET_COUNTRY, SET_PAF, DEL_PAF, REVISE_PAF_ADD, REVISE_PAF_DEL, OPEN_PAF_MODAL, CLOSE_PAF_MODAL,SET_USER_FORM,DEL_USER_FORM,QUERY_ANSWER_SET,QUERY_ANSWER_DEL,REMARKS_MODAL_CLOSE,REMARKS_MODAL_OPEN } from './userTypes';
+import { USER_LOGIN, USER_LOGOUT, SET_COUNTRY, SET_PAF, DEL_PAF, REVISE_PAF_ADD, REVISE_PAF_DEL, OPEN_PAF_MODAL, CLOSE_PAF_MODAL,SET_USER_FORM,DEL_USER_FORM,QUERY_ANSWER_SET,QUERY_ANSWER_DEL,REMARKS_MODAL_CLOSE,REMARKS_MODAL_OPEN,KPI_MODAL_SET,KPI_MODAL_DEL } from './userTypes';
 
 export const userLogin = (userData, token) => ({
   type: USER_LOGIN,
@@ -33,6 +33,15 @@ export const setUserForm = (data) => ({
 
 export const delUserForm = () => ({
   type: DEL_USER_FORM
+});
+
+export const kpiModalSet = (data) => ({
+  type: KPI_MODAL_SET,
+  payload: data
+});
+
+export const kpiModalDel = () => ({
+  type: KPI_MODAL_DEL
 });
 
 export const setPafRevise = (data) => ({

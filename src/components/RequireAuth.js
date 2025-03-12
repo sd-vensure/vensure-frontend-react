@@ -12,6 +12,7 @@ import PasswordUpdate from "../modals/PasswordUpdate";
 import UserInformationModal from "../modals/UserInformationModal";
 import useModal from "../hooks/useModal";
 import QueryAnswerModal from "../modals/QueryAnswerModal";
+import KPIModal from "../modals/KPIModal";
 
 
 const RequireAuth = () => {
@@ -23,6 +24,8 @@ const RequireAuth = () => {
     const {userinformation, setuserinformation}=useModal()
 
     const showPAFModal = useSelector((state) => state.user.paf_modal);
+
+    const kpi_modal_data = useSelector((state) => state.user.kpi_modal_data);
 
     const currentuser = useSelector((state) => state.user.current_user);
 
@@ -69,6 +72,10 @@ const RequireAuth = () => {
                        
                         {
                             showquestionmodal && <QueryAnswerModal />
+                        }
+                        
+                        {
+                            kpi_modal_data.length>0 && <KPIModal />
                         }
                       
                         {
