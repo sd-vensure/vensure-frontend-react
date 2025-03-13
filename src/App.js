@@ -106,7 +106,7 @@ function App() {
                 <Route path='/allquestion' element={<ProtectedRoute allowedRoles={["HRView"]} element={<ViewAllQueries />} />} />
 
 
-                <Route path='/dummy' element={<ProtectedRoute allowedRoles={["Testing"]} element={<Dummy />} />} />
+                <Route path='/dummy' element={<Dummy />} />
                 <Route path='/unauthorized' element={<Unauthorised />} />
 
                 {/* <Route path='/dashboard/add-drug' element={<AddDrug />} />

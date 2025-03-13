@@ -6,6 +6,7 @@ import DashboardCards from './DashboardCards';
 import { useDispatch, useSelector } from 'react-redux';
 import { delUserFormId, setUserFormId } from '../../store/user/userHelper';
 import { useNavigate } from 'react-router-dom';
+import DashboardTable from './DashboardTable';
 
 
 const DashboardUser = () => {
@@ -16,8 +17,8 @@ const DashboardUser = () => {
 
     // const userformid = useSelector((state) => state.user.user_form_id);
 
-    const dispatch=useDispatch();
-    const navigate=useNavigate()
+    const dispatch = useDispatch();
+    const navigate = useNavigate()
 
 
     const getData = async () => {
@@ -49,7 +50,7 @@ const DashboardUser = () => {
         }
     }
 
-    const viewForm=()=>{
+    const viewForm = () => {
         navigate(`/viewformbyid/${formid}`)
     }
 
@@ -75,9 +76,14 @@ const DashboardUser = () => {
                 {formid && <button onClick={() => viewForm()} className='bg-blue-500 text-white px-3 py-1 rounded ml-2 m-2'>View Form</button>}
             </div>
 
+
+
             {
                 data.length > 0
-                    ? <DashboardCards formid={formid} data={data}/>
+                    ? <>
+                        <DashboardCards formid={formid} data={data} />
+                        <DashboardTable formid={formid} data={data} />
+                    </>
                     : <></>
             }
 

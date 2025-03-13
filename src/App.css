@@ -274,3 +274,10 @@
 .button-ani {
   @apply hover:drop-shadow-lg hover:scale-95 transition duration-200;
 }
+
+#print-section {
+  background-color: #f0f0f0;
+  padding: 20px;
+  border-radius: 5px;
+}
+

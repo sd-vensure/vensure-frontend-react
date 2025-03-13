@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { PieChart } from 'react-minimal-pie-chart';
+import { PieChart,Pie } from 'react-minimal-pie-chart';
 import { toast } from 'react-toastify';
 import api from '../axiosapi';
 import { useDispatch } from 'react-redux';
@@ -9,7 +9,7 @@ const DashboardCards = ({ formid, data }) => {
 
     const [hoveredSegment, setHoveredSegment] = useState(null);
 
-    const dispatch=useDispatch()
+    const dispatch = useDispatch()
 
     let colordata = [
         {
@@ -79,14 +79,13 @@ const DashboardCards = ({ formid, data }) => {
     const viewKpis = async (ele) => {
         try {
 
-            let resposne=await api.get(`/userform/getkpis/${formid}/${ele.quarter}`);
+            let resposne = await api.get(`/userform/getkpis/${formid}/${ele.quarter}`);
 
-            if(resposne.data.status)
-            {   
+            if (resposne.data.status) {
                 dispatch(kpiModalSet(resposne.data.data))
-                
+
             }
-            else{
+            else {
                 dispatch(kpiModalDel([]))
                 toast.info(resposne.data.message)
             }
@@ -101,7 +100,7 @@ const DashboardCards = ({ formid, data }) => {
 
 
     return (
-        <div className="grid lg:grid-cols-4 grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 lg:gap-6 justify-center items-center text-center p-6 pt-2 w-full">
+        <div className="grid lg:grid-cols-4 grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 lg:gap-6 justify-center items-center text-center py-6 pt-2 w-full">
 
             {
                 maindata && Array.isArray(maindata) && maindata.length > 0 &&
@@ -111,20 +110,27 @@ const DashboardCards = ({ formid, data }) => {
                         <div index={index} className="relative  flex justify-center items-center w-48 h-48">
                             <PieChart
                                 data={getValidData(ele.data)}
-                                lineWidth={25}
+                                lineWidth={30}
                                 radius={30}
-                                // label={({ dataIndex }) => `${Math.round(ele.data[dataIndex].value)}`} // Display percentage on each segment
+                                label={({ dataEntry }) => `${(dataEntry.percentage).toFixed(0)} %`}
+                                labelStyle={{
+                                    fontSize: '5px',
+                                    fontFamily: 'sans-serif',
+                                    fontWeight: 'bold',
+                                    // fill: '#fff',
+                                  }}
+                                labelPosition={115}    
                                 animate="true"
                                 animationDuration="1000"
                             />
 
-
-                            <div className="absolute top-0 bottom-0 left-0 right-0 flex justify-center items-center text-xl font-semibold text-gray-700">
+                            
+                            <div className="font-open-sans absolute top-0 bottom-0 left-0 right-0 flex justify-center items-center text-xl font-semibold text-gray-700">
                                 {ele.quarter}
                             </div>
                         </div>
 
-                        <div className="mt-4">
+                        <div className="">
                             {
                                 ele.data.map((ee) =>
                                     <div className="w-full text-sm text-gray-700 flex items-center space-x-2">
