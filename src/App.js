@@ -71,6 +71,7 @@ function App() {
             <Route element={<PersistLogin />}>
               <Route element={<RequireAuth />}>
                 <Route path='/' element={<ViewMyformsNew />} />
+                <Route path='/dashboard' element={<DashboardUser />} />
                 <Route path='/drug' element={<Drugs />} />
                 <Route path='/paf' element={<PAF />} />
                 <Route path='/department' element={<Department />} />
